@@ -46,11 +46,19 @@ To find wether or not binary is being used to convey a message we can first tran
 ```
 Problem: 01101100 01100101 01110100 01110011 00100000 01110100 01110010 01111001 00100000 01110011 01101111 01101101 01100101 00100000 01100010 01101001 01101110 01100001 01110010 01111001 00100000 01101111 01110101 01110100 00100001
 
-Solution: lets try some binary out
+Solution: lets try some binary out!
 ```
 
-
 ### Flag 3
+
+Looking at the string two things should stand out:
+
+1. It's in all caps
+2. There's a bunch of equal signs padding the end.
+
+This is an indicator it might be base encoded.
+
+Pasting it into CyberChef and selecting "From Base32" reveals the hidden message.
 
 ```
 Problem: MJQXGZJTGIQGS4ZAON2XAZLSEBRW63LNN5XCA2LOEBBVIRRHOM======
@@ -58,9 +66,11 @@ Problem: MJQXGZJTGIQGS4ZAON2XAZLSEBRW63LNN5XCA2LOEBBVIRRHOM======
 Solution: base32 is super common in CTF's
 ```
 
-
-
 ### Flag 4
+
+Again another string with equal signs padding the end. But this time it's only 2. Base64 encoding will never use more than two equal signs. And sometimes won't use any. To read why base32 and base64 pad the end with equal signs you can read this [StackOverflow question](https://stackoverflow.com/questions/6916805/why-does-a-base64-encoded-string-have-an-sign-at-the-end "Base64 Question on Stack Overflow").
+
+Plugging the string into CyberChef and selecting "From Base64" reveals the hidden message.
 
 ```
 Problem: RWFjaCBCYXNlNjQgZGlnaXQgcmVwcmVzZW50cyBleGFjdGx5IDYgYml0cyBvZiBkYXRhLg==
@@ -68,9 +78,9 @@ Problem: RWFjaCBCYXNlNjQgZGlnaXQgcmVwcmVzZW50cyBleGFjdGx5IDYgYml0cyBvZiBkYXRhLg=
 Solution: Each Base64 digit represents exactly 6 bits of data.
 ```
 
-
-
 ### Flag 5
+
+
 
 ```
 Problem: 68 65 78 61 64 65 63 69 6d 61 6c 20 6f 72 20 62 61 73 65 31 36 3f
