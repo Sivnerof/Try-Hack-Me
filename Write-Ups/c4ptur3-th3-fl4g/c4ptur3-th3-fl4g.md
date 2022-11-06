@@ -125,6 +125,50 @@ Solution: hexadecimal or base16?
 
 ### Flag 6
 
+Looking at this problem, something stands out. Punctuation. The string starts with an uppercase letter and ends with an exclamation point. The cipher maintains a letters case, and can't encipher symbols (remember this, because it comes up in the next flag). These are characteristics of a [Caesar Cipher](https://en.wikipedia.org/wiki/Caesar_cipher "Caesar Cipher Wikipedia").
+
+Example-
+
+* INPUT:
+
+	* This, Is An Example, Of A CAESAR cipher rotated 7 PLACES!!!
+
+* OUTPUT:
+
+	* Aopz, Pz Hu Lehtwsl, Vm H JHLZHY jpwoly yvahalk 7 WSHJLZ!!!
+
+The number 13 also hints that it might be a version of the Caesar called [ROT13](https://en.wikipedia.org/wiki/ROT13 "ROT13 Wikipedia").
+
+ROT13 is a unique version of the Caesar Cipher because both decryption and encryption require the **same** step. Just rotating 13 places.
+
+<table style="margin-left:auto; margin-right:auto; background-color:white;" class="wikitable">
+<tbody><tr>
+<td>Input
+</td>
+<td><kbd><span style="color: darkred">ABCDEFGHIJKLM</span><span style="color: darkblue">NOPQRSTUVWXYZ</span><span style="color: darkred">abcdefghijklm</span><span style="color: darkblue">nopqrstuvwxyz</span></kbd>
+</td></tr>
+<tr>
+<td>Output
+</td>
+<td><kbd><span style="color: darkblue">NOPQRSTUVWXYZ</span><span style="color: darkred">ABCDEFGHIJKLM</span><span style="color: darkblue">nopqrstuvwxyz</span><span style="color: darkred">abcdefghijklm</span></kbd>
+</td></tr></tbody></table>
+
+Example-
+
+* BEFORE ROT13:
+
+	* I was ROTATED 13 times!
+
+* AFTER ROT13:
+
+	* V jnf EBGNGRQ 13 gvzrf!
+
+* ROT13 AGAIN:
+
+	* I was ROTATED 13 times!
+
+Back to the problem string, paste the cipher text into CyberChef and select "ROT13" to reveal the message.
+
 ```
 Problem: Ebgngr zr 13 cynprf!
 
