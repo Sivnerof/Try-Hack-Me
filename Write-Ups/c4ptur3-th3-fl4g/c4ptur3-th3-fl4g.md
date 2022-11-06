@@ -432,18 +432,11 @@ Problem: LS0tLS0gLi0tLS0gLi0tLS0gLS0tLS0gLS0tLS0gLi0tLS0gLi0tLS0gLS0tLS0KLS0tLS0
 ----- .---- .---- ----- ----- ----- .---- .----
 ----- .---- .---- ----- ----- .---- ----- .----
 
-
-
 01100110 01100101 00100000 01100000 01011111 01100000 00100000 01100000 01100000 01100101 00100000 01100010 01101000 00100000 01100000 01100000 01100100 00100000 01100010 01100001 00100000 01100000 01011111 01101000 00100000 01101000 01100110 00100000 01100000 01011111 01100110 00100000 01100000 01011111 01100000 00100000 01100010 01100001 00100000 01100000 01100000 01100101 00100000 01100000 01011111 01100011 00100000 01100000 01011111 01100100 00100000 01100000 01100000 01100100 00100000 01100010 01100001 00100000 01101000 01100110 00100000 01100010 01100001 00100000 01101000 01100111 00100000 01100000 01011111 01100100 00100000 01100000 01100000 01100101 00100000 01100010 01100001 00100000 01100000 01100000 01100101 00100000 01100000 01100000 01100011 00100000 01100000 01011111 01100100 00100000 01101000 01101000 00100000 01100000 01011111 01100110 00100000 01100000 01011111 01100100 00100000 01100000 01011111 01100000 00100000 01100000 01100000 01100011 00100000 01100011 01100101 00100000 01100011 01100101 00100000 01100011 01100101
-
-
 
 fe `_` ``e bh ``d ba `_h hf `_f `_` ba ``e `_c `_d ``d ba hf ba hg `_d ``e ba ``e ``c `_d hh `_f `_d `_` ``c ce ce ce
 
-
-
 76 101 116 39 115 32 109 97 107 101 32 116 104 105 115 32 97 32 98 105 116 32 116 114 105 99 107 105 101 114 46 46 46
-
 
 Solution: Let's make this a bit trickier...
 ```
@@ -452,9 +445,25 @@ Solution: Let's make this a bit trickier...
 
 ---
 
+## Task 2 - Spectograms
 
+This task requires finding hidden data within a [Spectogram](https://en.wikipedia.org/wiki/Spectrogram "Spectogram Wikipedia"). There are many tools online to help with this, but the one I'm using is [Audacity](https://www.audacityteam.org/ "Audacity Website").
 
-## Task 2
+The audio file we're given is called [secretaudio.wav](./Assets/secretaudio.wav "Audio File") and when first looked at with Audacity should look something like this:
+
+![secretaudio.wav wave form](./Assets/secretaudio-wav.png "Audio Wave Form")
+
+After we select Spectogram View we can see the hidden message which reads:
+
+* Super Secret Message
+
+![secretaudio.wav Spectograph](./Assets/secretaudio-wav-spectorgram.png "Spectograph Of Secret Audio File")
+
+#### [BACK TO TOP](#c4ptur3-th3-fl4g "Jump To Top")
+
+---
+
+## Task 3 - Steganography
 
 
 
@@ -462,16 +471,7 @@ Solution: Let's make this a bit trickier...
 
 ---
 
-
-## Task 3
-
-
-
-#### [BACK TO TOP](#c4ptur3-th3-fl4g "Jump To Top")
-
----
-
-## Task 4
+## Task 4 - Security Through Obscurity
 
 
 
