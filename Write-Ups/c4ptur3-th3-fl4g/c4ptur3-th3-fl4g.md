@@ -41,7 +41,7 @@ Solution: can you capture the flag
 
 ### Flag 2
 
-To find wether or not binary is being used to convey a message we can first translate the binary to its decimal equivalent and look up the decimal number on an ascii chart. Or we can just copy the binary into [CyberChef](https://cyberchef.org/ "CyberChef Website") and select "From Binary" in the operations area.
+To find wether or not binary is being used to convey a message we can first translate the binary to its decimal equivalent and look up the decimal number on an <abbr title="American Standard Code for Information Interchange">ASCII</abbr> chart. Or we can just copy the binary into [CyberChef](https://cyberchef.org/ "CyberChef Website") and select "From Binary" in the operations area.
 
 ```
 Problem: 01101100 01100101 01110100 01110011 00100000 01110100 01110010 01111001 00100000 01110011 01101111 01101101 01100101 00100000 01100010 01101001 01101110 01100001 01110010 01111001 00100000 01101111 01110101 01110100 00100001
@@ -80,7 +80,42 @@ Solution: Each Base64 digit represents exactly 6 bits of data.
 
 ### Flag 5
 
+Looking at the problem below we see a series of digit pairs and somethings stand out.
 
+* The digits range from numbers 0-9 and the letters a-f.
+
+Just like [hexadecimal (Base 16)](https://en.wikipedia.org/wiki/Hexadecimal "Hexadecimal Wikipedia") digits.
+
+Each digit pair represents a byte while the single digits represent half a byte (also called a [nibble](https://en.wikipedia.org/wiki/Nibble "Nibble Wikipedia")).
+
+To convert a hex byte to its <abbr title="American Standard For Information Interchange">ASCII</abbr> equivalent, first convert the hex byte to its decimal representation. Then look up the decimal on an ASCII chart.
+
+| **HEX** | **DECIMAL** | **ASCII** | **DESCRIPTION** |
+|---------|-------------|-----------|-----------------|
+| **68**  | 104         | h         | Lowercase h     |
+| **65**  | 101         | e         | Lowercase e     |
+| **78**  | 120         | x         | Lowercase x     |
+| **61**  | 97          | a         | Lowercase a     |
+| **64**  | 100         | d         | Lowercase d     |
+| **65**  | 101         | e         | Lowercase e     |
+| **63**  | 99          | c         | Lowercase c     |
+| **69**  | 105         | i         | Lowercase i     |
+| **6d**  | 109         | m         | Lowercase m     |
+| **61**  | 97          | a         | Lowercase a     |
+| **6c**  | 108         | l         | Lowercase l     |
+| **20**  | 32          | SP        | Space           |
+| **6f**  | 111         | o         | Lowercase o     |
+| **72**  | 114         | r         | Lowercase r     |
+| **20**  | 32          | SP        | Space           |
+| **62**  | 98          | b         | Lowercase b     |
+| **61**  | 97          | a         | Lowercase a     |
+| **73**  | 115         | s         | Lowercase s     |
+| **65**  | 101         | e         | Lowercase e     |
+| **31**  | 49          | 1         | One             |
+| **36**  | 54          | 6         | Six             |
+| **3f**  | 63          | ?         | Question Mark   |
+
+An alternative and much easier way to reveal the hidden message is to paste it into CyberChef and select "From Hex".
 
 ```
 Problem: 68 65 78 61 64 65 63 69 6d 61 6c 20 6f 72 20 62 61 73 65 31 36 3f
