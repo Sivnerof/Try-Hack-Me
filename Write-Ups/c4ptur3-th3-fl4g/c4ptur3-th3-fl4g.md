@@ -183,6 +183,7 @@ Plugging the cipher text into CyberChef and selecting "ROT47" will reveal the hi
 
 ```
 Problem: *@F DA:? >6 C:89E C@F?5 323J C:89E C@F?5 Wcf E:>6DX
+
 Solution: You spin me right round baby right round (47 times)
 ```
 
@@ -248,7 +249,6 @@ This one is immediately recognizable as [Morse Code](https://en.wikipedia.org/wi
 
 The morse code can be decoded by looking it up in the tables above or by pasting the input into CyberChef and selecting "From Morse Code".
 
-
 ```
 Problem:
 - . .-.. . -.-. --- -- -- ..- -. .. -.-. .- - .. --- -.
@@ -260,12 +260,19 @@ Solution: telecommunication encoding
 
 ### Flag 9
 
+All these numbers lie in the range 32-116. Quick ways to tell these are decimal:
+
+1. Most numbers lie between 65-90 (lowercase a-z) or 97-122 (uppercase a-z) on the <abbr title="American Standard Code For Information Interchange">ASCII</abbr> chart.
+
+2. The lowest number corresponds with the space character in ASCII.
+
+Plugging the values into CyberChef and selecting "From Decimal" reveals the hidden message.
+
 ```
 85 110 112 97 99 107 32 116 104 105 115 32 66 67 68
 
 Unpack this BCD
 ```
-
 
 ### Flag 10
 
