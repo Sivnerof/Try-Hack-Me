@@ -1,9 +1,54 @@
+# c4ptur3 th3 fl4g
+
+## Summary
+
+"[c4ptur3 th3 fl4g](https://tryhackme.com/room/c4ptur3th3fl4g "TryHackMe c4ptur3 th3 fl4g Room")" is one of the many <abbr title="Capture The Flag">CTF</abbr> rooms available for free on the [TryHackMe website](https://tryhackme.com/ "TryHackMe Website"). The room is made up of four sections: Translation & Shifting, Spectrograms, Steganography, and Security Through Obscurity.
+
+---
+
+## Contents
+
+* [Task 1 - Translation And Shifting](#task-1 "Jump To Task 1")
+* [Task 2 - Spectograms](#task-2 "Jump To Task 2")
+* [Task 3 - Steganography](#task-3 "Jump To Task 3")
+* [Task 4 - Security Through Obscurity](#task-4 "Jump To Task 4")
+
+---
+
+## Task 1
+
+### [BACK TO TOP](#c4ptur3-th3-fl4g "Jump To Top")
 
 
 
+---
 
 
 
+## Task 2
+
+
+
+### [BACK TO TOP](#c4ptur3-th3-fl4g "Jump To Top")
+
+---
+
+
+## Task 3
+
+
+
+### [BACK TO TOP](#c4ptur3-th3-fl4g "Jump To Top")
+
+---
+
+## Task 4
+
+
+
+### [BACK TO TOP](#c4ptur3-th3-fl4g "Jump To Top")
+
+---
 
 
 
