@@ -465,7 +465,23 @@ After we select Spectogram View we can see the hidden message which reads:
 
 ## Task 3 - Steganography
 
+The objective of this task is to find the hidden data within an image.
 
+![stegosteg.jpg](./Assets/stegosteg.jpg "Photo Of Cartoon Stegasaurus In A Bowl Of Spaghetti")
+
+"[Steganography](https://en.wikipedia.org/wiki/Steganography "Steganography Wikipedia") is the practice of concealing a file, message, image, or video within another file, message, image, or video."
+
+There are many ways to try and find hidden data within an image. You may want to read the header of a document, looking for any metadata or anything suspicious. Or use the [strings command in Linux](https://www.howtogeek.com/427805/how-to-use-the-strings-command-on-linux/ "Article On Strings Command") to find text within the file. But in this case that returns nothing, so we'll focus instead on the [steghide](https://www.kali.org/tools/steghide/ "Kali Page On Steghide") tool.
+
+Run the following command:
+
+```
+steghide extract -sf stegosteg.jpg
+```
+
+When prompted for a password just press enter and you should see the following file extracted:
+
+[steganopayload2248.txt](./Assets/steganopayload2248.txt "Text File Extracted From stegosteg.jpg")
 
 #### [BACK TO TOP](#c4ptur3-th3-fl4g "Jump To Top")
 
@@ -473,6 +489,20 @@ After we select Spectogram View we can see the hidden message which reads:
 
 ## Task 4 - Security Through Obscurity
 
+This ones fairly easy, you're given a JPG called [meme.jpg](./Assets/meme.jpg "meme.jpg") and told to look for two flags.
 
+![meme.jpg](./Assets/meme.jpg "Bear Grylls Meme")
+
+All you need to do is use the strings command on this JPG and it should be the last two lines in the output.
+
+```
+1. Get 'inside' the file. What is the first filename & extension?
+
+	* hackerchat.png
+
+2. Get inside the archive and inspect the file carefully. Find the hidden text.
+
+	* "AHH_YOU_FOUND_ME!"
+```
 
 #### [BACK TO TOP](#c4ptur3-th3-fl4g "Jump To Top")
