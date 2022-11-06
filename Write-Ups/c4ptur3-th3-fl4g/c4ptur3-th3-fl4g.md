@@ -88,7 +88,7 @@ Just like [hexadecimal (Base 16)](https://en.wikipedia.org/wiki/Hexadecimal "Hex
 
 Each digit pair represents a byte while the single digits represent half a byte (also called a [nibble](https://en.wikipedia.org/wiki/Nibble "Nibble Wikipedia")).
 
-To convert a hex byte to its <abbr title="American Standard For Information Interchange">ASCII</abbr> equivalent, first convert the hex byte to its decimal representation. Then look up the decimal on an ASCII chart.
+To convert a hex byte to its <abbr title="American Standard Code For Information Interchange">ASCII</abbr> equivalent, first convert the hex byte to its decimal representation. Then look up the decimal on an ASCII chart.
 
 | **HEX** | **DECIMAL** | **ASCII** | **DESCRIPTION** |
 |---------|-------------|-----------|-----------------|
@@ -177,12 +177,77 @@ Solution: Rotate me 13 places!
 
 ### Flag 7
 
+At first this problem text looks like gibberish. But there's something that stands out. All the symbols. In [flag 6](#flag-6 "Jump To Flag 6") we talked about how the Caesar Cipher and ROT13 can't handle symbols. But there is a **rotational** cipher that can. It's called [ROT47](https://en.wikipedia.org/wiki/ROT13#Variants "ROT13 Wikipedia Section On ROT47") and handles all visible characters on the <abbr title="American Standard Code For Computer Information Interchange">ASCII</abbr> chart. Specifically characters in the range 33-126 (! to ~).
+
+Plugging the cipher text into CyberChef and selecting "ROT47" will reveal the hidden message.
+
 ```
 Problem: *@F DA:? >6 C:89E C@F?5 323J C:89E C@F?5 Wcf E:>6DX
 Solution: You spin me right round baby right round (47 times)
 ```
 
 ### Flag 8
+
+This one is immediately recognizable as [Morse Code](https://en.wikipedia.org/wiki/Morse_code "Morse Code Wikipedia"). Morse Code was created by famous American artist and co-inventor of the telegraph [Samuel Morse](https://en.wikipedia.org/wiki/Samuel_Morse "Samuel Morse Wikipedia").
+
+
+
+| **LETTER** | **MORSE CODE** |
+|:----------:|:--------------:|
+| A          | .-             |
+| B          | -...           |
+| C          | -.-.           |
+| D          | -..            |
+| E          | .              |
+| F          | ..-.           |
+| G          | --.            |
+| H          | ....           |
+| I          | ..             |
+| J          | .---           |
+| K          | -.-            |
+| L          | .-..           |
+| M          | --             |
+| N          | -.             |
+| O          | ---            |
+| P          | .--.           |
+| Q          | --.-           |
+| R          | .-.            |
+| S          | ...            |
+| T          | -              |
+| U          | ..-            |
+| V          | ...-           |
+| W          | .--            |
+| X          | -..-           |
+| Y          | -.--           |
+| Z          | --..           |
+
+
+| **NUMBER** | **MORSE CODE** |
+|:----------:|:--------------:|
+| 0          | -----          |
+| 1          | .----          |
+| 2          | ..---          |
+| 3          | ...--          |
+| 4          | ....-          |
+| 5          | .....          |
+| 6          | -....          |
+| 7          | --...          |
+| 8          | ---..          |
+| 9          | ----.          |
+
+| **PUNCTUATION** | **MORSE CODE** |
+|:---------------:|:--------------:|
+| .               | .-.-.-         |
+| ;               | -.-.-.         |
+| /               | -..-.          |
+| '               | .----.         |
+| -               | -....-         |
+| :               | ---...         |
+| ,               | --..--         |
+| ?               | ..--..         |
+
+The morse code can be decoded by looking it up in the tables above or by pasting the input into CyberChef and selecting "From Morse Code".
+
 
 ```
 Problem:
