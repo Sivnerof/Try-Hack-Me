@@ -6,5 +6,5 @@ files=("/etc/8V2L" "/mnt/c4ZX" "/mnt/D8B3" "/var/FHl1" "/opt/oiMO" "/opt/PFbD" "
 
 for i in "${files[@]}"
 do
-    ls -la "$i"
+    ls -ln "$i"
 done
