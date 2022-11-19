@@ -195,6 +195,57 @@ Paste the key into the input box at ```<IP Address>/abandonedRoom/```. Then you'
 
 ### What is the filename of the text file (without the file extension)
 
+Once we make it to ```<IP Address>/abandonedRoom/be8bc662d1e36575a52da40beba38275/``` we have to click another button to move forward. Which takes us to:
+
+```<IP Address>/abandonedRoom/be8bc662d1e36575a52da40beba38275/herecomeslara.php```
+
+Another page where we have to do something before the timer runs out.
+
+If we look at the <abbr title="Hyper Text MarkUp Language">HTML</abbr> source code we can find the following comments.
+
+```html
+<!-- There is something called "shell" on current page maybe that'll help you to get out of here !!!-->
+
+<!-- To find more about the Spider Lady visit https://theevilwithin.fandom.com/wiki/Laura_(Creature) -->
+```
+
+So he put a shell somewhere on the page. Well the only way we can access the shell is through <abbr title="Operating System">OS</abbr> command injections because there's nothing else here. After some trial and error we find the vulnerability.
+
+The parameter we need to pass in is ```shell``` (```herecomeslara.php?shell=ls```).
+
+```<IP Address>/abandonedRoom/be8bc662d1e36575a52da40beba38275/herecomeslara.php?shell=ls```
+
+This returns:
+> assets dead.php herecomeslara.php index.php script.js
+
+Nothing interesting in those.
+
+After trying to execute ```whoami```, ```pwd```, and a million other commands you'll find that every command you can think of is forbidden. So all we have is ```ls``` and even that is very limited. No ```ls -la```, no ```ls /```. The only option you can add to ```ls``` is ```..```.
+
+```<IP Address>/abandonedRoom/be8bc662d1e36575a52da40beba38275/herecomeslara.php?shell=ls ..```
+
+Which outputs the following two hashes (one of which is our current directory) and php file:
+
+> 680e89809965ec41e64dc7e447f175ab be8bc662d1e36575a52da40beba38275 index.php
+
+Taking these hashes and pasting them into [hashes.com](https://hashes.com/en/decrypt/hash "Hashes Website") we get the following:
+
+> 680e89809965ec41e64dc7e447f175ab:laura
+> be8bc662d1e36575a52da40beba38275:thefinal
+
+But again, this leads us nowhere and happens to be another rabbit hole.
+
+The only way to move forward from here is to use "thefinal" hash as a directory (```<IP Address>/abandonedRoom/680e89809965ec41e64dc7e447f175ab/```).
+
+Which reveals the following files:
+
+* [helpme.zip](./Assets/helpme.zip)
+* [you_made_it.txt](./Assets/you_made_it.txt)
+
+The [you_made_it.txt](./Assets/you_made_it.txt) file contains the following sentence.
+
+> You made it. Escaping from Laura is not easy, good job ....
+
 #### [BACK TO TOP](#the-evil-within "Jump To Top")
 
 ---
