@@ -342,17 +342,12 @@ Thank you so much for freeing me out of this cell. Ruvik is nor good, he told me
 Sebastian ... I think you might find Sebastian at the Victoriano Estate. This note I managed to grab from Ruvik might help you get inn to the Victoriano Estate. 
 But for some reason there is my name listed on the note which I don't have a clue.
 
-	--------------------------------------------
-    //						            \\
-    ||	(NOTE) FTP Details	            ||
-	||  ==================	            ||
-	||						            ||
-	||	USER : joseph		            ||
-	||	PASSWORD : intotheterror445		||
-	||						            ||
-	\\						            //
-	--------------------------------------------
-	
+--------------------------------------------
+(NOTE) FTP Details
+==================
+USER : joseph
+PASSWORD : intotheterror445
+--------------------------------------------
 
 Good luck, Be carefull !!!
 ```
