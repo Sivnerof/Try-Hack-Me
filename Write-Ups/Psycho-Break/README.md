@@ -354,7 +354,7 @@ Good luck, Be carefull !!!
 
 ### What is the FTP User Password
 
-Viewing the [thankyou.txt](./Assets/helpme/Table/thankyou.txt "Thank you file") that you get when you extract it from the [Joseph_Oda.jpg](./Assets/helpme/Table/Joseph_Oda.jpg "Joseph Oda") with ```steghide``` reveals the password to be:
+Viewing the [thankyou.txt](./Assets/helpme/Table/thankyou.txt "Thank you file") file that you get when you extract it from the [Joseph_Oda.jpg](./Assets/helpme/Table/Joseph_Oda.jpg "Joseph Oda") with ```steghide``` reveals the password to be:
 
 > intotheterror445
 
@@ -364,8 +364,87 @@ Viewing the [thankyou.txt](./Assets/helpme/Table/thankyou.txt "Thank you file") 
 
 ## Task 4 - Crack It Open
 
+With the login credentials we got from the above tasks (joseph:intotheterror445) we can connect to FTP and see what files exist there.
+
+```
+$ ftp <IP Address>
+
+Name: joseph
+331 Password required for joseph
+Password: intotheterror445
+230 User joseph logged in
+Remote system type is UNIX.
+Using binary mode to transfer files.
+```
+
+After we connect we can check for files with ```ls -la```.
+
+```
+ftp> ls -la
+229 Entering Extended Passive Mode (|||3125|)
+150 Opening ASCII mode data connection for file list
+drwxr-xr-x   2 0        0            4096 Aug 13  2020 .
+drwxr-xr-x   2 0        0            4096 Aug 13  2020 ..
+-rwxr-xr-x   1 joseph   joseph   11641688 Aug 13  2020 program
+-rw-r--r--   1 joseph   joseph        974 Aug 13  2020 random.dic
+226 Transfer complete
+```
+
+Now we can download the two files with ```get <filename>```.
+
+```
+ftp> get program
+local: program remote: program
+229 Entering Extended Passive Mode (|||52439|)
+150 Opening BINARY mode data connection for program (11641688 bytes)
+100% |***********************************| 11368 KiB  705.52 KiB/s    00:00 ETA
+226 Transfer complete
+11641688 bytes received in 00:16 (697.89 KiB/s)
+
+ftp> get random.dic
+local: random.dic remote: random.dic
+229 Entering Extended Passive Mode (|||62354|)
+150 Opening BINARY mode data connection for random.dic (974 bytes)
+100% |***********************************|   974       10.20 MiB/s    00:00 ETA
+226 Transfer complete
+974 bytes received in 00:00 (5.53 KiB/s)
+```
+
+Once we've downloaded the two files. We can check for their contents.
+
+[random.dic](./Task-4-Files/random.dic "random word dictionary") is a short dictionary of random passwords. So we'll need this to brute force something. Most likely the program file somehow.
+
+Running ```file``` on program tells us it's an executable.
+
+```
+$ file program
+
+program: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 2.6.32, BuildID[sha1]=294d1f19a085a730da19a6c55788ec08c2187039, stripped
+```
+
+In order to run the program we're going to need to update the permissions to allow execution. We can do this by executing ```chmod u+x program```.
+
+Lets see what happens when we run the file (```./program```).
+
+```
+$ ./program
+[+] Usage
+
+./program <word>
+```
+
+Or put in a wrong key:
+
+```
+$ ./program testing
+testing => Incorrect
+```
+
+So our suspicions were correct, we're going to have to bruteforce this program with the [random.dic](./Task-4-Files/random.dic "Password Wordlist") wordlist.
 
 ### The key used by the program
+
+
 
 ### What do the crazy long numbers mean when there decrypted.
 
