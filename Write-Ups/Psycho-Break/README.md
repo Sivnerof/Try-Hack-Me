@@ -209,7 +209,7 @@ If we look at the <abbr title="Hyper Text MarkUp Language">HTML</abbr> source co
 <!-- To find more about the Spider Lady visit https://theevilwithin.fandom.com/wiki/Laura_(Creature) -->
 ```
 
-So he put a shell somewhere on the page. Well the only way we can access the shell is through <abbr title="Operating System">OS</abbr> command injections because there's nothing else here. After some trial and error we find the vulnerability.
+So he references a "shell". The only way we can access the shell is through <abbr title="Operating System">OS</abbr> command injections because there's nothing else here. After some trial and error we find the vulnerability.
 
 The parameter we need to pass in is ```shell``` (```herecomeslara.php?shell=ls```).
 
