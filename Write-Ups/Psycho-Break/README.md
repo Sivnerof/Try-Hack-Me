@@ -254,9 +254,78 @@ The [you_made_it.txt](./Assets/you_made_it.txt) file contains the following sent
 
 ### Who is locked up in the cell?
 
+After unzipping [helpme.zip](./Assets/helpme.zip "helpme zip file") we get a text file ([helpme.txt](./Assets/helpme/helpme.txt "helpme text file")) and an image ([Table Image](./Assets/helpme/Table.jpg "Table Image")).
+
+The text file tells us to unlock the cell and free the man inside (Joseph). Using the key that can be found on the "table" (the image).
+
+```
+From Joseph,
+
+Who ever sees this message "HELP Me". Ruvik locked me up in this cell. Get the key on the table and unlock this cell. I'll tell you what happened when I am out of this cell.
+```
+
 ### There is something weird with the .wav file. What does it say?
 
+If we try to view the image we get an error telling us that the image file format is unrecognized. So this "JPEG" isn't a JPEG.
+
+If we run ```exiftool``` on [Table.jpg](./Assets/helpme/Table.jpg "Corrupted Image") we see the following.
+
+```
+$ exiftool Table.jpg
+ExifTool Version Number         : 12.40
+File Name                       : Table.jpg
+File Size                       : 25 KiB
+File Type                       : ZIP
+File Type Extension             : zip
+MIME Type                       : application/zip
+Zip Required Version            : 20
+Zip Bit Flag                    : 0x0008
+Zip Compression                 : Deflated
+Zip Modify Date                 : 2020:07:07 22:37:08
+Zip CRC                         : 0xd677dea6
+Zip Compressed Size             : 25237
+Zip Uncompressed Size           : 25399
+Zip File Name                   : Joseph_Oda.jpg
+Warning                         : [minor] Use the Duplicates option to extract tags for all 2 files
+```
+
+And if we run the ```strings``` command we can find the following interesting strings near the bottom.
+
+```
+$ strings Table.jpg
+
+Joseph_Oda.jpgUT
+key.wavUT
+```
+
+So [Table.jpg](./Assets/helpme/Table.jpg "Table Image") isn't a JPG, it's a [ZIP file](./Assets/helpme/Table.zip "Table.zip file") with two files inside. A JPG and A WAV file called [Joseph_Oda.jpg](./Assets/helpme/Table/Joseph_Oda.jpg "Joseph Oda Image") and [key.wav](./Assets/helpme/Table/key.wav "key.wav file").
+
+An alternative and easier way to have figured out it was a ZIP file is to run the ```file``` command in Linux.
+
+```
+$ file Table.jpg
+Table.jpg: Zip archive data, at least v2.0 to extract, compression method=deflate
+```
+
+Now all you need to do to access the files is change the ```.jpg``` extension to ```.zip```.
+
+If we run ```exiftool``` on the image nothing interesting is returned.
+
+When we listen to the WAV file, we can **hear** morse code. To make it easier to decode we can use an audio tool like [Audacity](https://www.audacityteam.org/ "Audacity Website") to **see** the morse code by looking at the audio waves.
+
+![Morse Code](./Assets/morse-code-audio-waves.png "Morse Code Audio Waves")
+
+The thin bars represent dots and the thicker ones dashes. The gaps represent spaces. This makes it easier for us to input into CyberChef and decode.
+
+Where we find the following message:
+
+> SHOWME
+
+Now we have our key to unlock Joseph from his cell.
+
 ### What is the FTP Username
+
+
 
 ### What is the FTP User Password
 
