@@ -127,6 +127,72 @@ Knowing all this, we can take our cipher text and manually decrypt it with the a
 
 ### The Keeper Key
 
+After we put in the key for the map the following links were revealed:
+
+1. Sadist Room (```<IP Address>/sadistRoom/```)
+
+2. Locker Room (```<IP Address>/lockerRoom/```)
+
+3. Safe Heaven (```<IP Address>/safeHeaven/```)
+
+4. The Abandoned Room (```<IP Address>/abandonedRoom/```)
+
+Visiting ```<IP Address>/abandonedRoom/``` we'll see that we need another key.
+
+Visiting ```<IP Address>/safeHeaven/``` we'll find a bunch of images. But extracting metadata with ```exiftool```, looking for suspicious strings with the ```strings``` command in linux, or trying to extract a file with ```steghide```, all lead nowhere.
+
+I even tried reading the ```lighthouse.js``` file line by line, but it's just a bunch of code for an image carousel. There's nothing else hidden inside.
+
+So all we have is an <abbr title="Hyper Text MarkUp Language">HTML</abbr> comment that reads the following.
+
+```html
+<!-- I think I'm having a terrible nightmare. Search through me and find it ... -->
+```
+
+So back to the basics with more **directory scanning**. I'm personally using gobuster with [directory-list-2.3-medium.txt](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-medium.txt "Directory List 2.3 Medium On GitHub") as the wordlist. You'll have to wait until the scan is almost finished to find the hidden directory ```<IP Address>/SafeHeaven/keeper```.
+
+```
+$ gobuster -w /path/to/wordlist -u http://<IP Address>/SafeHeaven/
+
+=====================================================
+Gobuster v2.0.1              OJ Reeves (@TheColonial)
+=====================================================
+[+] Mode         : dir
+[+] Url/Domain   : http://10.10.91.194/SafeHeaven/
+[+] Threads      : 10
+[+] Wordlist     : /path/to/wordlist
+[+] Status codes : 200,204,301,302,307,403
+[+] Timeout      : 10s
+=====================================================
+2022/11/18 17:20:03 Starting gobuster
+=====================================================
+/imgs (Status: 301)
+/keeper (Status: 301)
+=====================================================
+2022/11/18 18:22:41 Finished
+=====================================================
+```
+
+Going to ```http://<IP Address>/SafeHeaven/keeper/``` we see an image with a button underneath that says "Escape Keeper".
+
+Clicking on this button takes us to the following URL.
+
+```http://<IP Address>/SafeHeaven/keeper/escapefromkeeper.php```
+
+Here we have to identify an images location before the timer runs out.
+
+![St. Augustine Lighthouse](./Assets/image.jpg "Spiral staircase within St. Augustine Lighthouse")
+
+Doing a reverse image search of the spiral staircase image reveals this to be the inside of St. Augustine Lighthouse.
+
+Typing that in to the input box we get the following message:
+
+> Here is your key : 48ee41458eb0b43bf82b986cecf3af01
+
+Paste the key into the input box at ```<IP Address>/abandonedRoom/```. Then you'll be taken to:
+
+```http://<IP Address>/abandonedRoom/be8bc662d1e36575a52da40beba38275/index.php```
+
 ### What is the filename of the text file (without the file extension)
 
 #### [BACK TO TOP](#the-evil-within "Jump To Top")
