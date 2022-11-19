@@ -325,9 +325,43 @@ Now we have our key to unlock Joseph from his cell.
 
 ### What is the FTP Username
 
+So Joseph wants us to "show him" the key. This must mean that the image of [Joseph_Oda.jpg](./Assets/helpme/Table/Joseph_Oda.jpg "Image of Joseph Oda") has a password protected file inside that we can extract with the key. We can extract the file with ```steghide``` and use "SHOWME" as the passphrase.
 
+```
+$ steghide extract -sf Joseph_Oda.jpg
+Enter passphrase: SHOWME
+wrote extracted data to "thankyou.txt".
+```
+
+Reading [thankyou.txt](./Assets/helpme/Table/thankyou.txt "Thank you file") we see the following.
+
+```
+From joseph,
+
+Thank you so much for freeing me out of this cell. Ruvik is nor good, he told me that his going to kill sebastian and next would be me. You got to help 
+Sebastian ... I think you might find Sebastian at the Victoriano Estate. This note I managed to grab from Ruvik might help you get inn to the Victoriano Estate. 
+But for some reason there is my name listed on the note which I don't have a clue.
+
+	--------------------------------------------
+    //						            \\
+    ||	(NOTE) FTP Details	            ||
+	||  ==================	            ||
+	||						            ||
+	||	USER : joseph		            ||
+	||	PASSWORD : intotheterror445		||
+	||						            ||
+	\\						            //
+	--------------------------------------------
+	
+
+Good luck, Be carefull !!!
+```
 
 ### What is the FTP User Password
+
+Viewing the [thankyou.txt](./Assets/helpme/Table/thankyou.txt "Thank you file") that you get when you extract it from the [Joseph_Oda.jpg](./Assets/helpme/Table/Joseph_Oda.jpg "Joseph Oda") with ```steghide``` reveals the password to be:
+
+> intotheterror445
 
 #### [BACK TO TOP](#the-evil-within "Jump To Top")
 
