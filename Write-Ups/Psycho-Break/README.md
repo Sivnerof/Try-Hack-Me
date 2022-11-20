@@ -781,4 +781,16 @@ Now, to defeat Ruvik.
 
 ### **Bonus**: Defeat Ruvik
 
+The hint says that to "defeat" Ruvik we have to delete his account. Which can be done with the following command.
+
+```
+# deluser ruvik
+```
+
+We can verify he's been deleted by looking at the ```passwd``` file where his line has vanished.
+
+To completely delete Ruvik and all traces of him, from cronjobs to folders and files here's a good article that details how to properly delete someone from the system.
+
+https://www.howtogeek.com/656549/how-to-delete-a-user-on-linux-and-remove-every-trace/
+
 #### [BACK TO TOP](#the-evil-within "Jump To Top")
