@@ -444,9 +444,90 @@ So our suspicions were correct, we're going to have to bruteforce this program w
 
 ### The key used by the program
 
+In order to find the key we have to brute force the "[program](./Task-4-Files/program "Executable Program")" executable with the [random.dic](./Task-4-Files/random.dic "Word List") file. We can do this by using the following [Python script](./Task-4-Files/brute-force.py "Brute Force Python Program") and combing through the results once it's done running.
 
+```python
+import os
+
+f = open('random.dic', 'r')
+lines = f.readlines()
+
+for line in lines:
+    os.system("./program " + line)
+```
+
+If you look through the results you'll find one line in the output different from the rest.
+
+```
+justin => Incorrect
+
+killer => Incorrect
+
+kidman => Correct
+
+Well Done !!!
+Decode This => 55 444 3 6 2 66 7777 7 2 7777 7777 9 666 777 3 444 7777 7777 666 7777 8 777 2 66 4 33
+
+letmein => Incorrect
+```
+
+The key for the program is ```kidman``` and now we have to decode that string of numbers.
 
 ### What do the crazy long numbers mean when there decrypted.
+
+Looking at this string of numbers:
+
+> 55 444 3 6 2 66 7777 7 2 7777 7777 9 666 777 3 444 7777 7777 666 7777 8 777 2 66 4 33
+
+We can try to guess what it is by noticing some patters. We can rule out decimal to <abbr title="American Standard Code For Information Interchange">ASCII</abbr> because those lie in the range of 65-90 for uppercase letters and 97-122 for lowercase letters.
+
+These numbers are in a weird range of 2-7777, and numbers higher than 9 **ALL** repeat. It's always 7777, 777, or 666 but **NEVER** 7634, 623, 27.
+
+This becomes a major clue. The range is not 2-7777. It's 1-9 and they repeat 1-4 times.
+
+We also know that the numbers are meant to be **DECODED** and not decrypted.
+
+So we're looking for an encoding scheme that turns letters to numbers, and uses 0-9 with some repeating. Where numbers like 777 and 7777 are different letters.
+
+At this point you might be thinking a phones keypad. But each number represents 3 letters and in some case 4. We can confirm the keypad theory by checking if the numbers that repeat 4 times are the numbers on the keypad with 4 letters (7 = PQRS).
+
+Once this has been confirmed we can use the amount of repetitions as the number of the letter we need (333 = F, the third letter on number 3).
+
+| **LETTER** | **KEYPAD** |
+|------------|------------|
+| A          | 2          |
+| B          | 22         |
+| C          | 222        |
+| D          | 3          |
+| E          | 33         |
+| F          | 333        |
+| G          | 4          |
+| H          | 44         |
+| I          | 444        |
+| J          | 5          |
+| K          | 55         |
+| L          | 555        |
+| M          | 6          |
+| N          | 66         |
+| O          | 666        |
+| P          | 7          |
+| Q          | 77         |
+| R          | 777        |
+| S          | 7777       |
+| T          | 8          |
+| U          | 88         |
+| V          | 888        |
+| W          | 9          |
+| X          | 99         |
+| Y          | 999        |
+| Z          | 9999       |
+
+Using the table above we can decode the numbers into:
+> kidmanspasswordissostrange
+
+Side Note -
+
+While doing this I found out this kind of encoding is called ["multi-tap"](https://en.wikipedia.org/wiki/Multi-tap "Multi Tap Wikipedia") and is based on the way you would text with older cellphones.
 
 #### [BACK TO TOP](#the-evil-within "Jump To Top")
 
