@@ -199,7 +199,13 @@ THM{345y_f1nd_345y_60}
 
 ## Another decoding stuff
 
+For this challenge we're given the encoded string ```3agrSy1CewF9v8ukcSkPSYm3oKUoByUpKG4L```.
 
+One quick way to solve this, if you don't know what kind of encoding was used, is to use the ```Magic``` operation in [CyberChef](https://cyberchef.org/ "Cyber Chef Website").
+
+![magic-operation.png](./Assets/magic-operation.png "Magic operation on encoded string")
+
+The ```Magic``` operation identifies ```3agrSy1CewF9v8ukcSkPSYm3oKUoByUpKG4L``` as the ```Base58``` encoding of the flag ```THM{17_h45_l3553r_l3773r5}```.
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
