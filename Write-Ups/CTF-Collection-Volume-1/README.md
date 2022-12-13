@@ -230,7 +230,18 @@ Here is the result of shifting all characters 7 positions.
 
 ## Make a comment
 
+For this challenge, once again, we're given no downloadable files to analyze or text to decode/decrypt. Time to use the developer tools and inspect this challenges section in order to find any hidden information.
 
+If we look at the ```<div>``` element where the challenge description text is stored, we'll find another paragraph that is never seen in the browser.
+
+```html
+<div class="room-task-desc-data">
+    <p>No downloadable file, no ciphered or encoded text. Huh .......<br><p> 
+    <p style="display:none;"> THM{4lw4y5_ch3ck_7h3_c0m3mn7} </p>
+</div>
+```
+
+So there's our flag, hidden within a paragraph element and styled to never display, ```THM{4lw4y5_ch3ck_7h3_c0m3mn7}```.
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
