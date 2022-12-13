@@ -167,7 +167,13 @@ There's our flag, hidden within the same paragraph and styled with white font on
 
 ## QRrrrr
 
+For this challenge we're given a QR code and all we need to do is scan it on order to get the flag.
 
+![QR.png](./Assets/QR.png "Qr Code")
+
+I didn't want to scan the code for security reasons so instead I used [this website](https://zxing.org/w/decode.jspx "QR Decoder Website") and uploaded the file, where it returned the following flag...
+
+```THM{qr_m4k3_l1f3_345y}```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
@@ -175,7 +181,17 @@ There's our flag, hidden within the same paragraph and styled with white font on
 
 ## Reverse it or read it?
 
+For this challenge we're given an executable file named [hello.hello](./Assets/hello.hello "hello.hello executable file") and told to "reverse or read it".
 
+In order to "read it" we can use the ```strings``` command and parse through the output for any strings that may resemble a flag.
+
+But since we know all flags start with ```THM``` we can pipe the output from ```strings``` to ```grep``` for cleaner output.
+
+```
+$ strings hello.hello | grep THM
+
+THM{345y_f1nd_345y_60}
+```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
