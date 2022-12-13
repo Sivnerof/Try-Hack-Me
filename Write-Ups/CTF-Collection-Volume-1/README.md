@@ -10,26 +10,45 @@
 
 ## Challenges
 
-* [What does the base said?](# "")
-* [Meta meta](# "")
-* [Mon, are we going to be okay?](# "")
-* [Erm......Magick](# "")
-* [QRrrrr](# "")
-* [Reverse it or read it?](# "")
-* [Another decoding stuff](# "")
-* [Left or right](# "")
-* [Make a comment](# "")
-* [Can you fix it?](# "")
-* [Read it](# "")
-* [Spin my head](# "")
-* [An exclusive!](# "")
-* [Binary walk](# "")
-* [Darkness](# "")
-* [A sounding QR](# "")
-* [Dig up the past](# "")
-* [Uncrackable!](# "")
-* [Small bases](# "")
-* [Read the packet](# "")
+* [What does the base said?](#what-does-the-base-said "Jump To Challenge Section")
+
+* [Meta meta](#meta-meta "Jump To Challenge Section")
+
+* [Mon, are we going to be okay?](#mon-are-we-going-to-be-okay "Jump To Challenge Section")
+
+* [Erm......Magick](#ermmagick "Jump To Challenge Section")
+
+* [QRrrrr](#qrrrrr "Jump To Challenge Section")
+
+* [Reverse it or read it?](#reverse-it-or-read-it "Jump To Challenge Section")
+
+* [Another decoding stuff](#another-decoding-stuff "Jump To Challenge Section")
+
+* [Left or right](#left-or-right "Jump To Challenge Section")
+
+* [Make a comment](#make-a-comment "Jump To Challenge Section")
+
+* [Can you fix it?](#can-you-fix-it "Jump To Challenge Section")
+
+* [Read it](#read-it "Jump To Challenge Section")
+
+* [Spin my head](#spin-my-head "Jump To Challenge Section")
+
+* [An exclusive!](#an-exclusive "Jump To Challenge Section")
+
+* [Binary walk](#binary-walk "Jump To Challenge Section")
+
+* [Darkness](#darkness "Jump To Challenge Section")
+
+* [A sounding QR](#a-sounding-qr "Jump To Challenge Section")
+
+* [Dig up the past](#dig-up-the-past "Jump To Challenge Section")
+
+* [Uncrackable!](#uncrackable "Jump To Challenge Section")
+
+* [Small bases](#small-bases "Jump To Challenge Section")
+
+* [Read the packet](#read-the-packet "Jump To Challenge Section")
 
 ---
 
