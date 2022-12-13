@@ -143,11 +143,23 @@ THM{500n3r_0r_l473r_17_15_0ur_7urn}
 
 ## Erm......Magick
 
-Huh, where is the flag? THM{wh173_fl46}
+For this challenge we're given no files to download, no _visible_ text to analyze, decrypt, or decipher.
+
+All we have is the text "Huh, where is the flag?".
+
+Interestingly, this lack of clues ends up being our biggest clue.
+
+We know that a flag exists but we can't see it. So where is it? If there is not a single visible clue here, then what we are looking for must be "invisible".
+
+Let's find what this challenge section really contains by using the Dev Tools in our browser.
+
+If we inspect the ```Huh, where is the flag?``` text we'll see it's written within a paragraph tag (```<p>```) and it's not the only thing in there.
 
 ```html
 <p>Huh, where is the flag? <span style="color:rgb(255, 255, 255);"><span style="background-color:rgb(255, 255, 255);">THM{wh173_fl46}</span></span><br></p>
 ```
+
+There's our flag, hidden within the same paragraph and styled with white font on a white background, ```THM{wh173_fl46}```.
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
