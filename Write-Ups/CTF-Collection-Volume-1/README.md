@@ -1,0 +1,192 @@
+# CTF Collection, Volume 1
+
+![CTF Collection, Volume 1 Logo](./Assets/holiday.png "Logo for CTF Collection, Volume 1")
+
+## Summary
+
+[CTF Collection, Volume 1](https://tryhackme.com/room/ctfcollectionvol1 "CTF Collection, Volume 1 on TryHackMe") is a begginer <abbr title="Capture The Flag">CTF</abbr> with 20 challenges created by [DesKel](https://tryhackme.com/p/DesKel "Deskel TryHackMe"). You can find the room on [TryHackMe's official website](https://tryhackme.com/ "TryHackMe Website") along with other <abbr title="Capture The Flag">CTF's</abbr>.
+
+---
+
+## Challenges
+
+* [What does the base said?](# "")
+* [Meta meta](# "")
+* [Mon, are we going to be okay?](# "")
+* [Erm......Magick](# "")
+* [QRrrrr](# "")
+* [Reverse it or read it?](# "")
+* [Another decoding stuff](# "")
+* [Left or right](# "")
+* [Make a comment](# "")
+* [Can you fix it?](# "")
+* [Read it](# "")
+* [Spin my head](# "")
+* [An exclusive!](# "")
+* [Binary walk](# "")
+* [Darkness](# "")
+* [A sounding QR](# "")
+* [Dig up the past](# "")
+* [Uncrackable!](# "")
+* [Small bases](# "")
+* [Read the packet](# "")
+
+---
+
+## What does the base said?
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Meta meta
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Mon, are we going to be okay?
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Erm......Magick
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## QRrrrr
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Reverse it or read it?
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Another decoding stuff
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Left or right
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Make a comment
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Can you fix it?
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Read it
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Spin my head
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## An exclusive!
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Binary walk
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Darkness
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## A sounding QR
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Dig up the past
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Uncrackable!
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Small bases
+
+
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
+
+---
+
+## Read the packet
+
+---
+
+### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
