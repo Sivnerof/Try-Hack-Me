@@ -213,7 +213,16 @@ The ```Magic``` operation identifies ```3agrSy1CewF9v8ukcSkPSYm3oKUoByUpKG4L``` 
 
 ## Left or right
 
+For this challenge we're given the flag in its encrypted version
+(```MAF{atbe_max_vtxltk}```) and told that "ROT13 is too mainstream".
 
+This encrypted flag looks like a basic substitution cipher which we can confirm by using the ```ROT13 Bruteforce``` operation in [CyberChef](https://cyberchef.org/ "Cyber Chef Website").
+
+The output shows this encrypted flag was rotated with a key of 7. Which is the original key used for the famous Caesar Cipher.
+
+Here is the result of shifting all characters 7 positions.
+
+```THM{hail_the_caesar}```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
