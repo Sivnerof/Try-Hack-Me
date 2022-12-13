@@ -249,7 +249,30 @@ So there's our flag, hidden within a paragraph element and styled to never displ
 
 ## Can you fix it?
 
+For this challenge, we're given a "PNG" file and told "I accidentally messed up with this PNG file. Can you help me fix it? Thanks, ^^".
 
+Before we start "fixing" this PNG let's check what Linux identifies the file as with the ```file``` command.
+
+```
+$ file spoil.png
+
+spoil.png: data
+```
+
+Linux says the file is "data" _not_ a PNG.
+
+If we check the hex signature of the file with the ```xxd``` command and try to identify it on the [Wikipedia for file signatures](https://en.wikipedia.org/wiki/List_of_file_signatures "File signature WikiPedia"), we'll see that nothing matches.
+
+```
+$ xxd spoil.png
+00000000: 2333 445f 0d0a 1a0a 0000 000d 4948 4452  #3D_........IHDR
+```
+
+Let's change the hex signature with ```hexedit``` to ```89 50 4E 47 0D 0A 1A 0A``` (PNG signature) and see if that fixes it.
+
+![spoil-backup.png](./Assets/spoil-backup.png "restored image of spoil.png")
+
+There it is, changing the file signature worked. The restored image is the TryHackMe logo with a flag underneath that reads ```THM{y35_w3_c4n}```.
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
