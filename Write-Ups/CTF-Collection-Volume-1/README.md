@@ -280,7 +280,21 @@ There it is, changing the file signature worked. The restored image is the TryHa
 
 ## Read it
 
+For this challenge all we're given is the text "Some hidden flag inside Tryhackme social account".
 
+The title of this section (Read It) hints that we should look within [TryHackMe's Reddit account](https://www.reddit.com/r/tryhackme/ "TryHackMe's Sub Reddit") for the flag.
+
+If we search the terms [reddit flag](https://www.reddit.com/r/tryhackme/search/?q=reddit%20flag "TryHackMe Reddit Search For Flag") within the subreddit we'll find the following five posts.
+
+![Reddit Search](./Assets/reddit-search.png "Reddit Search")
+
+The post titled "[New room Coming soon!](https://www.reddit.com/r/tryhackme/comments/eizxaq/new_room_coming_soon/ "Flag location on Reddit")" contains an image of a flag with the words "Vol. 1" just like the name of this room.
+
+If we view the image in this post we can see in tiny little letters the flag for this challenge.
+
+```THM{50c14l_4cc0un7_15_p4r7_0f_051n7}```
+
+![flag](./Assets/flag.png "flag.png")
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
