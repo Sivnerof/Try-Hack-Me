@@ -302,7 +302,17 @@ If we view the image in this post we can see in tiny little letters the flag for
 
 ## Spin my head
 
+For this challenge we're given the following text.
 
+```brainfuck
+++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>++++++++++++++.------------.+++++.>+++++++++++++++++++++++.<<++++++++++++++++++.>>-------------------.---------.++++++++++++++.++++++++++++.<++++++++++++++++++.+++++++++.<+++.+.>----.>++++.
+```
+
+If you've spent enough time programming you might have come across some really [strange programming languages](https://en.wikipedia.org/wiki/Esoteric_programming_language "Wikipedia For Esoteric Programming Languages"), in which case you might immediately recognize that this "gibberish" isn't gibberish at all. It's a programming language named [Brainfuck](https://en.wikipedia.org/wiki/Brainfuck "Brainfuck Wikipedia Entry").
+
+Knowing that, we can take the text and paste it into a [Brainfuck Interpreter](https://www.dcode.fr/brainfuck-language "Website to interpret Brainfuck"), which reveals the following flag.
+
+```THM{0h_my_h34d}```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
