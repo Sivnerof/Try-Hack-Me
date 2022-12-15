@@ -348,7 +348,37 @@ Taking this string and converting it into ASCII reveals the following flag.
 
 ## Binary walk
 
+For this challenge we're given a JPG named [hell.jpg](./Assets/hell.jpg "hell.jpg file") and told "Please exfiltrate my file :)".
 
+![hell.jpg](./Assets/hell.jpg "Image of the inside of a sewer tunnel")
+
+The title "Binary Walk" suggests that we should use the [Binwalk](https://www.kali.org/tools/binwalk/ "Binwalk Kali Linux Manual") tool, but you can also use CyberChef for this.
+
+If we do use ```Binwalk``` we need to provide the ```-e``` or ```--extract``` flags.
+
+```$ binwalk -e hell.jpg```
+
+```
+$ binwalk -e hell.jpg
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+---------------------------------------------------------------------------
+
+0             0x0             JPEG image data, JFIF standard 1.02
+30            0x1E            TIFF image data, big-endian, offset of first image directory: 8
+265845        0x40E75         Zip archive data, at least v2.0 to extract, uncompressed size: 69, name: hello_there.txt
+266099        0x40F73         End of Zip archive, footer length: 22
+```
+
+After running Binwalk on the image we'll see a new folder in the current directory titled [_hell.jpg.extracted](./Assets/hell.jpg.extracted/ "Folder created by Binwalk").
+
+If we open the new folder and read the text file inside titled [hello_there.txt](./Assets/hell.jpg.extracted/hello_there.txt "Flag file") we can see the following text and flag.
+
+```
+Thank you for extracting me, you are the best!
+
+THM{y0u_w4lk_m3_0u7}
+```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
