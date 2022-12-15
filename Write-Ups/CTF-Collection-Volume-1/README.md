@@ -458,7 +458,19 @@ What did you just say? flag? THM{ch3ck_th3_h4ckb4ck}
 
 ## Uncrackable!
 
+For this challenge we're given cipher text (MYKAHODTQ{RVG_YVGGK_FAL_WXF}) and told "can you solve the following? By the way, I lost the key. Sorry >.<".
 
+This leads us to believe it's been encrypted with a [Vigenere Cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher "Vigenere Cipher Wikipedia").
+
+Below the main text for this challenge we're also given the flag format.
+
+```Flag format: TRYHACKME{FLAG IN ALL CAP}```
+
+If the Vigenere Cipher with an unknown key turns the plaintext ```TRYHACKME``` into the ciphertext ```MYKAHODTQ``` then we can decrypt the cipher text with the plaintext **AS THE KEY**. This will return the key used in the encryption process.
+
+![vigenere-key.png](./Assets/vigenere-key.png "Image of cipher text decoded with plain text as key")
+
+Now that we know the key used is ```THM``` we can decrypt the the ciphertext which reveals the flag ```TRYHACKME{YOU_FOUND_THE_KEY}```.
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
