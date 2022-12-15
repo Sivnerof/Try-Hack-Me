@@ -320,7 +320,27 @@ Knowing that, we can take the text and paste it into a [Brainfuck Interpreter](h
 
 ## An exclusive!
 
+For this challenge we're given the following two strings.
 
+```S1: 44585d6b2368737c65252166234f20626d```
+
+```S2: 1010101010101010101010101010101010```
+
+Along with some text that says "Exclusive strings for everyone!". This along with the title of the challenge (An exclusive!) suggests that we'll need to [XOR](https://en.wikipedia.org/wiki/XOR_cipher "Wikipedia Entry For Xor Ciphers") (exclusively or) the two strings in order to recieve the flag.
+
+Since the second string only has two values that repeat we can guess this is the key and string one is our flag.
+
+Another thing to note here is that although the second flag looks like binary it's actually hexadecimal.
+
+If we take both strings and put them into a [Hexadecimal Xor calculator](https://onlinehextools.com/xor-hex-numbers "Hexadecimal XOR Calculator") we'll get the following string back.
+
+```54484d7b3378636c75353176335f30727d```
+
+![xor-calculator.png](./Assets/xor-calculator.png "Result of Xor Calculation On Two Strings")
+
+Taking this string and converting it into ASCII reveals the following flag. 
+
+```THM{3xclu51v3_0r}```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
