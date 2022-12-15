@@ -440,7 +440,17 @@ Once the audio is slowed down a bit we can hear the bot say "The flag is S-O-U-N
 
 ## Dig up the past
 
+For this challenge we're given a website (https://www.embeddedhacker.com/), a date (January, 02, 2020), and told that "sometimes we need a 'machine' to dig the past". Sounds like we need to use the wayback machine for this one.
 
+Once we've navigated to the [Wayback Machine](https://web.archive.org/ "Wayback Machine Website") and searched for the [embeddedhacker](https://www.embeddedhacker.com/ "Embedded hacker website") webiste on January, 02, 2020 we'll be redirected to the following URL.
+
+https://web.archive.org/web/20200102131252/https://www.embeddedhacker.com/
+
+Here we'll see a blog post titled "THM flag" with the following text.
+
+```
+What did you just say? flag? THM{ch3ck_th3_h4ckb4ck}
+```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
