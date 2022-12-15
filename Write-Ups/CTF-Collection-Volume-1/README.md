@@ -386,6 +386,27 @@ THM{y0u_w4lk_m3_0u7}
 
 ## Darkness
 
+For this challenge we're given another image file named [dark.png](./Assets/dark.png "dark.png file") and told that "There is something lurking in the dark".
+
+![dark.png](./Assets/dark.png "dark.png file")
+
+In order to solve this one we're going to need to view the image in different planes.
+
+We can do this by using a tool called ```stegsolve```.
+
+After we've downloaded ```stegsolve``` from Github we can run it with the following command.
+
+```$ java -jar stegsolve.jar```
+
+Which will open up a tiny little GUI.
+
+![stegsolve.png](./Assets/stegsolve.png "Stegsolve GUI")
+
+After clicking on the ```File``` button and uploading the image we can cycle through the different modes until we find the one that reveals the flag (Blue plane 1, as well as a couple others will reveal the flag).
+
+```THM{7H3R3_15_H0P3_1N_7H3_D4RKN355}```
+
+![stegsolve-flag.png](./Assets/stegsolve-flag.png "Flag")
 
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
