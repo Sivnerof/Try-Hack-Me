@@ -408,14 +408,31 @@ After clicking on the ```File``` button and uploading the image we can cycle thr
 
 ![stegsolve-flag.png](./Assets/stegsolve-flag.png "Flag")
 
-
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
 ---
 
 ## A sounding QR
 
+For this challenge we're given an image of a QR code to download named [QRCTF.png](./Assets/QRCTF.png "QRCTF File").
 
+![QRCTF.png](./Assets/QRCTF.png "QRCTF File")
+
+I won't scan this, for security reasons. Instead we can upload the image to this [QR Code Analyzer](https://zxing.org/w/decode "QR Code Analyzer Website"), which tells us the QR links to the following Soundcloud URL.
+
+https://soundcloud.com/user-86667759/thm-ctf-vol1
+
+If we listen to the audio at the URL we can hear an automated voice tell us the flag but it speaks a little too fast.
+
+We can download the audio by copying the URL and pasting it into the following website.
+
+https://soundcloudmp3.org/
+
+After we've downloaded the audio, we can use a tool like [Audacity](https://www.audacityteam.org/ "Audacity Website") to slow the speed of the audio.
+
+Once the audio is slowed down a bit we can hear the bot say "The flag is S-O-U-N-D-I-N-G-Q-R"
+
+```THM{SOUNDINGQR}```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
