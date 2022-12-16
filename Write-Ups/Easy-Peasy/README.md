@@ -30,17 +30,87 @@
 
 Deploy the machine attached to this task and use nmap to enumerate it.
 
+Before we start we can check to make sure the machine is up by pinging the IP Address.
+
+```
+$ ping <IP_Address>
+
+PING <IP_Address> (<IP_Address>) 56(84) bytes of data.
+64 bytes from <IP_Address>: icmp_seq=1 ttl=61 time=239 ms
+64 bytes from <IP_Address>: icmp_seq=2 ttl=61 time=195 ms
+64 bytes from <IP_Address>: icmp_seq=3 ttl=61 time=231 ms
+64 bytes from <IP_Address>: icmp_seq=4 ttl=61 time=172 ms
+
+--- <IP_Address> ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3002ms
+rtt min/avg/max/mdev = 172.396/209.308/238.892/26.979 ms
+
+```
+
 ### Ports
 
 How many ports are open?
+
+Now that we know the machine is up we can do a port scan with ```nmap``` in aggresive mode (```-A```) and make sure it scans **all** ports with the ```-p-``` flag.
+
+```
+$ nmap -A -p- <IP_Address>
+
+Starting Nmap 7.80 ( https://nmap.org )
+Nmap scan report for <IP_Address>
+Host is up (0.17s latency).
+Not shown: 65532 closed ports
+
+PORT      STATE SERVICE VERSION
+80/tcp    open  http    nginx 1.16.1
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-server-header: nginx/1.16.1
+|_http-title: Welcome to nginx!
+6498/tcp  open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 (Ubuntu Linux; protocol 2.0)
+65524/tcp open  http    Apache httpd 2.4.43 ((Ubuntu))
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-server-header: Apache/2.4.43 (Ubuntu)
+|_http-title: Apache2 Debian Default Page: It works
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 706.08 seconds
+```
+
+The output of scan reveals 3 ports.
+
+* Port 80 - HTTP
+* Port 6498 - SSH
+* Port 65524 - HTTP
 
 ### Version
 
 What is the version of nginx?
 
+The results of the ```nmap``` scan we ran in the previous step showed that the version of nginx was ```1.16.1```.
+
+```
+PORT      STATE SERVICE VERSION
+80/tcp    open  http    nginx 1.16.1
+```
+
 ### Highest Port
 
 What is running on the highest port?
+
+```Apache``` was found running on the highest port (65524).
+
+```
+PORT      STATE SERVICE VERSION
+65524/tcp open  http    Apache httpd 2.4.43 ((Ubuntu))
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-server-header: Apache/2.4.43 (Ubuntu)
+|_http-title: Apache2 Debian Default Page: It works
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+```
 
 [Back To Top](#easy-peasy "Jump To Top")
 
