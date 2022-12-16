@@ -478,13 +478,29 @@ Now that we know the key used is ```THM``` we can decrypt the the ciphertext whi
 
 ## Small bases
 
+For this challenge we're given the following string.
 
+```581695969015253365094191591547859387620042736036246486373595515576333693```
+
+And if we look at the hint for this challenge it says:
+
+```dec -> hex -> ascii```
+
+Knowing that we can use a [decimal to hexadecimal converter](https://www.rapidtables.com/convert/number/decimal-to-hex.html "Decimal to hexadecimal converter") where will recieve the following output.
+
+```54484D7B31375F6A7535375F346E5F307264316E3472795F62343533357D```
+
+Now that we have the hexadecimal all we need is to convert to Ascii, which reveals the follwing flag.
+
+```THM{17_ju57_4n_0rd1n4ry_b4535}```
 
 ### [BACK TO TOP](#ctf-collection-volume-1 "Jump To Top")
 
 ---
 
 ## Read the packet
+
+
 
 ---
 
