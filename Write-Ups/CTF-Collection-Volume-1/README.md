@@ -500,7 +500,21 @@ Now that we have the hexadecimal all we need is to convert to Ascii, which revea
 
 ## Read the packet
 
+For this challenge we're given a [PCAPNG file](./Assets/flag.pcapng "PCAPNG File") to download and told "I just hacked my neighbor's WiFi and try to capture some packet. He must be up to no good. Help me find it".
 
+After opening the file in Wireshark I went to check what objects could be exported where I found a file named [flag.txt](./Assets/flag.txt "Flag text file").
+
+```File ---> Export Objects ---> HTTP --> flag.txt```
+
+![Export objects window](./Assets/export-objects-window.png "Export objects window")
+
+Once the [flag.txt](./Assets/flag.txt "Flag text file") is saved we can view it's contents where we find the flag for this challenge.
+
+```
+THM{d0_n07_574lk_m3}
+
+Found me!
+```
 
 ---
 
