@@ -314,7 +314,104 @@ Reading the ```recipe.txt``` file reveals the first flag to be the word
 
 ## Flag 2
 
+Looking for other users on the system we find one named Lennie. But we do not have the permissions necessary to access his files, so we'll have to come back to this.
 
+```
+www-data@startup:/$ ls -la /home
+ls -la /home
+total 12
+drwxr-xr-x  3 root   root   4096 Nov 12  2020 .
+drwxr-xr-x 25 root   root   4096 Jan  8 18:50 ..
+drwx------  4 lennie lennie 4096 Nov 12  2020 lennie
+```
+
+Going back to when we first listed all the contents of the root directory there was a directory that stood out, the one called ```incidents```. This one doesn't come with the OS and if we list it's contents we see an interestingly named pcapng file.
+
+```
+www-data@startup:/$ ls -la /incidents
+ls -la /incidents
+total 40
+drwxr-xr-x  2 www-data www-data  4096 Nov 12  2020 .
+drwxr-xr-x 25 root     root      4096 Jan  8 18:50 ..
+-rwxr-xr-x  1 www-data www-data 31224 Nov 12  2020 suspicious.pcapng
+```
+
+Unfortunately for us, we can't use ```Wireshark``` and don't have permissions to use ```tcpdump``` so we'll have to find a way to download this file.
+
+One way we can do this is by looking for the website files and trying to move the pcapng file there so we can download it directly from the site.
+
+Usually website files are stored at the ```/var/www/html``` directory and if we list the contents there we'll see the following.
+
+```
+www-data@startup:/$ ls -la /var/www/html
+ls -la /var/www/html
+total 16
+drwxr-xr-x 3 root   root    4096 Nov 12  2020 .
+d-wx--x--x 3 root   root    4096 Nov 12  2020 ..
+drwxr-xr-x 3 nobody nogroup 4096 Nov 12  2020 files
+-rw-r--r-- 1 root   root     808 Nov 12  2020 index.html
+www-data@startup:/$
+```
+
+Listing the contents of ```/var/www/html/file``` we see the same files from the FTP server and the same writable ```/ftp``` directory.
+
+```
+www-data@startup:/$ ls -la /var/www/html/files
+ls -la /var/www/html/files
+total 268
+drwxr-xr-x 3 nobody nogroup   4096 Nov 12  2020 .
+drwxr-xr-x 3 root   root      4096 Nov 12  2020 ..
+-rw-r--r-- 1 root   root         5 Nov 12  2020 .test.log
+drwxrwxrwx 2 nobody nogroup   4096 Jan  8 19:53 ftp
+-rw-r--r-- 1 root   root    251631 Nov 12  2020 important.jpg
+-rw-r--r-- 1 root   root       208 Nov 12  2020 notice.txt
+```
+
+Now that we've confirmed the location of the website files we can copy the pcapng file over to the writable directory.
+
+```bash
+www-data@startup:/$ cp /incidents/suspicious.pcapng /var/www/html/files/ftp
+```
+
+And verify the file was copied by listing the contents of ```/var/www/html/files/ftp```.
+
+```
+www-data@startup:/$ ls -la /var/www/html/files/ftp
+ls -la /var/www/html/files/ftp
+total 48
+drwxrwxrwx 2 nobody   nogroup   4096 Jan  8 21:06 .
+drwxr-xr-x 3 nobody   nogroup   4096 Nov 12  2020 ..
+-rwxrwxr-x 1 ftp      ftp       3455 Jan  8 19:53 reverse-shell.php
+-rwxr-xr-x 1 www-data www-data 31224 Jan  8 21:06 suspicious.pcapng
+-rwxrwxr-x 1 ftp      ftp         12 Jan  8 19:48 test.txt
+```
+
+We can grab the ```pcapng``` by downloading it off the website now or off the FTP server.
+
+```
+ftp> cd ftp
+250 Directory successfully changed.
+
+ftp> ls -la
+229 Entering Extended Passive Mode (|||41585|)
+150 Here comes the directory listing.
+drwxrwxrwx    2 65534    65534        4096 Jan 08 21:06 .
+drwxr-xr-x    3 65534    65534        4096 Nov 12  2020 ..
+-rwxrwxr-x    1 112      118          3455 Jan 08 19:53 reverse-shell.php
+-rwxr-xr-x    1 33       33          31224 Jan 08 21:06 suspicious.pcapng
+-rwxrwxr-x    1 112      118            12 Jan 08 19:48 test.txt
+226 Directory send OK.
+
+ftp> get suspicious.pcapng
+local: suspicious.pcapng remote: suspicious.pcapng
+229 Entering Extended Passive Mode (|||6517|)
+150 Opening BINARY mode data connection for suspicious.pcapng (31224 bytes).
+100% |***********************************| 31224       89.58 KiB/s    00:00 ETA
+226 Transfer complete.
+31224 bytes received in 00:00 (59.35 KiB/s)
+```
+
+Now that we have the ```suspicious.pcapng``` we can parse through the data with WireShark.
 
 ### [Back To Top](#startup "Jump To Top")
 
