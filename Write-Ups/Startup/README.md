@@ -413,6 +413,75 @@ local: suspicious.pcapng remote: suspicious.pcapng
 
 Now that we have the ```suspicious.pcapng``` we can parse through the data with WireShark.
 
+If you scroll through the data you'll notice an interesting http request where someone else uploaded a reverse shell.
+
+```34. HTTP	443	GET /files/ftp/shell.php HTTP/1.1```
+
+You'll want to follow the TCP Stream after this user requests his reverse shell (packets 35 and above) so we can see what commands he ran after he gained access to the system.
+
+We see that this user runs some interesting commands after gaining access.
+
+1. ```ls``` - Lists his current directory.
+2. ```whoami``` - Checks what user he's logged in as.
+3. ```python -c "import pty;pty.spawn('/bin/bash')"``` - Upgrades to bash shell.
+4. ```cd home/lennie``` - Tries and fails to log into Lennies home directory.
+5. ```sudo -l``` - Tries to check for current users sudo permissions.
+6. Repeatedly fails password check with ```c4ntg3t3n0ughsp1c3``` as password.
+
+![TCP Stream](./Assets/tcp-stream.png "Commands executed by suspicious user")
+
+The password part is very interesting because of how specific it was. It didn't work for ```www-data``` but maybe it's Lennies password.
+
+Something we can verify if we ```ssh``` into his account and use ```c4ntg3t3n0ughsp1c3``` as the password.
+
+```
+$ ssh lennie@<IP_Address>
+
+lennie@<IP_Address> password: c4ntg3t3n0ughsp1c3
+Welcome to Ubuntu 16.04.7 LTS (GNU/Linux 4.4.0-190-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+44 packages can be updated.
+30 updates are security updates.
+
+
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+$
+```
+
+Now that we're logged in we can check, who we are (```whoami```), where we are (```pwd```), and what's in the current directory (```ls -la```).
+
+```
+$ whoami
+lennie
+
+$ pwd
+/home/lennie
+
+$ ls -la
+total 24
+drwx------ 5 lennie lennie 4096 Jan  8 21:30 .
+drwxr-xr-x 3 root   root   4096 Nov 12  2020 ..
+drwx------ 2 lennie lennie 4096 Jan  8 21:30 .cache
+drwxr-xr-x 2 lennie lennie 4096 Nov 12  2020 Documents
+drwxr-xr-x 2 root   root   4096 Nov 12  2020 scripts
+-rw-r--r-- 1 lennie lennie   38 Nov 12  2020 user.txt
+```
+
+Here we'll find the second flag in the ```user.txt``` file which reads the following.
+
+```THM{03ce3d619b80ccbfb3b7fc81e46c0e79}```
+
 ### [Back To Top](#startup "Jump To Top")
 
 ---
