@@ -167,6 +167,59 @@ This message implies that users are downloading files on the website that are be
 
 That being said, we should check the website now.
 
+Once we visit the website we'll be greeted with placeholder text for a website currently under construction and viewing the source code reveals the following HTML comment. 
+
+```html
+<article>
+    <h1>No spice here!</h1>
+    <div>
+	<!--when are we gonna update this??-->
+        <p>Please excuse us as we develop our site. We want to make it the most stylish and convienient way to buy peppers. Plus, we need a web developer. BTW if you're a web developer, <a href="mailto:#">contact us.</a> Otherwise, don't you worry. We'll be online shortly!</p>
+        <p>&mdash; Dev Team</p>
+    </div>
+</article>
+```
+
+But none of these things lead us anywhere, so we should further enumerate the site with a tool like [GoBuster](https://www.kali.org/tools/gobuster/ "Kali Documentation for GoBuster") and see what we can find.
+
+The wordlist I used for the directory scan was [directory-list-2.3-small.txt](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-small.txt "Small Directory Word List")
+
+```
+$ gobuster -u <IP_Address> -w /path/to/word/list
+
+=====================================================
+Gobuster v2.0.1              OJ Reeves (@TheColonial)
+=====================================================
+[+] Mode         : dir
+[+] Url/Domain   : http://<IP_Address>/
+[+] Threads      : 10
+[+] Wordlist     : /path/to/word/list
+[+] Status codes : 200,204,301,302,307,403
+[+] Timeout      : 10s
+=====================================================
+2023/01/08 11:59:46 Starting gobuster
+=====================================================
+/files (Status: 301)
+
+```
+
+Almost immediately the ```gobuster``` scan finds a directory named ```files```.
+
+If we visit ```http://<IP_Address>/files/``` we'll see an unprotected directory with **exactly** the same files we discovered on the FTP server.
+
+![Unprotected Directory](./Assets/unprotected-directory.png "Unprotected Directory")
+
+As well as the empty directory named ```ftp``` which we had write access to.
+
+![Empty FTP Directory](./Assets/empty-ftp-directory.png "Empty FTP Directory")
+
+This vulnerability gives us the ability to upload a reverse shell on the FTP server into this directory and come back to this site to access it.
+
+Let's try it out.
+
+
+
+
 ### [Back To Top](#startup "Jump To Top")
 
 ---
