@@ -261,7 +261,150 @@ ftp>
 
 ## Flag 4
 
+Now that we've succesfully logged in to the FTP server we can check what directory we're currently in with ```pwd```.
 
+```
+ftp> pwd
+Remote directory: /home/vigilante
+```
+
+And what files are in the current directory with ```ls -la```.
+
+```
+ftp> ls -la
+229 Entering Extended Passive Mode (|||14198|).
+150 Here comes the directory listing.
+drwxr-xr-x    2 1001     1001         4096 May 05  2020 .
+drwxr-xr-x    4 0        0            4096 May 01  2020 ..
+-rw-------    1 1001     1001           44 May 01  2020 .bash_history
+-rw-r--r--    1 1001     1001          220 May 01  2020 .bash_logout
+-rw-r--r--    1 1001     1001         3515 May 01  2020 .bashrc
+-rw-r--r--    1 0        0            2483 May 01  2020 .other_user
+-rw-r--r--    1 1001     1001          675 May 01  2020 .profile
+-rw-r--r--    1 0        0          511720 May 01  2020 Leave_me_alone.png
+-rw-r--r--    1 0        0          549924 May 05  2020 Queen's_Gambit.png
+-rw-r--r--    1 0        0          191026 May 01  2020 aa.jpg
+226 Directory send OK.
+```
+
+Let's download the three files we just discovered on the FTP server (```Leave_me_alone.png```, ```Queen's_Gambit.png```, and ```aa.jpg```). We can do this by using the ```get``` command followed by the file name.
+
+```
+ftp> get Leave_me_alone.png
+local: Leave_me_alone.png remote: Leave_me_alone.png
+229 Entering Extended Passive Mode (|||54830|).
+150 Opening BINARY mode data connection for Leave_me_alone.png (511720 bytes).
+100% |***********************************|   499 KiB  487.17 KiB/s    00:00 ETA
+226 Transfer complete.
+511720 bytes received in 00:01 (417.99 KiB/s)
+
+
+ftp> get Queen's_Gambit.png
+local: Queen's_Gambit.png remote: Queen's_Gambit.png
+229 Entering Extended Passive Mode (|||65385|).
+150 Opening BINARY mode data connection for Queen's_Gambit.png (549924 bytes).
+100% |***********************************|   537 KiB  195.98 KiB/s    00:00 ETA
+226 Transfer complete.
+549924 bytes received in 00:02 (184.87 KiB/s)
+
+
+ftp> get aa.jpg
+local: aa.jpg remote: aa.jpg
+229 Entering Extended Passive Mode (|||13551|).
+150 Opening BINARY mode data connection for aa.jpg (191026 bytes).
+100% |***********************************|   186 KiB  183.58 KiB/s    00:00 ETA
+226 Transfer complete.
+191026 bytes received in 00:01 (157.69 KiB/s)
+```
+
+Before we go let's check for other users on the server by changing from the current directory into home (```cd ../```) and listing the contents (```ls -la```).
+
+```
+ftp> cd ../
+250 Directory successfully changed.
+
+ftp> ls -la
+229 Entering Extended Passive Mode (|||47978|).
+150 Here comes the directory listing.
+drwxr-xr-x    4 0        0            4096 May 01  2020 .
+drwxr-xr-x   23 0        0            4096 Apr 30  2020 ..
+drwx------    2 1000     1000         4096 May 01  2020 slade
+drwxr-xr-x    2 1001     1001         4096 May 05  2020 vigilante
+226 Directory send OK.
+```
+
+Looks like there's another user named ```slade``` but we don't have the necessary permissions to view his files, so let's exit the ftp server with the ```exit``` command and take a look at those image files we downloaded.
+
+When we run ```exiftool``` or the ```strings``` command on these images nothing immediately sticks out, but looking at the images overall something does stand out... One of these images, ```Leave_me_alone.png```, is corrupted.
+
+Running the ```file``` command on the image to determine file type we see it's not a ```png```, Linux identifies this as ```Data```.
+
+```
+$ file Leave_me_alone.png
+Leave_me_alone.png: data
+```
+
+If we take the first line from the files ```hexdump``` using a tool like ```xxd``` in Linux or dragging the file into the input section of ```CyberChef``` and selecting the ```To HexDump``` option, we'll see this...
+
+```
+00000000  58 45 6f ae 0a 0d 1a 0a 00 00 00 0d 49 48 44 52  |XEo®........IHDR|
+```
+
+And if we visit the [WikiPedia page for file signatures](https://en.wikipedia.org/wiki/List_of_file_signatures "WikiPedia Page Of File Signatures") and use ```Ctrl + f``` with ```58 45``` (the first two bytes) we'll see that no file type has this signature.
+
+So this might in fact be a png, just one that happened to be corrupted. If that's the case we can try to change the file signature to that of an actual png and see if that works.
+
+On the same [WikiPedia page for file signatures](https://en.wikipedia.org/wiki/List_of_file_signatures "WikiPedia Page Of File Signatures") we can look up the file signature for ```png``` files, which is...
+
+```89 50 4E 47 0D 0A 1A 0A```
+
+In order to change the signature you'll need a tool like ```hexedit``` or any other hex editor. Just make sure you edit the first line from this...
+
+```
+00000000  58 45 6f ae 0a 0d 1a 0a 00 00 00 0d 49 48 44 52  |XEo®........IHDR|
+```
+
+To this...
+
+```
+00000000  89 50 4e 47 0d 0a 1a 0a 00 00 00 0d 49 48 44 52  |.PNG........IHDR|
+```
+
+After which, if succesful, you should receive the following image...
+
+![Fixed Image](./Assets/Leave_me_alone_fixed.png "Fixed Image Showing Password")
+
+This fixed image reveals the password is ```password``` but for what?
+
+For this next step we'll need to use another steganography tool named ```stegide```. The ```steghide``` tool can be used to embed or extract hidden files. In this instance we'll use it to extract a password protected file from the ```aa.jpg``` file with the previously discovered password.
+
+We can do this by running the ```steghide``` command with the ```--extract``` and ```-sf``` flags on ```aa.jpg```.
+
+```
+$ steghide --extract -sf aa.jpg
+Enter passphrase: password
+wrote extracted data to "ss.zip".
+```
+
+After running the previous command we'll see a zip file named [ss.zip](./Assets/ss.zip "ss.zip file") was extracted, inside of which we can find two files, [passwd.txt](./Assets/ss/passwd.txt "passwd.txt file") and [shado](./Assets/ss/shado "shado file")
+
+Within [passwd.txt](./Assets/ss/passwd.txt "passwd.txt file") we can read the following...
+
+
+```
+This is your visa to Land on Lian_Yu # Just for Fun ***
+
+
+a small Note about it
+
+
+Having spent years on the island, Oliver learned how to be resourceful and 
+set booby traps all over the island in the common event he ran into dangerous
+people. The island is also home to many animals, including pheasants,
+wild pigs and wolves.
+```
+
+And in the [shado](./Assets/ss/shado "shado file") file we can find our ```SSH``` password which reads ```M3tahuman```
 
 ### [Back To Top](#lian-yu "Jump To Top")
 
