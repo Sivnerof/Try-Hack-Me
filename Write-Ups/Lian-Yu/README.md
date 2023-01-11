@@ -165,7 +165,58 @@ Gobuster v2.0.1              OJ Reeves (@TheColonial)
 
 ## Flag 2
 
+After visiting http://<IP_Address>/island/2100 we'll be greeted with the following screen.
 
+![2100 Screen](./Assets/island-2100.png "Screen of 2100 Directory")
+
+At the time of writing, the video is no longer available. But it doesn't matter because what is important to us can be found in an HTML comment within the source code of this page.
+
+```html
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1 align=center>How Oliver Queen finds his way to Lian_Yu?</h1>
+
+
+<p align=center >
+<iframe width="640" height="480" src="https://www.youtube.com/embed/X8ZiFuW41yY">
+</iframe> <p>
+<!-- you can avail your .ticket here but how?   -->
+
+</header>
+</body>
+</html>
+```
+
+The writer states that we can use our ```.ticket``` _here_. 
+
+"Here" reffers to the current directory (```/island/2100```) and our ```.ticket``` looks a lot like a file extension.
+
+So once again we'll have to use ```gobuster```, except this time instead of scanning for directories we'll have to scan for web _pages_ with the ```.ticket``` extension.
+
+This can be done the same way we did the directory scans and simply adding the ```-x``` flag to specify an extension followed by the extension type, which in this case is ```ticket```.
+
+```
+$ gobuster -w /path/to/wordlist -u http://<IP_Address>/island/2100/ -x ticket
+
+=====================================================
+Gobuster v2.0.1              OJ Reeves (@TheColonial)
+=====================================================
+[+] Mode         : dir
+[+] Url/Domain   : http://<IP_Address>/island/2100/
+[+] Threads      : 10
+[+] Wordlist     : /path/to/wordlist
+[+] Status codes : 200,204,301,302,307,403
+[+] Extensions   : ticket
+[+] Timeout      : 10s
+=====================================================
+2023/01/10 18:23:14 Starting gobuster
+=====================================================
+/green_arrow.ticket (Status: 200)
+```
+
+The results of the ```gobuster``` scan show a file named ```green_arrow.ticket``` has been found at the ```/2100``` directory.
 
 ### [Back To Top](#lian-yu "Jump To Top")
 
