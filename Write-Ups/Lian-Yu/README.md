@@ -224,7 +224,36 @@ The results of the ```gobuster``` scan show a file named ```green_arrow.ticket``
 
 ## Flag 3
 
+After visiting ```http://<IP_Address>/island/2100/green_arrow.ticket``` we'll see the following text...
 
+```
+This is just a token to get into Queen's Gambit(Ship)
+
+
+RTy8yhBQdscX
+```
+
+The ```RTy8yhBQdscX``` string looks like some sort of base encoding which we can confirm after trying to decode it with the ```From Base58``` option in [CyberChef](https://cyberchef.org/ "CyberChef Website").
+
+![Base58 Decode](./Assets/base58-decode.png "Base58 String Decoded In CyberChef")
+
+```RTy8yhBQdscX --> Base58 --> !#th3h00d```
+
+So now we have the name ```vigilante``` and the string ```!#th3h00d```.
+
+Next we can try these out as the credentials for the FTP server on ```port 21```. We can do this by running the ```ftp``` command followed by the target machines IP address.
+
+```
+$ ftp <IP_Address>
+
+Name: vigilante
+Password: !#th3h00d
+
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp>
+```
 
 ### [Back To Top](#lian-yu "Jump To Top")
 
