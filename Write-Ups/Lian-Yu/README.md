@@ -412,7 +412,67 @@ And in the [shado](./Assets/ss/shado "shado file") file we can find our ```SSH``
 
 ## Flag 5
 
+We have the ```SSH``` password ```M3tahuman```, now all we need is to figure out who the user is.
 
+If you remember back when we were downloading the files from the FTP server there were two users on the system, ```vigilante``` and ```slade```, and that password doesn't work for ```vigilante``` so that only leaves ```slade```.
+
+Connecting via ```SSH``` with the username ```slade``` and password ```M3tahuman```, we'll be greeted with the following...
+
+```
+$ ssh slade@<IP_Address>
+slade@<IP_Address>'s password: M3tahuman
+			      Way To SSH...
+			  Loading.........Done.. 
+		   Connecting To Lian_Yu  Happy Hacking
+
+██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗██████╗ 
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝╚════██╗
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗   █████╔╝
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝  ██╔═══╝ 
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗███████╗
+ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝╚══════╝
+
+
+	██╗     ██╗ █████╗ ███╗   ██╗     ██╗   ██╗██╗   ██╗
+	██║     ██║██╔══██╗████╗  ██║     ╚██╗ ██╔╝██║   ██║
+	██║     ██║███████║██╔██╗ ██║      ╚████╔╝ ██║   ██║
+	██║     ██║██╔══██║██║╚██╗██║       ╚██╔╝  ██║   ██║
+	███████╗██║██║  ██║██║ ╚████║███████╗██║   ╚██████╔╝
+	╚══════╝╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝    ╚═════╝  #
+
+slade@LianYu:~$
+```
+
+We're in, now to verify who we are (```whoami```), where we are (```pwd```), and to list all contents in the current directory (```ls -la```).
+
+```
+slade@LianYu:~$ whoami; pwd; ls -la;
+
+slade
+
+/home/slade
+
+total 32
+drwx------ 2 slade slade 4096 May  1  2020 .
+drwxr-xr-x 4 root  root  4096 May  1  2020 ..
+-rw------- 1 slade slade   22 May  1  2020 .bash_history
+-rw-r--r-- 1 slade slade  220 May  1  2020 .bash_logout
+-rw-r--r-- 1 slade slade 3515 May  1  2020 .bashrc
+-r-------- 1 slade slade   77 May  1  2020 .Important
+-rw-r--r-- 1 slade slade  675 May  1  2020 .profile
+-r-------- 1 slade slade   63 May  1  2020 user.txt
+slade@LianYu:~$
+```
+
+And now to grab the flag from the ```user.txt``` file.
+
+```
+slade@LianYu:~$ cat user.txt
+THM{P30P7E_K33P_53CRET5__C0MPUT3R5_D0N'T}
+			--Felicity Smoak
+```
+
+```THM{P30P7E_K33P_53CRET5__C0MPUT3R5_D0N'T}```
 
 ### [Back To Top](#lian-yu "Jump To Top")
 
