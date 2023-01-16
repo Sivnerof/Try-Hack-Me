@@ -52,6 +52,8 @@ This CTF requires basic knowledge of:
 
 * [Esoteric Language](#esoteric-language "Jump To Esoteric Language")
 
+* [Initial Foothold](#initial-foothold "Jump To Initial Foothold")
+
 * [What is the user flag?](#flag-1 "Jump To Flag 1")
 
 * [What is the root flag?](#flag-2 "Jump To Flag 2")
@@ -442,6 +444,37 @@ local: Eli's_Creds.txt remote: Eli's_Creds.txt
 ---
 
 ## Esoteric Language
+
+Once we've downloaded [Eli's_Creds.txt](./Assets/Eli's_Creds.txt "Eli's Creds Text File") on to our local machine we'll see that the file reads...
+
+```brainfuck
++++++ ++++[ ->+++ +++++ +<]>+ +++.< +++++ [->++ +++<] >++++ +.<++ +[->-
+--<]> ----- .<+++ [->++ +<]>+ +++.< +++++ ++[-> ----- --<]> ----- --.<+
+++++[ ->--- --<]> -.<++ +++++ +[->+ +++++ ++<]> +++++ .++++ +++.- --.<+
++++++ +++[- >---- ----- <]>-- ----- ----. ---.< +++++ +++[- >++++ ++++<
+]>+++ +++.< ++++[ ->+++ +<]>+ .<+++ +[->+ +++<] >++.. ++++. ----- ---.+
+++.<+ ++[-> ---<] >---- -.<++ ++++[ ->--- ---<] >---- --.<+ ++++[ ->---
+--<]> -.<++ ++++[ ->+++ +++<] >.<++ +[->+ ++<]> +++++ +.<++ +++[- >++++
++<]>+ +++.< +++++ +[->- ----- <]>-- ----- -.<++ ++++[ ->+++ +++<] >+.<+
+++++[ ->--- --<]> ---.< +++++ [->-- ---<] >---. <++++ ++++[ ->+++ +++++
+<]>++ ++++. <++++ +++[- >---- ---<] >---- -.+++ +.<++ +++++ [->++ +++++
+<]>+. <+++[ ->--- <]>-- ---.- ----. <
+```
+
+At first this might just look like gibberish but if you spend enough time programming, eventually you'll run into [esoteric programming languages](https://en.wikipedia.org/wiki/Esoteric_programming_language "WikiPedia For Esoteric Programming Languages"). One of the most popular is called [BrainFuck](https://en.wikipedia.org/wiki/Brainfuck "Wikipedia Page For BrainFuck Programming Language"), and this is what it looks like.
+
+In order to find out what this program outputs we can use the [brainfuck interpreter from dcode](https://www.dcode.fr/brainfuck-language "Brainfuck Interpreter"), which shows us that the program outputs the following SSH credentials...
+
+```
+User: eli
+Password: DSpDiM1wAEwid
+```
+
+### [Back To Top](#year-of-the-rabbit "Jump To Top")
+
+---
+
+## Initial Foothold
 
 
 
