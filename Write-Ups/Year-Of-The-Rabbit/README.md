@@ -46,6 +46,8 @@ This CTF requires basic knowledge of:
 
 * [Finding The Hidden Directory](#the-hidden-directory "Jump To The Hidden Directory")
 
+* [Metadata and Steganography](#metadata-and-steganography "Jump To Metadata and Steganography")
+
 * [What is the user flag?](#flag-1 "Jump To Flag 1")
 
 * [What is the root flag?](#flag-2 "Jump To Flag 2")
@@ -198,7 +200,36 @@ Logically our next step should be intercepting the request to ```http://<IP_Addr
 
 ## The Hidden Directory
 
+If we open our ```Developer Console``` in the browser, switch over to the ```Network``` tab, and visit ```http://<IP_Address>/sup3r_s3cr3t_fl4g.php``` we'll see that this request redirects us to ```intermediary.php?hidden_directory=/WExYY2Cv-qU``` which then redirects us to the ```/sup3r_s3cret_fl4g/``` directory.
 
+![Network Tab Results](./Assets/network-tab-results.png "Network Tab Results")
+
+It all happens so fast, but for a brief moment we request a file named ```intermediary.php``` and pass it the parameter ```hidden_directory``` and value ```/WExYY2Cv-qU```.
+
+The intended way to have discovered this hidden directory was to use ```BurpSuite``` to intercept the initial request and forward it until we saw the following request being made...
+
+```http
+GET /intermediary.php?hidden_directory=/WExYY2Cv-qU HTTP/1.1
+Host: <IP_Address>
+User-Agent: <Your_Browser>
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Upgrade-Insecure-Requests: 1
+Sec-GPC: 1
+DNT: 1
+```
+
+If we visit newly found directory at ```http://<IP_Address>/WExYY2Cv-qU/``` we'll find an image called ```Hot_Babe.png```.
+
+![Hidden Directory](./Assets/intercepted-directory.png "Hidden Directory Contents")
+
+### [Back To Top](#year-of-the-rabbit "Jump To Top")
+
+---
+
+## Metadata and Steganography
 
 ### [Back To Top](#year-of-the-rabbit "Jump To Top")
 
