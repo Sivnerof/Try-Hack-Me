@@ -38,6 +38,10 @@ This CTF requires basic knowledge of:
 
 * [Port Enumeration](#port-enumeration "Jump To Port Enumeration")
 
+* [Directory Scanning](#directory-scanning "Jump To Directory Scanning")
+
+* [Examining Files](#examining-files "Jump To Examining Files")
+
 * [What is the user flag?](#flag-1 "Jump To Flag 1")
 
 * [What is the root flag?](#flag-2 "Jump To Flag 2")
@@ -111,6 +115,34 @@ Our next step should be to check the page for any additional information as well
 ---
 
 ## Directory Scanning
+
+Once we navigate to the website we'll see the ```Apache2 Debian Default Page```. We won't find anything useful on this page or in the HTML source code. So our next step is a directory scan using ```GoBuster``` and a wordlist like [directory-list-2.3-small.txt](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-small.txt "Small Directory Word List").
+
+```
+$ gobuster -u <IP_Address> -w /path/to/wordlist
+
+=====================================================
+Gobuster v2.0.1              OJ Reeves (@TheColonial)
+=====================================================
+[+] Mode         : dir
+[+] Url/Domain   : http://<IP_Address>/
+[+] Threads      : 10
+[+] Wordlist     : /path/to/wordlist
+[+] Status codes : 200,204,301,302,307,403
+[+] Timeout      : 10s
+=====================================================
+2023/01/15 10:52:56 Starting gobuster
+=====================================================
+/assets (Status: 301)
+```
+
+After running the scan we should see a directory named ```/assets``` has been found.
+
+### [Back To Top](#year-of-the-rabbit "Jump To Top")
+
+---
+
+## Examining Files
 
 
 
