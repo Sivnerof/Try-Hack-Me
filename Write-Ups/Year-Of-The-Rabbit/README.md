@@ -44,6 +44,8 @@ This CTF requires basic knowledge of:
 
 * [The Rabbit Hole](#the-rabbit-hole "Jump To The Rabbit Hole")
 
+* [Finding The Hidden Directory](#the-hidden-directory "Jump To The Hidden Directory")
+
 * [What is the user flag?](#flag-1 "Jump To Flag 1")
 
 * [What is the root flag?](#flag-2 "Jump To Flag 2")
@@ -165,6 +167,36 @@ Viewing the CSS source code we can find the following comment right after the ``
 ---
 
 ## The Rabbit Hole
+
+Visiting the file referenced in the CSS source code (```http://<IP_Address>/sup3r_s3cr3t_fl4g.php```) we'll be greeted by a JavaScript Alert that tells us to turn off JavaScript.
+
+![JavaScript Alert](./Assets/javascript-alert.png "JavaScript Alert Telling Us To Turn Off JavaScript")
+
+Once we press ```OK``` we'll be RickRolled again. The site will redirect us to Rick Astley's "[Never Gonna Give You Up](https://www.youtube.com/watch?v=dQw4w9WgXcQ "Never Gonna Give You Up Song On YouTube")" song on YouTube.
+
+If we turn off JavaScript as suggested by the alert, we'll be greeted with text that reads...
+
+```
+Love it when people block Javascript...
+This is happening whether you like it or not... The hint is in the video. If you're stuck here then you're just going to have to bite the bullet!
+Make sure your audio is turned up!
+```
+
+And the Rick Astley Rick Roll video is back again, this time it's the one we found earlier in the ```/assets``` folder. So wether or not we have JavaScript enabled we're stuck in a rabbit hole of Rick Rolls.
+
+If we listen to the song, around the ```56 second mark```, we can hear the following...
+
+```I'll put you out of your misery, you're looking in the wrong place *burp*.```
+
+The burp at the end is a somewhat subtle reference to the ```BurpSuite``` tool used for intercepting HTTP requests.
+
+Logically our next step should be intercepting the request to ```http://<IP_Address>/sup3r_s3cr3t_fl4g.php``` with ```BurpSuite``` but there's actually an easier way to move on from this step and that's to use the ```Network``` tab in our ```Dev Console```.
+
+### [Back To Top](#year-of-the-rabbit "Jump To Top")
+
+---
+
+## The Hidden Directory
 
 
 
