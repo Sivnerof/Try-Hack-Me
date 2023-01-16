@@ -48,6 +48,8 @@ This CTF requires basic knowledge of:
 
 * [Metadata and Steganography](#metadata-and-steganography "Jump To Metadata and Steganography")
 
+* [FTP Bruteforce](#ftp-bruteforce "Jump To FTP Bruteforce")
+
 * [What is the user flag?](#flag-1 "Jump To Flag 1")
 
 * [What is the root flag?](#flag-2 "Jump To Flag 2")
@@ -230,6 +232,150 @@ If we visit newly found directory at ```http://<IP_Address>/WExYY2Cv-qU/``` we'l
 ---
 
 ## Metadata and Steganography
+
+Once we have discovered the image at ```http://<IP_Address>/WExYY2Cv-qU/Hot_Babe.png``` we can download it for further analysis.
+
+![Lena Soderberg](./Assets/Hot_Babe.png "Image of Lena Soderberg")
+
+A quick side note about this image before we start extracting the metadata...
+
+The woman in the photo is Lena Söderberg, and this image is a cropped version of the original which appeared in the November 1972 issue of Playboy magazine, where Lena was the centrefold model.
+
+It is one of the most popular images on the internet due to it's use by scientific researchers working on image processing and the creation of the JPEG. It was also one of the first images uploaded to [ARPANET](https://en.wikipedia.org/wiki/ARPANET "ARPANet WikiPedia") and has a very long history in Computer Science and Image Processing.
+
+There are many YouTube videos that explain the history of this image, as well as a [WikiPedia page](https://en.wikipedia.org/wiki/Lenna "WikiPedia page about Lena") and a [great article by The Atlantic](https://www.theatlantic.com/technology/archive/2016/02/lena-image-processing-playboy/461970/ "Atlantic article about Lena").
+
+Anyways back to analyzing the image.
+
+If we use the ```exiftool``` command on the image we'll notice a row named ```warning``` that reads "```[minor] Trailer data after PNG IEND chunk```".
+
+```
+$ exiftool Hot_Babe.png
+ExifTool Version Number         : 12.40
+File Name                       : Hot_Babe.png
+Directory                       : .
+File Size                       : 464 KiB
+File Permissions                : -rw-rw-r--
+File Type                       : PNG
+File Type Extension             : png
+MIME Type                       : image/png
+Image Width                     : 512
+Image Height                    : 512
+Bit Depth                       : 8
+Color Type                      : RGB
+Compression                     : Deflate/Inflate
+Filter                          : Adaptive
+Interlace                       : Noninterlaced
+SRGB Rendering                  : Perceptual
+Warning                         : [minor] Trailer data after PNG IEND chunk
+Image Size                      : 512x512
+Megapixels                      : 0.262
+```
+
+If we search the web for what this means we can find a [W3 page about PNG Chunks](https://www.w3.org/TR/PNG-Chunks.html "W3 page on PNG data chunks") which states...
+
+> The IEND chunk must appear LAST. It marks the end of the PNG datastream. The chunk's data field is empty.
+
+This warning in the metadata seems to tell us there's data in the file after the PNG ends.
+
+And if we use the Linux ```strings``` command on the image and scroll up a bit we can find the string ```IEND```. This is where the PNG should end but instead there's a bunch of strings underneath. Appended to the PNG are an FTP username and a [list of possible passwords for the user](./Assets/ftp-password-list.txt "Password List").
+
+```
+IEND
+Ot9RrG7h2~24?
+Eh, you've earned this. Username for FTP is ftpuser
+One of these is the password:
+Mou+56n%QK8sr
+1618B0AUshw1M
+A56IpIl%1s02u
+vTFbDzX9&Nmu?
+FfF~sfu^UQZmT
+8FF?iKO27b~V0
+ua4W~2-@y7dE$
+3j39aMQQ7xFXT
+Wb4--CTc4ww*-
+u6oY9?nHv84D&
+0iBp4W69Gr_Yf
+TS*%miyPsGV54
+C77O3FIy0c0sd
+O14xEhgg0Hxz1
+5dpv#Pr$wqH7F
+1G8Ucoce1+gS5
+0plnI%f0~Jw71
+0kLoLzfhqq8u&
+kS9pn5yiFGj6d
+zeff4#!b5Ib_n
+rNT4E4SHDGBkl
+KKH5zy23+S0@B
+3r6PHtM4NzJjE
+gm0!!EC1A0I2?
+HPHr!j00RaDEi
+7N+J9BYSp4uaY
+PYKt-ebvtmWoC
+3TN%cD_E6zm*s
+eo?@c!ly3&=0Z
+nR8&FXz$ZPelN
+eE4Mu53UkKHx#
+86?004F9!o49d
+SNGY0JjA5@0EE
+trm64++JZ7R6E
+3zJuGL~8KmiK^
+CR-ItthsH%9du
+yP9kft386bB8G
+A-*eE3L@!4W5o
+GoM^$82l&GA5D
+1t$4$g$I+V_BH
+0XxpTd90Vt8OL
+j0CN?Z#8Bp69_
+G#h~9@5E5QA5l
+DRWNM7auXF7@j
+Fw!if_=kk7Oqz
+92d5r$uyw!vaE
+c-AA7a2u!W2*?
+zy8z3kBi#2e36
+J5%2Hn+7I6QLt
+gL$2fmgnq8vI*
+Etb?i?Kj4R=QM
+7CabD7kwY7=ri
+4uaIRX~-cY6K4
+kY1oxscv4EB2d
+k32?3^x1ex7#o
+ep4IPQ_=ku@V8
+tQxFJ909rd1y2
+5L6kpPR5E2Msn
+65NX66Wv~oFP2
+LRAQ@zcBphn!1
+V4bt3*58Z32Xe
+ki^t!+uqB?DyI
+5iez1wGXKfPKQ
+nJ90XzX&AnF5v
+7EiMd5!r%=18c
+wYyx6Eq-T^9#@
+yT2o$2exo~UdW
+ZuI-8!JyI6iRS
+PTKM6RsLWZ1&^
+3O$oC~%XUlRO@
+KW3fjzWpUGHSW
+nTzl5f=9eS&*W
+WS9x0ZF=x1%8z
+Sr4*E4NT5fOhS
+hLR3xQV*gHYuC
+4P3QgF5kflszS
+NIZ2D%d58*v@R
+0rJ7p%6Axm05K
+94rU30Zx45z5c
+Vi^Qf+u%0*q_S
+1Fvdp&bNl3#&l
+zLH%Ot0Bw&c%9
+```
+
+### [Back To Top](#year-of-the-rabbit "Jump To Top")
+
+---
+
+## FTP Bruteforce
+
+
 
 ### [Back To Top](#year-of-the-rabbit "Jump To Top")
 
