@@ -42,6 +42,8 @@ This CTF requires basic knowledge of:
 
 * [Examining Files](#examining-files "Jump To Examining Files")
 
+* [The Rabbit Hole](#the-rabbit-hole "Jump To The Rabbit Hole")
+
 * [What is the user flag?](#flag-1 "Jump To Flag 1")
 
 * [What is the root flag?](#flag-2 "Jump To Flag 2")
@@ -143,6 +145,26 @@ After running the scan we should see a directory named ```/assets``` has been fo
 ---
 
 ## Examining Files
+
+Once we have navigated to the newly discovered directory at ```http://<IP_Address>/assets``` we should see two files, ```RickRolled.mp4``` and ```style.css```.
+
+![Assets Directory](./Assets/assets-directory.png "Assets Directory")
+
+The RickRolled video is obviously Rick Astley singing "Never Gonna Give You Up", but if you listen closely you'll hear hidden information within the song. More on that later, for now all we need to do is to examine the ```style.css``` file.
+
+Viewing the CSS source code we can find the following comment right after the ```body, html``` selector...
+
+```css
+/* Nice to see someone checking the stylesheets.
+    Take a look at the page: /sup3r_s3cr3t_fl4g.php
+*/
+```
+
+### [Back To Top](#year-of-the-rabbit "Jump To Top")
+
+---
+
+## The Rabbit Hole
 
 
 
