@@ -54,9 +54,9 @@ This CTF requires basic knowledge of:
 
 * [Initial Foothold](#initial-foothold "Jump To Initial Foothold")
 
-* [What is the user flag?](#flag-1 "Jump To Flag 1")
+* [Flag 1 - Horizontal Privilege Escalation](#flag-1---horizontal-privilege-escalation "Jump To Flag 1")
 
-* [What is the root flag?](#flag-2 "Jump To Flag 2")
+* [Flag 2 - Vertical Privilege Escalation](#flag-2---vertical-privilege-escalation "Jump To Flag 2")
 
 ---
 
@@ -476,21 +476,93 @@ Password: DSpDiM1wAEwid
 
 ## Initial Foothold
 
+Now that we have found the ```SSH``` credentials within the the ```BrainFuck``` program we can log in as the user ```eli``` with ```DSpDiM1wAEwid``` as a password, where we'll be greeted with the following...
+
+```
+$ ssh eli@<IP_Address>
+eli@<IP_Address>'s password: DSpDiM1wAEwid
+
+1 new message
+Message from Root to Gwendoline:
+
+"Gwendoline, I am not happy with you. Check our leet s3cr3t hiding place. I've left you a hidden message there"
+
+END MESSAGE
+
+eli@year-of-the-rabbit:~$
+```
+
+Now that we're in, we can see that ```Root``` has left a message for the ```Gwendoline``` user in their "leet s3cr3t hiding place", and if we list all contents in our current directory (```/home/eli```) we'll notice that there is no ```user.txt``` file.
+
+```
+eli@year-of-the-rabbit:~$ ls -la
+total 656
+drwxr-xr-x 16 eli  eli    4096 Jan 23  2020 .
+drwxr-xr-x  4 root root   4096 Jan 23  2020 ..
+lrwxrwxrwx  1 eli  eli       9 Jan 23  2020 .bash_history -> /dev/null
+-rw-r--r--  1 eli  eli     220 Jan 23  2020 .bash_logout
+-rw-r--r--  1 eli  eli    3515 Jan 23  2020 .bashrc
+drwxr-xr-x  8 eli  eli    4096 Jan 23  2020 .cache
+drwx------ 11 eli  eli    4096 Jan 23  2020 .config
+-rw-------  1 eli  eli  589824 Jan 23  2020 core
+drwxr-xr-x  2 eli  eli    4096 Jan 23  2020 Desktop
+drwxr-xr-x  2 eli  eli    4096 Jan 23  2020 Documents
+drwxr-xr-x  2 eli  eli    4096 Jan 23  2020 Downloads
+drwx------  3 eli  eli    4096 Jan 23  2020 .gconf
+drwx------  2 eli  eli    4096 Jan 23  2020 .gnupg
+-rw-------  1 eli  eli    1098 Jan 23  2020 .ICEauthority
+drwx------  3 eli  eli    4096 Jan 23  2020 .local
+drwxr-xr-x  2 eli  eli    4096 Jan 23  2020 Music
+drwxr-xr-x  2 eli  eli    4096 Jan 23  2020 Pictures
+-rw-r--r--  1 eli  eli     675 Jan 23  2020 .profile
+drwxr-xr-x  2 eli  eli    4096 Jan 23  2020 Public
+drwx------  2 eli  eli    4096 Jan 23  2020 .ssh
+drwxr-xr-x  2 eli  eli    4096 Jan 23  2020 Templates
+drwxr-xr-x  2 eli  eli    4096 Jan 23  2020 Videos
+```
+
+The message we got when we first logged on mentioned the name Gwendoline, maybe the ```user.txt``` file is in her directory. Let's verify she does have an account by listing all contents of the ```/home``` directory with ```ls -la```.
+
+```
+eli@year-of-the-rabbit:~$ ls -la /home
+total 16
+drwxr-xr-x  4 root       root       4096 Jan 23  2020 .
+drwxr-xr-x 23 root       root       4096 Jan 23  2020 ..
+drwxr-xr-x 16 eli        eli        4096 Jan 23  2020 eli
+drwxr-xr-x  2 gwendoline gwendoline 4096 Jan 23  2020 gwendoline
+```
+
+Gwendoline does have an account on the system. Let's list all files in her directory.
+
+```
+eli@year-of-the-rabbit:~$ ls -la /home/gwendoline/
+total 24
+drwxr-xr-x 2 gwendoline gwendoline 4096 Jan 23  2020 .
+drwxr-xr-x 4 root       root       4096 Jan 23  2020 ..
+lrwxrwxrwx 1 root       root          9 Jan 23  2020 .bash_history -> /dev/null
+-rw-r--r-- 1 gwendoline gwendoline  220 Jan 23  2020 .bash_logout
+-rw-r--r-- 1 gwendoline gwendoline 3515 Jan 23  2020 .bashrc
+-rw-r--r-- 1 gwendoline gwendoline  675 Jan 23  2020 .profile
+-r--r----- 1 gwendoline gwendoline   46 Jan 23  2020 user.txt
+```
+
+Just as expected, ```user.txt``` is in Gwendoline's home directory, but we don't have the permissions to read it.
+
+Maybe the message in Root and Gwendoline's "leet s3cr3t hiding place" can help us to horizontally escalate our privileges.
+
+### [Back To Top](#year-of-the-rabbit "Jump To Top")
+
+---
+
+## Flag 1 - Horizontal Privilege Escalation
+
 
 
 ### [Back To Top](#year-of-the-rabbit "Jump To Top")
 
 ---
 
-## Flag 1
-
-
-
-### [Back To Top](#year-of-the-rabbit "Jump To Top")
-
----
-
-## Flag 2
+## Flag 2 - Vertical Privilege Escalation
 
 ---
 
