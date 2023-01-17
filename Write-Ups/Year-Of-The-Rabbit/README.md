@@ -556,7 +556,62 @@ Maybe the message in Root and Gwendoline's "leet s3cr3t hiding place" can help u
 
 ## Flag 1 - Horizontal Privilege Escalation
 
+We know, based on the message displayed when we logged into Eli's account, that Root and Gwendoline have a place on the system where they share private messages with each other. Root referred to this place as their "leet s3cr3t hiding place". Maybe we can try to find this place by using the Linux ```find``` command.
 
+To use the ```find``` command we have to specify in what directory to look, since we don't know where the file is we'll use ```/``` so it looks everywhere. We can use the ```-name``` option with what we think the name of the file or directory might be, in this case ```s3cr3t```. Then we'll tack on ```2> /dev/null``` to redirect all errors to the ```/dev/null``` directory.
+
+If the command was run successfully, you should see that the "secret hiding place" was found. It's a directory at ```/usr/games```.
+
+```
+eli@year-of-the-rabbit:~$ find / -name s3cr3t 2>/dev/null
+
+/usr/games/s3cr3t
+```
+
+Let's see what we can find in this secret hiding place by listing all contents of the ```/usr/games/s3cr3t``` directory with the ```ls -la``` command.
+
+```
+eli@year-of-the-rabbit:~$ ls -la /usr/games/s3cr3t/
+total 12
+drwxr-xr-x 2 root root 4096 Jan 23  2020 .
+drwxr-xr-x 3 root root 4096 Jan 23  2020 ..
+-rw-r--r-- 1 root root  138 Jan 23  2020 .th1s_m3ss4ag3_15_f0r_gw3nd0l1n3_0nly!
+```
+
+So here's the message referenced when we first logged in. If we would have just used ```ls``` and not ```ls -la``` we could have missed this file because all files that start with ```.``` are hidden by default.
+
+Now let's read the file named ```.th1s_m3ss4ag3_15_f0r_gw3nd0l1n3_0nly!``` and see what we find.
+
+```
+eli@year-of-the-rabbit:~$ cat /usr/games/s3cr3t/.th1s_m3ss4ag3_15_f0r_gw3nd0l1n3_0nly\!
+
+Your password is awful, Gwendoline. 
+It should be at least 60 characters long! Not just MniVCQVhQHUNI
+Honestly!
+
+Yours sincerely
+   -Root
+```
+
+After we read the file we'll find out that Gwendoline's password is ```MniVCQVhQHUNI```.
+
+Let's ```su``` into her account and read ```user.txt```.
+
+```
+eli@year-of-the-rabbit:~$ su gwendoline
+Password: MniVCQVhQHUNI
+gwendoline@year-of-the-rabbit:/home/eli$
+```
+
+Now we're Gwendoline. But we're still in Eli's home directory so let's ```cd``` into ```/home/gwendoline``` and read ```user.txt```.
+
+```
+gwendoline@year-of-the-rabbit:/home/eli$ cd /home/gwendoline/
+
+gwendoline@year-of-the-rabbit:~$ cat user.txt
+
+THM{1107174691af9ff3681d2b5bdb5740b1589bae53}
+```
 
 ### [Back To Top](#year-of-the-rabbit "Jump To Top")
 
