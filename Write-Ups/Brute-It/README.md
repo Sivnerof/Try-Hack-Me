@@ -16,7 +16,7 @@ This CTF requires basic knowledge of:
 
 * Bruteforcing login pages with tools like ```Hydra```.
 
-* Getting the hash value of a private RSA key with tools like ```ssh2john```.
+* Converting a private RSA key into a hash with tools like ```ssh2john```.
 
 * Hash cracking with tools like ```JohnTheRipper```.
 
@@ -231,7 +231,7 @@ Once we login at ```http://<IP_Address>/admin``` we'll be redirected to ```http:
 
 We'll also see the flag needed for [Web Flag](#web-flag "Jump To Web Flag").
 
-If we click the link we'll be taken to ```http://<IP_Address>/admin/panel/id_rsa``` where we can find John's private key.
+If we click the link we'll be taken to ```http://<IP_Address>/admin/panel/id_rsa``` where we can find [John's private key](./Assets/id_rsa "John's Private RSA Key").
 
 ```rsa
 -----BEGIN RSA PRIVATE KEY-----
@@ -265,6 +265,22 @@ miDKAMx3K3VJpsY4aV52au5x43do6e3xyTSR7E2bfsUblzj2b+mZXrmxst+XDU6u
 x1a9TrlunTcJJZJWKrMTEL4LRWPwR0tsb25tOuUr6DP/Hr52MLaLg1yIGR81cR+W
 -----END RSA PRIVATE KEY-----
 ```
+
+We can crack this private key by using ```ssh2john``` to convert the private key into a hash that ```JohnTheRipper``` can crack.
+
+To check if you already have ```ssh2john``` you can use the ```find``` command.
+
+```find / -type f -name ssh2john.py 2>/dev/null```
+
+If you don't have ```ssh2john``` you'll need to download the [Jumbo version of John](https://github.com/openwall/john "Jumbo John GitHub").
+
+Next, save the private key as [id_rsa](./Assets/id_rsa "John's Private RSA Key") and run ```python /path/to/ssh2john.py /path/to/id_rsa 1> id_rsa.hash```. This will output the hash into a file called ```id_rsa.hash```.
+
+Now that we have the private key hash file we can attempt to crack it with ```JohnTheRipper``` by using the following command...
+
+```john --wordlist=/path/to/wordlist id_rsa.hash```
+
+Once the hash has been cracked we'll find that John's RSA Private Key passphrase is ```rockinroll```.
 
 ### user.txt
 
