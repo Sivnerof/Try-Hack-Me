@@ -284,7 +284,80 @@ Once the hash has been cracked we'll find that John's RSA Private Key passphrase
 
 ### user.txt
 
+Now that we have John's private key (```id_rsa```) and his private key's passphrase (```rockinroll```) we can SSH into his account with his private key by using the ```-i``` flag followed by the private key file.
+
+The command should look like this ```ssh -i id_rsa john@<IP_Address>```.
+
+Once prompted for the password we'll use ```rockinroll```.
+
+**IMPORTANT NOTE:** If you get a warning that looks similar to this:
+
+```
+$ ssh -i id_rsa john@<IP_Address>
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions 0664 for './Downloads/id_rsa' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key "id_rsa": bad permissions
+```
+
+You need to change ```id_rsa```'s permissions so that only you have read and write permissions on the file. This can be done with ```chmod 600 id_rsa```.
+
+Once we've successfully logged in we should see the following...
+
+```
+$ ssh -i id_rsa john@<IP_Address>
+Enter passphrase for key 'id_rsa': rockinroll
+
+Welcome to Ubuntu 18.04.4 LTS (GNU/Linux 4.15.0-118-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+
+63 packages can be updated.
+0 updates are security updates.
+
+john@bruteit:~$
+```
+
+Now we can verify who we are (```whoami```), where we are (```pwd```), and list all contents of the current directory (```ls -la```).
+
+
+```
+john@bruteit:~$ whoami
+john
+
+john@bruteit:~$ pwd
+/home/john
+
+john@bruteit:~$ ls -la
+total 40
+drwxr-xr-x 5 john john 4096 Sep 30  2020 .
+drwxr-xr-x 4 root root 4096 Aug 28  2020 ..
+-rw------- 1 john john  394 Sep 30  2020 .bash_history
+-rw-r--r-- 1 john john  220 Aug 16  2020 .bash_logout
+-rw-r--r-- 1 john john 3771 Aug 16  2020 .bashrc
+drwx------ 2 john john 4096 Aug 16  2020 .cache
+drwx------ 3 john john 4096 Aug 16  2020 .gnupg
+-rw-r--r-- 1 john john  807 Aug 16  2020 .profile
+drwx------ 2 john john 4096 Aug 16  2020 .ssh
+-rw-r--r-- 1 john john    0 Aug 16  2020 .sudo_as_admin_successful
+-rw-r--r-- 1 root root   33 Aug 16  2020 user.txt
+```
+
+Here we can see that the ```user.txt``` file is in John's home directory and if we read it we'll find our flag.
+
+```THM{a_password_is_not_a_barrier}```
+
 ### Web Flag
+
+The web flag was found right when we logged in to the admin panel on the website, underneath the link to John's private RSA key.
+
+```THM{brut3_f0rce_is_e4sy}```
 
 [BACK TO TOP](#brute-it "Jump To Top")
 
