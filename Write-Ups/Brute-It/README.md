@@ -476,6 +476,40 @@ After the hashes have been cracked we can see that the password for root was ```
 
 ### Root Flag
 
+Now that we've discovered root's password to be ```football``` all we need to do is switch users to root with the ```su``` command.
+
+```
+john@bruteit:~$ su root
+Password: football
+
+root@bruteit:/home/john#
+```
+
+We've succesfully logged in as root but we're still in John's home directory so let's change directories into ```/root``` and list all contents there with ```ls -la```.
+
+```
+root@bruteit:/home/john# cd /root
+root@bruteit:~# ls -la /root
+total 52
+drwx------  7 root root 4096 Sep 30  2020 .
+drwxr-xr-x 24 root root 4096 Sep 30  2020 ..
+-rw-------  1 root root  445 Sep 30  2020 .bash_history
+-rw-r--r--  1 root root 3106 Apr  9  2018 .bashrc
+drwx------  2 root root 4096 Sep  3  2020 .cache
+drwx------  3 root root 4096 Sep  3  2020 .gnupg
+drwx------  2 root root 4096 Aug 16  2020 .john
+drwxr-xr-x  3 root root 4096 Aug 15  2020 .local
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root   26 Aug 17  2020 root.txt
+drwx------  2 root root 4096 Aug 15  2020 .ssh
+-rw-------  1 root root 2160 Sep 30  2020 .viminfo
+-rw-r--r--  1 root root  165 Aug 16  2020 .wget-hsts
+```
+
+Here's the root flag, now all we need to do is read it.
+
+```THM{pr1v1l3g3_3sc4l4t10n}```
+
 ---
 
 [BACK TO TOP](#brute-it "Jump To Top")
