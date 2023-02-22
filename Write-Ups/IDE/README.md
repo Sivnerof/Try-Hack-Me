@@ -137,7 +137,71 @@ We can see from the above port scan that the unknown service on ```PORT 62337```
 
 ## FTP Server
 
+To login to the ```FTP``` server, we'll use the ```ftp``` command followed by the target IP Address. When prompted for a username we'll use ```anonymous``` and for password we can type anything.
 
+```
+$ ftp <IP_Address>
+
+Connected to <IP_Address>.
+220 (vsFTPd 3.0.3)
+Name: anonymous
+331 Please specify the password.
+Password: anon
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+```
+
+Now that we've connected to the ```FTP``` server we can list all files in the current directory with the ```ls -la``` command.
+
+```
+ftp> ls -la
+229 Entering Extended Passive Mode (|||21303|)
+150 Here comes the directory listing.
+drwxr-xr-x    3 0        114          4096 Jun 18  2021 .
+drwxr-xr-x    3 0        114          4096 Jun 18  2021 ..
+drwxr-xr-x    2 0        0            4096 Jun 18  2021 ...
+226 Directory send OK.
+```
+
+Once we list the contents of the current directory we'll see a very sneaky directory named ```...```, in the Linux file system this means nothing. The ```.``` directory represents our current directory, while the ```..``` represents our previous directory. And all files or directories prefaced with a ```.``` are hidden by default. So the ```...``` directory is hidden from us when we use the ```-ls``` command. Which is why we should always use ```ls -la``` to list **ALL** files. Even then the unconventional directory name might cause us to miss it or mistake it for the current or previous directories.
+
+Let's change into the ```...``` directory and see what's in there.
+
+```
+ftp> cd ...
+250 Directory successfully changed.
+ftp> ls -la
+229 Entering Extended Passive Mode (|||23248|)
+150 Here comes the directory listing.
+-rw-r--r--    1 0        0             151 Jun 18  2021 -
+drwxr-xr-x    2 0        0            4096 Jun 18  2021 .
+drwxr-xr-x    3 0        114          4096 Jun 18  2021 ..
+226 Directory send OK.
+```
+
+Here we find another sneaky file with an unconventional naming scheme, let's download this file named ```-``` with the ```get``` command followed by the file name.
+
+```
+ftp> get -
+local: - remote: -
+229 Entering Extended Passive Mode (|||5886|)
+150 Opening BINARY mode data connection for - (151 bytes).
+100% |***********************************|   151      193.77 KiB/s    00:00 ETA
+226 Transfer complete.
+151 bytes received in 00:00 (0.61 KiB/s)
+```
+
+Once we've downloaded the file we'll find it on our local machine. If we read the file we'll see it's a reminder to someone named "john" to change his password.
+
+```
+Hey john,
+I have reset the password as you have asked. Please use the default password to login. 
+Also, please take care of the image file ;)
+- drac.
+```
+
+Now we have a username (john) and a potential vulnerabilty (weak/default password).
 
 [Back To Top](#ide "Jump To Top")
 
@@ -145,7 +209,13 @@ We can see from the above port scan that the unknown service on ```PORT 62337```
 
 ## Website Password
 
+After getting the username from the file we found in the FTP server we need somewhere to use it. Visiting the website at ```PORT 80``` leads nowhere, but the website at ```PORT 62337``` does have a login form.
 
+Before bruteforcing the login with Hydra or BurpSuite we can try guessing some passwords since we know ```john``` has a default password.
+
+Not shocking, the password is ```password``` and logging in takes us to an online IDE (Integrated Development Environment) with a bunch of Python programs saved in it.
+
+```john:password```
 
 [Back To Top](#ide "Jump To Top")
 
