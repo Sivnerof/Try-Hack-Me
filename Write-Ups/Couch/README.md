@@ -130,10 +130,21 @@ The results from the above scan show us that the version number for the ```couch
 
 ## Database Documentation
 
+Now that we know what database and version number are running on the target system we can start by looking up the documentation and see if we can find anything beneficial to us.
+
+[CouchDB Documentation](https://docs.couchdb.org/en/stable/intro/tour.html "Adobe's CouchDB Documentation")
+
 ### Administrator Path
+
+Scrolling through the [CouchDB Documentation](https://docs.couchdb.org/en/stable/intro/tour.html "Adobe's CouchDB Documentation") we'll see that the web administration tool can be found at ```http://<IP_Address>:5984/_utils/```.
+
+```_utils```
 
 ### All Databases
 
+We can also see in the same documentation that the path to list all databases is ```http://<IP_Address>:5984/_all_dbs```.
+
+```_all_dbs```
 
 [Back To Top](#couch "Jump To Top")
 
