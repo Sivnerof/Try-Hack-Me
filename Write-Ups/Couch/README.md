@@ -152,7 +152,21 @@ We can also see in the same documentation that the path to list all databases is
 
 ## SSH Credentials
 
+If we visit the web admin tool for the database at ```http://<IP_Address>:5984/_utils/``` we'll see 6 databases.
+
+![6 Databases](./Assets/databases.png "6 Databases At _utils Directory")
+
+Out of all 6 databases one really stands out, the one named ```secret```.
+
+If we click on that database we'll see a single entry, ```a1320dd69fb4570d0a3d26df4e000be7```.
+
+And if we click on that we'll be taken to ```http://<IP_Address>:5984/_utils/document.html?secret/a1320dd69fb4570d0a3d26df4e000be7```, where we'll find a field titled ```passwordbackup``` with the value ```atena:t4qfzcc4qN##```.
+
+![Credentials](./Assets/password-backup.png "Password Backup Entry")
+
 ### Credentials
+
+Now that we have a set of credentials (```atena:t4qfzcc4qN##```), we should check if we can use them to login to the server via ```SSH```.
 
 [Back To Top](#couch "Jump To Top")
 
@@ -160,7 +174,50 @@ We can also see in the same documentation that the path to list all databases is
 
 ## First Flag
 
+Using the credentials we found above we can ```SSH``` into the remote server with the username ```atena``` and the password ```t4qfzcc4qN##```.
+
+```
+$ ssh atena@<IP_Address>
+
+atena@<IP_Address>'s password: t4qfzcc4qN##
+Welcome to Ubuntu 16.04.7 LTS (GNU/Linux 4.4.0-193-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+atena@ubuntu:~$
+```
+
 ### user.txt
+
+Now that we're in we can start looking for the first flag by listing all contents in the current directory (```/home/atena```).
+
+```
+atena@ubuntu:~$ ls -la
+total 48
+drwxr-xr-x 6 atena atena 4096 Dec 18  2020 .
+drwxr-xr-x 3 root  root  4096 Oct 24  2020 ..
+-rw------- 1 atena atena 3171 Dec 18  2020 .bash_history
+-rw-r--r-- 1 atena atena  220 Oct 24  2020 .bash_logout
+-rw-r--r-- 1 atena atena 3771 Oct 24  2020 .bashrc
+drwxr-xr-x 3 root  root  4096 Oct 24  2020 .bundle
+drwx------ 2 atena atena 4096 Oct 24  2020 .cache
+drwx------ 2 root  root  4096 Oct 24  2020 .gnupg
+drwxrwxr-x 2 atena atena 4096 Dec 18  2020 .nano
+-rw-r--r-- 1 atena atena  655 Oct 24  2020 .profile
+-rw-r--r-- 1 atena atena    0 Oct 24  2020 .sudo_as_admin_successful
+-rw-rw-r-- 1 atena atena   22 Dec 18  2020 user.txt
+-rw-r--r-- 1 root  root   183 Oct 24  2020 .wget-hsts
+```
+
+Here we'll find the ```user.txt``` file, and if we cat it we'll find our first flag.
+
+```
+atena@ubuntu:~$ cat user.txt
+
+THM{1ns3cure_couchdb}
+```
 
 [Back To Top](#couch "Jump To Top")
 
