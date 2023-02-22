@@ -80,23 +80,49 @@ rtt min/avg/max/mdev = 159.318/159.807/160.327/0.362 ms
 
 ## Port Scan
 
+Once we've verified the machine is active we can move on to a port scan using ```nmap``` with the ```-p-``` flag, this will make sure we scan **every** port.
 
+```
+$ nmap -p- -T4 <IP_Address>
+
+Nmap scan report for <IP_Address>
+Host is up (0.16s latency).
+Not shown: 65533 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+5984/tcp open  couchdb
+```
 
 ### Open Ports
 
-
+The results from the above ```nmap``` scan return **2** open ports.
 
 ### Database Discovery
 
-
+One of which is Adobe's open source NoSQL database named ```couchdb```.
 
 ### Database Port
 
-
+This service can usually be found on ```PORT 5984```, which we can verify by looking at the above ```nmap``` scan.
 
 ### Database Version
 
+One way we can find the exact version of the ```couchdb``` database is to perform another ```nmap``` scan, but this time in aggressive mode (```-A```) and only on ```PORT 5984```, by using the ```-p``` flag followed by the port number for the database.
 
+```
+$ nmap -p 5984 -A <IP_Address>
+
+Nmap scan report for <IP_Address>
+Host is up (0.16s latency).
+
+PORT     STATE SERVICE VERSION
+5984/tcp open  http    CouchDB httpd 1.6.1 (Erlang OTP/18)
+|_http-server-header: CouchDB/1.6.1 (Erlang OTP/18)
+|_http-title: Site doesn't have a title (text/plain; charset=utf-8).
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+```
+
+The results from the above scan show us that the version number for the ```couchdb``` database is ```1.6.1```.
 
 [Back To Top](#couch "Jump To Top")
 
