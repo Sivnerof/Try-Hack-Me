@@ -223,7 +223,38 @@ Not shocking, the password is ```password``` and logging in takes us to an onlin
 
 ## Reverse Shell
 
+Once we've logged in to the IDE we'll see a bunch of Python files and if we look down towards the bottom of the screen we'll see that these files are stored at ```
+/var/www/html/codiad_projects/```.
 
+![File Locations](./Assets/file-locations.png "File Locations")
+
+If we look for the ```/codiad_projects/``` directory on the website at ```PORT 62337``` we won't find it. But if we check the other website at ```PORT 80``` we'll find all those python files in an unprotected directory.
+
+![Unprotected Directory](./Assets/unprotected-directory.png "Unprotected Directory")
+
+Since the directory at ```http://<IP_Address:80/codiad_projects/``` is unprotected AND we have the ability to write and save files in the IDE we can upload a [PHP reverse shell](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php "PenTest Monkey Reverse Shell On GitHub") and retrieve it through this directory.
+
+First we'll start a ```Netcat``` listener on port ```1234``` with the following command.
+
+```nc -lnvp 1234```
+
+Next we'll create a new file in the online IDE, the contents of which will be our [reverse shell](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php "PenTest Monkey Reverse Shell On GitHub").
+
+Our reverse shell can now be found in the unprotected directory we found earlier, all we need to do is click on it.
+
+![Reverse Shell File](./Assets/reverse-shell.png "Reverse Shell File")
+
+If successful we should see output in our ```Netcat``` listener similar to the following...
+
+```
+Listening on 0.0.0.0 1234
+
+Connection received on <IP_Address> 37904
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$
+```
 
 [Back To Top](#ide "Jump To Top")
 
