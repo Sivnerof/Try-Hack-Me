@@ -22,19 +22,19 @@ This CTF requires **basic** knowledge of:
 
 ## Contents
 
-* [Getting Started]( "Jump To")
+* [Getting Started](#getting-started "Jump To Getting Started")
 
-* [Port Scanning]( "Jump To")
+* [Port Scanning](#port-scanning "Jump To Port Scanning")
 
-* [Robots File]( "Jump To")
+* [Robots File](#robots-file "Jump To Robots File")
 
-* [OSINT]( "Jump To")
+* [OSINT](#osint "Jump To OSINT")
 
-* [Hydra]( "Jump To")
+* [Hydra](#hydra "Jump To HYDRA")
 
-* [Initial Access - First Flag]( "Jump To")
+* [Initial Access - First Flag](#initial-access "Jump To Initial Access")
 
-* [Vertical Escalation - Root Flag]( "Jump To")
+* [Vertical Escalation - Root Flag](#vertical-escalation "Jump To Vertical Escalation")
 
 ---
 
