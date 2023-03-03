@@ -101,7 +101,16 @@ Naturally, our next step should be visiting the webpage and reading that file.
 
 ## Robots File
 
+Before we visit the homepage for the website we should read the contents of the [robots.txt](https://en.wikipedia.org/wiki/Robots.txt "Robots Text File WikiPedia Page") file we found during the ```nmap``` scan.
 
+Navigating to ```http://<IP_Address>/robots.txt``` we'll see a reference to the [rockyou](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz "RockYou Password File On GitHub") wordlist, a hint that we'll need to brute force a service with this password list.
+
+```
+User-agent: rockyou
+Disallow: /
+```
+
+Now we should start looking through the website for other useful information.
 
 [Back To Top](#library "Jump To Top")
 
@@ -109,7 +118,11 @@ Naturally, our next step should be visiting the webpage and reading that file.
 
 ## OSINT
 
+If we go through the website we won't find any login forms or other directories. But we do find an admins username through a blog post on the main page.
 
+![Blog Authors Username](./Assets/blog-author-username.png "Blog Authors Username")
+
+We have a username (```meliodas```) and we know the password can be found in the ```rockyou``` wordlist, that should be enough to bruteforce the ```SSH``` login.
 
 [Back To Top](#library "Jump To Top")
 
