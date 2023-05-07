@@ -71,7 +71,7 @@ After a username has been found, the same steps from above can be used to enumer
 Here are some helpful Python libraries that will help you solve the steps above.
 
 * [re](https://www.w3schools.com/python/python_regex.asp "W3 Schools Article On Python Regex") - RegEx library to help pulling the mathematical expression out of the form.
-* [requests]("") HTTP Requests library to help with sending POST requests and sending POST body data.
+* [requests](https://docs.python-requests.org/en/latest/ "Python Requests Library Documentation") HTTP Requests library to help with sending POST requests and sending POST body data.
 * [BeautifulSoup](https://pypi.org/project/beautifulsoup4/ "Beautiful Soup Documentation") - HTML parsing library to help pull the form out of every HTML response and parse through it (optional).
 
 [Back To Top](#capture "Jump To Top")
