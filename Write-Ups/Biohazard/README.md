@@ -178,6 +178,8 @@ While we're on the ```/diningRoom``` page we should also check the ```HTML``` so
 
 ## Lock Pick Flag
 
+![Reheader](./Image-Assets/reheader.jpg "Reheader")
+
 Viewing the ```HTML``` source code for ```http://<IP_Address>/diningRoom/```, we'll find the following comment:
 
 ```html
@@ -188,13 +190,61 @@ Decoding this from ```Base 64```, we'll see the following message:
 
 > How about the /teaRoom/
 
+Once we visit the tea room at  ```http://<IP_Address>/teaRoom/``` we'll see a link that leads to  ```http://<IP_Address>/teaRoom/master_of_unlock.html```. Clicking the link will lead us to the following Lock Pick flag:
+
+```lock_pick{037b35e2ff90916a9abf99129c8e1837}```
+
+We'll also see the following text, letting us know that our next stop should be the art room:
+
+> Barry also suggested that Jill should visit the /artRoom/
+
 [Back To Top](#biohazard "Jump To Top")
 
 ---
 
 ## Music Sheet Flag
 
+![Art Room](./Image-Assets/art-room.jpg "Art Room")
 
+Visiting the art room at ```http://<IP_Address>/artRoom/```, we'll see a link to ```http://<IP_Address>/artRoom/MansionMap.html```. Clicking the link we'll see a site map with the following directories:
+
+* ```/diningRoom/```
+
+* ```/teaRoom/```
+
+* ```/artRoom/```
+
+* ```/barRoom/```
+
+* ```/diningRoom2F/```
+
+* ```/tigerStatusRoom/```
+
+* ```/galleryRoom/```
+
+* ```/studyRoom/```
+
+* ```/armorRoom/```
+
+* ```/attic/```
+
+Checking out the bar room at ```http://<IP_Address>/barRoom/``` we'll be met with an image of a door and an input where we can use the lock pick flag we found in the last section of this writeup.
+
+![Bar Room Entrance Door](./Image-Assets/door.jpg "Bar Room Entance Door")
+
+After opening the door with ```lock_pick{037b35e2ff90916a9abf99129c8e1837}```, we'll be redirected to the actual bar room at ```http://<IP_Address>/barRoom357162e3db904857963e6e0b64b96ba7/```.
+
+![Bar Room](./Image-Assets/bar-room.jpg "Bar Room")
+
+Once we're inside the bar room, we'll find another input that expects a flag. We'll also see a link to ```http://<IP_Address>/barRoom357162e3db904857963e6e0b64b96ba7/musicNote.html```. Following the link, we'll see the following string:
+
+```NV2XG2LDL5ZWQZLFOR5TGNRSMQ3TEZDFMFTDMNLGGVRGIYZWGNSGCZLDMU3GCMLGGY3TMZL5```
+
+Decoding the string above from Base 32 will reveal the following flag that we can use in the input for the bar room:
+
+```music_sheet{362d72deaf65f5bdc63daece6a1f676e}```
+
+After we've submitted the flag for the bar room, we'll be redirected to the hidden bar room at ```http://<IP_Address>/barRoom357162e3db904857963e6e0b64b96ba7/barRoomHidden.php```.
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -202,7 +252,11 @@ Decoding this from ```Base 64```, we'll see the following message:
 
 ## Gold Emblem Flag
 
+![Gold Emblem](./Image-Assets/gold-emblem.png "Gold Emblem")
 
+Once we've been redirected from the bar room to the secret bar room at ```http://<IP_Address>/barRoom357162e3db904857963e6e0b64b96ba7/barRoomHidden.php``` we'll see a link to collect the gold emblem at ```http://<IP_Address>/barRoom357162e3db904857963e6e0b64b96ba7/gold_emblem.php```.
+
+```gold_emblem{58a8c41a9d08b8a4e38d02a4d7ff4843}```
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -210,7 +264,33 @@ Decoding this from ```Base 64```, we'll see the following message:
 
 ## Shield Key Flag
 
+After collecting the gold emblem and refreshing the page for the hidden bar room, you'll notice that the emblem is not accepted and instead we get the following error message:
 
+> Nothing happen
+
+This is the same error message we got after trying to input the first emblem into the page at ```http://<IP_Address>/diningRoom/```. If we try switching the emblems we'll see that they're accepted.
+
+For the page at ```http://<IP_Address>/barRoom357162e3db904857963e6e0b64b96ba7/barRoomHidden.php``` we'll use the first emblem:
+
+```emblem{fec832623ea498e20bf4fe1821d58727}```
+
+Which gives us the name ```rebecca```.
+
+For the page back at ```http://<IP_Address>/diningRoom/```, we'll use the gold emblem:
+
+```gold_emblem{58a8c41a9d08b8a4e38d02a4d7ff4843}```
+
+Which gives us the following string:
+
+```klfvg ks r wimgnd biz mpuiui ulg fiemok tqod. Xii jvmc tbkg ks tempgf tyi_hvgct_jljinf_kvc```
+
+Decrypting the above string using the [Vigenere cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher "WikiPedia Page For Vigenere Cipher") with the name we found earlier (```rebecca```), will reveal the following text:
+
+```there is a shield key inside the dining room. The html page is called the_great_shield_key```
+
+Visiting the page referenced in the decrypted message will lead us to ```http://<IP_Address>/diningRoom/the_great_shield_key.html```, where we'll find the following flag:
+
+```shield_key{48a7a9227cd7eb89f0a062590798cbac}```
 
 [Back To Top](#biohazard "Jump To Top")
 
