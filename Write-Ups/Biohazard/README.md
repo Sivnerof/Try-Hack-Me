@@ -486,7 +486,85 @@ After decoding the string, the username and password for the ```FTP``` server wa
 
 ## Hidden Directory
 
+Now that we've found a valid pair of credentials for the ```FTP``` server we can connect with the syntax ```ftp <IP_Address>```. For the username we'll provide the name ```hunter``` and for the password we'll provide the text ```you_cant_hide_forever```.
 
+```
+$ ftp <IP_Address>
+Connected to <IP_Address>.
+220 (vsFTPd 3.0.3)
+Name (<IP_Address>): hunter
+331 Please specify the password.
+Password: you_cant_hide_forever
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp>
+```
+
+Once we're logged in to the ```FTP``` server we can use the ```ls -la``` command to list all files in the current directory.
+
+```
+ftp> ls -la
+229 Entering Extended Passive Mode (|||36413|)
+150 Here comes the directory listing.
+drwxrwxrwx    2 1002     1002         4096 Sep 20  2019 .
+drwxrwxrwx    2 1002     1002         4096 Sep 20  2019 ..
+-rw-r--r--    1 0        0            7994 Sep 19  2019 001-key.jpg
+-rw-r--r--    1 0        0            2210 Sep 19  2019 002-key.jpg
+-rw-r--r--    1 0        0            2146 Sep 19  2019 003-key.jpg
+-rw-r--r--    1 0        0             121 Sep 19  2019 helmet_key.txt.gpg
+-rw-r--r--    1 0        0             170 Sep 20  2019 important.txt
+226 Directory send OK.
+```
+
+After listing the contents of the current directory we'll find five files, three images and two text files. We can download all these files to our local machines with the syntax ```mget *```.
+
+```
+ftp> mget *
+mget 001-key.jpg [anpqy?]? 
+229 Entering Extended Passive Mode (|||47508|)
+150 Opening BINARY mode data connection for 001-key.jpg (7994 bytes).
+100% |***********************************|  7994        6.42 MiB/s    00:00 ETA
+226 Transfer complete.
+7994 bytes received in 00:00 (46.40 KiB/s)
+mget 002-key.jpg [anpqy?]? 
+229 Entering Extended Passive Mode (|||53122|)
+150 Opening BINARY mode data connection for 002-key.jpg (2210 bytes).
+100% |***********************************|  2210        5.28 MiB/s    00:00 ETA
+226 Transfer complete.
+2210 bytes received in 00:00 (13.09 KiB/s)
+mget 003-key.jpg [anpqy?]? 
+229 Entering Extended Passive Mode (|||13441|)
+150 Opening BINARY mode data connection for 003-key.jpg (2146 bytes).
+100% |***********************************|  2146      864.91 KiB/s    00:00 ETA
+226 Transfer complete.
+2146 bytes received in 00:00 (12.63 KiB/s)
+mget helmet_key.txt.gpg [anpqy?]? 
+229 Entering Extended Passive Mode (|||6100|)
+150 Opening BINARY mode data connection for helmet_key.txt.gpg (121 bytes).
+100% |***********************************|   121        1.95 KiB/s    00:00 ETA
+226 Transfer complete.
+121 bytes received in 00:00 (0.52 KiB/s)
+mget important.txt [anpqy?]? 
+229 Entering Extended Passive Mode (|||20257|)
+150 Opening BINARY mode data connection for important.txt (170 bytes).
+100% |***********************************|   170      105.33 KiB/s    00:00 ETA
+226 Transfer complete.
+170 bytes received in 00:00 (1.00 KiB/s)
+```
+
+Before analyzing any of the images or decrypting the ```PGP``` protected text file, we'll start with reading the ```important.txt``` file, which reads:
+
+```
+Jill,
+
+I think the helmet key is inside the text file, but I have no clue on decrypting stuff. Also, I come across a /hidden_closet/ door but it was locked.
+
+From,
+Barry
+```
+
+After reading the ```important.txt``` file, we'll learn that there is a hidden directory named ```/hidden_closet/``` on the target server. We can try to visit the directory but we don't have the key to unlock the door yet so our next step is to decrypt the ```helmet_key.txt.gpg``` file.
 
 [Back To Top](#biohazard "Jump To Top")
 
