@@ -738,17 +738,15 @@ After navigating to ```http://<IP_Address>/studyRoom/``` we can unlock the door 
 
 ```helmet_key{458493193501d2b94bbab2e727f8db4b}```
 
-Once we've done so, we'll be redirected to ```http://<IP_Address>/studyRoom28341c5e98c93b89258a6389fd608a3c/``` where we'll find a link to ```http://<IP_Address>/studyRoom28341c5e98c93b89258a6389fd608a3c/doom.tar.gz```. Clicking the link will download a tar file named [doom.tar.gz]("").
+Once we've done so, we'll be redirected to the study room at ```http://<IP_Address>/studyRoom28341c5e98c93b89258a6389fd608a3c/``` where we'll find a link to ```http://<IP_Address>/studyRoom28341c5e98c93b89258a6389fd608a3c/doom.tar.gz```.
 
+![Study Room](./Image-Assets/study-room.jpg "Study Room")
 
-```
-$ cat eagle_medal.txt
-SSH user: umbrella_guest
-```
+Clicking the link found in the study room will download a tar file named [doom.tar.gz](./doom.tar.gz "Doom Tar File").
 
+After extracting the tar file, we'll find a text file named [eagle_medal.txt](./doom/eagle_medal.txt "Eagle Medal File") which reads:
 
-
-
+```SSH user: umbrella_guest```
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -756,7 +754,33 @@ SSH user: umbrella_guest
 
 ## SSH Password
 
+All we need now to connect to the remote server via ```SSH``` is the password for ```umbrella_guest```.
 
+Going back to ```/hidden_closet/```, we'll unlock the door with the helmet key.
+
+```helmet_key{458493193501d2b94bbab2e727f8db4b}```
+
+![Hidden Closet Door](./Image-Assets/door.jpg "Hidden Closet Door")
+
+Once we've unlocked the door to the hidden closet, we'll be redirected to ```http://<IP_Address>/hiddenCloset8997e740cb7f5cece994381b9477ec38/```.
+
+![Hidden Closet Room](./Image-Assets/closet-room.jpg "Hidden Closet Room")
+
+Once we've made it inside the hidden closet we'll find the following two links:
+
+* ```http://<IP_Address>/hiddenCloset8997e740cb7f5cece994381b9477ec38/MO_DISK1.txt```
+
+* ```http://<IP_Address>/hiddenCloset8997e740cb7f5cece994381b9477ec38/wolf_medal.txt```
+
+Visiting the ```http://<IP_Address>/hiddenCloset8997e740cb7f5cece994381b9477ec38/MO_DISK1.txt``` link leads to the following [Vigenere cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher "WikiPedia Page For Vigenere Cipher"):
+
+> wpbwbxr wpkzg pltwnhro, txrks_xfqsxrd_bvv_fy_rvmexa_ajk
+
+Since we don't have the keyword, we'll need to revisit this enciphered text later in the challenge.
+
+The other link, ```http://<IP_Address>/hiddenCloset8997e740cb7f5cece994381b9477ec38/wolf_medal.txt```, leads us to a ```SSH``` password.
+
+```SSH password: T_virus_rules```
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -764,7 +788,17 @@ SSH user: umbrella_guest
 
 ## Bravo Team Leader
 
+Back on the hidden closet page at ```http://<IP_Address>/hiddenCloset8997e740cb7f5cece994381b9477ec38/```, the Bravo Team Leader is referenced.
 
+> The closet room lead to an underground cave
+
+> In the cave, Jill met injured Enrico, the leader of the STARS Bravo team. He mentioned there is a traitor among the STARTS Alpha team.
+
+> When he was about to tell the traitor name, suddenly, a gun shot can be heard and Enrico was shot dead.
+
+> Jill somehow cannot figure out who did that. Also, Jill found a MO disk 1 and a wolf Medal
+
+* ```Bravo Team Leader: Enrico```
 
 [Back To Top](#biohazard "Jump To Top")
 
