@@ -806,7 +806,69 @@ Back on the hidden closet page at ```http://<IP_Address>/hiddenCloset8997e740cb7
 
 ## Chris Location
 
+Now that we have a valid set of credentials, we can log in to the remote server via ```SSH```.
 
+* Credentials - ```umbrella_guest:T_virus_rules```
+
+```
+$ ssh umbrella_guest@<IP_Address>
+
+umbrella_guest@<IP_Address>'s password: T_virus_rules
+
+Welcome to Ubuntu 18.04 LTS (GNU/Linux 4.15.0-20-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+
+320 packages can be updated.
+58 updates are security updates.
+
+Failed to connect to https://changelogs.ubuntu.com/meta-release-lts. Check your Internet connection or proxy settings
+
+Last login: Fri Sep 20 03:25:46 2019 from 127.0.0.1
+umbrella_guest@umbrella_corp:~$
+```
+
+We can list the contents of the current directory with the ```ls -la``` command, where we'll find a hidden directory named ```.jailcell```.
+
+```
+umbrella_guest@umbrella_corp:~$ ls -la
+
+total 64
+drwxr-xr-x  8 umbrella_guest umbrella 4096 Sep 20  2019 .
+drwxr-xr-x  5 root           root     4096 Sep 20  2019 ..
+-rw-r--r--  1 umbrella_guest umbrella  220 Sep 19  2019 .bash_logout
+-rw-r--r--  1 umbrella_guest umbrella 3771 Sep 19  2019 .bashrc
+drwxrwxr-x  6 umbrella_guest umbrella 4096 Sep 20  2019 .cache
+drwxr-xr-x 11 umbrella_guest umbrella 4096 Sep 19  2019 .config
+-rw-r--r--  1 umbrella_guest umbrella   26 Sep 19  2019 .dmrc
+drwx------  3 umbrella_guest umbrella 4096 Sep 19  2019 .gnupg
+-rw-------  1 umbrella_guest umbrella  346 Sep 19  2019 .ICEauthority
+drwxr-xr-x  2 umbrella_guest umbrella 4096 Sep 20  2019 .jailcell
+drwxr-xr-x  3 umbrella_guest umbrella 4096 Sep 19  2019 .local
+-rw-r--r--  1 umbrella_guest umbrella  807 Sep 19  2019 .profile
+drwx------  2 umbrella_guest umbrella 4096 Sep 20  2019 .ssh
+-rw-------  1 umbrella_guest umbrella  109 Sep 19  2019 .Xauthority
+-rw-------  1 umbrella_guest umbrella 7546 Sep 19  2019 .xsession-errors
+```
+
+If we list the contents of the ```.jailcell``` directory we'll find a file named ```chris.txt```.
+
+```
+umbrella_guest@umbrella_corp:~$ ls -la .jailcell/
+total 12
+drwxr-xr-x 2 umbrella_guest umbrella 4096 Sep 20  2019 .
+drwxr-xr-x 8 umbrella_guest umbrella 4096 Sep 20  2019 ..
+-rw-r--r-- 1 umbrella_guest umbrella  501 Sep 20  2019 chris.txt
+```
+
+* Chris Location: ```jailcell```
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -814,7 +876,27 @@ Back on the hidden closet page at ```http://<IP_Address>/hiddenCloset8997e740cb7
 
 ## Traitor
 
+If we read the contents of ```/home/umbrella_guest/.jailcell/chris.txt``` we'll see the following text:
 
+> Jill: Chris, is that you?
+
+> Chris: Jill, you finally come. I was locked in the Jail cell for a while. It seem that weasker is behind all this.
+
+> Jil, What? Weasker? He is the traitor?
+
+> Chris: Yes, Jill. Unfortunately, he play us like a damn fiddle.
+
+> Jill: Let's get out of here first, I have contact brad for helicopter support.
+
+> Chris: Thanks Jill, here, take this MO Disk 2 with you. It look like the key to decipher something.
+
+> Jill: Alright, I will deal with him later.
+
+> Chris: see ya.
+
+> MO disk 2: albert
+
+It appears that the traitor is ```weasker```. We're also given the key for the [Vigenere cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher "WikiPedia Page For Vigenere Cipher") we found earlier in the [SSH password section of this writeup](#ssh-password "SSH Password Section Of Writeup").
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -822,7 +904,15 @@ Back on the hidden closet page at ```http://<IP_Address>/hiddenCloset8997e740cb7
 
 ## Traitor's Password
 
+Now that we have the key for the [Vigenere cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher "WikiPedia Page For Vigenere Cipher") we found earlier in the [SSH password section of this writeup](#ssh-password "SSH Password Section Of Writeup") we can decrypt the cipher text.
 
+* Cipher Text: ```wpbwbxr wpkzg pltwnhro, txrks_xfqsxrd_bvv_fy_rvmexa_ajk```
+
+* Key: ```albert```
+
+* Decrypted Text: ```weasker login password, stars_members_are_my_guinea_pig```
+
+```stars_members_are_my_guinea_pig```
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -830,7 +920,65 @@ Back on the hidden closet page at ```http://<IP_Address>/hiddenCloset8997e740cb7
 
 ## Ultimate Form Name
 
+Now that we have weaskers credentials we can use the ```su``` command to switch users from ```umbrella_guest``` to ```weasker```.
 
+* Credentials - ```weasker:stars_members_are_my_guinea_pig```
+
+```
+umbrella_guest@umbrella_corp:~$ su weasker
+
+Password: stars_members_are_my_guinea_pig
+weasker@umbrella_corp:/home/umbrella_guest$ 
+```
+
+If we list all contents of weaskers home directory, we'll see a file named ```weasker_note.txt```.
+
+```
+weasker@umbrella_corp:~$ ls -la
+
+total 80
+drwxr-xr-x  9 weasker weasker 4096 Sep 20  2019 .
+drwxr-xr-x  5 root    root    4096 Sep 20  2019 ..
+-rw-------  1 weasker weasker   18 Sep 20  2019 .bash_history
+-rw-r--r--  1 weasker weasker  220 Sep 18  2019 .bash_logout
+-rw-r--r--  1 weasker weasker 3771 Sep 18  2019 .bashrc
+drwxrwxr-x 10 weasker weasker 4096 Sep 20  2019 .cache
+drwxr-xr-x 11 weasker weasker 4096 Sep 20  2019 .config
+drwxr-xr-x  2 weasker weasker 4096 Sep 19  2019 Desktop
+drwx------  3 weasker weasker 4096 Sep 19  2019 .gnupg
+-rw-------  1 weasker weasker  346 Sep 20  2019 .ICEauthority
+drwxr-xr-x  3 weasker weasker 4096 Sep 19  2019 .local
+drwx------  5 weasker weasker 4096 Sep 19  2019 .mozilla
+-rw-r--r--  1 weasker weasker  807 Sep 18  2019 .profile
+drwx------  2 weasker weasker 4096 Sep 19  2019 .ssh
+-rw-r--r--  1 weasker weasker    0 Sep 20  2019 .sudo_as_admin_successful
+-rw-r--r--  1 root    root     534 Sep 20  2019 weasker_note.txt
+-rw-------  1 weasker weasker  109 Sep 20  2019 .Xauthority
+-rw-------  1 weasker weasker 5548 Sep 20  2019 .xsession-errors
+-rw-------  1 weasker weasker 6749 Sep 20  2019 .xsession-errors.old
+```
+
+The contents of the ```weasker_note.txt``` read:
+
+> Weaker: Finally, you are here, Jill.
+
+> Jill: Weasker! stop it, You are destroying the  mankind.
+
+> Weasker: Destroying the mankind? How about creating a 'new' mankind. A world, only the strong can survive.
+
+> Jill: This is insane.
+
+> Weasker: Let me show you the ultimate lifeform, the Tyrant.
+
+> (Tyrant jump out and kill Weasker instantly)
+
+> (Jill able to stun the tyrant will a few powerful magnum round)
+
+> Alarm: Warning! warning! Self-detruct sequence has been activated. All personal, please evacuate immediately. (Repeat)
+
+> Jill: Poor bastard
+
+After reading the file, it is revealed that weaskers ultimate form is called ```Tyrant```.
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -838,6 +986,61 @@ Back on the hidden closet page at ```http://<IP_Address>/hiddenCloset8997e740cb7
 
 ## Root Flag
 
+Finally, it's time for vertical escalation to the root user.
 
+If we check weaskers sudo privileges by running the ```sudo -l``` command, we'll see that weasker has the ability to run **all** commands as ```sudo```.
+
+```
+weasker@umbrella_corp:~$ sudo -l
+
+[sudo] password for weasker: stars_members_are_my_guinea_pig
+
+Matching Defaults entries for weasker on umbrella_corp:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User weasker may run the following commands on umbrella_corp:
+    (ALL : ALL) ALL
+```
+
+Naturally, we'll execute the ```sh``` command as sudo so we can get a root shell, we'll then verify that we are indeed the root user by using the ```whoami``` command.
+
+```
+weasker@umbrella_corp:~$ sudo sh
+
+# whoami
+root
+```
+
+We can find the root flag by listing all contents of the ```/root``` directory, where we'll find a file named ```root.txt```
+
+```
+# ls -la /root
+
+total 36
+drwx------  4 root root 4096 Sep 20  2019 .
+drwxr-xr-x 24 root root 4096 Sep 18  2019 ..
+-rw-------  1 root root   76 Sep 20  2019 .bash_history
+-rw-r--r--  1 root root 3106 Apr  9  2018 .bashrc
+drwx------  2 root root 4096 Apr 26  2018 .cache
+drwxr-xr-x  3 root root 4096 Sep 19  2019 .local
+-rw-r--r--  1 root root  148 Aug 17  2015 .profile
+-rw-r--r--  1 root root  493 Sep 20  2019 root.txt
+-rw-r--r--  1 root root  207 Sep 19  2019 .wget-hsts
+```
+
+Reading the contents of the ```root.txt``` file, we'll see text containing the ending for this CTF's story, along with the last flag.
+
+> In the state of emergency, Jill, Barry and Chris are reaching the helipad and awaiting for the helicopter support.
+
+> Suddenly, the Tyrant jump out from nowhere. After a tough fight, brad, throw a rocket launcher on the helipad. Without thinking twice, Jill pick up the launcher and fire at the Tyrant.
+
+> The Tyrant shredded into pieces and the Mansion was blowed. The survivor able to escape with the helicopter and prepare for their next fight.
+
+> The End
+
+> flag: 3c5794a00dc56c35f2bf096571edf3bf
+
+```3c5794a00dc56c35f2bf096571edf3bf```
 
 [Back To Top](#biohazard "Jump To Top")
