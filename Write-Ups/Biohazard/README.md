@@ -669,7 +669,9 @@ key-003.txtUT
 key-003.txtUT
 ```
 
-After we've parsed through the images strings we'll notice a mention of a file named [key-003.txt](./Files-Extracted-From-Images/key-003.txt "key-003.txt File")
+After we've parsed through the images strings we'll notice a mention of a file named [key-003.txt](./Files-Extracted-From-Images/key-003.txt "key-003.txt File").
+
+In order to carve this file out of the image we can use the [BinWalk](https://www.kali.org/tools/binwalk/ "Kali Linux Manual For BinWalk") tool. The syntax to extract an embedded file with [BinWalk](https://www.kali.org/tools/binwalk/ "Kali Linux Manual For BinWalk") is ```binwalk -e <File_Name>```.
 
 ```
 $ binwalk -e 003-key.jpg
@@ -682,10 +684,21 @@ DECIMAL       HEXADECIMAL     DESCRIPTION
 2124          0x84C           End of Zip archive, footer length: 22
 ```
 
-```
-$ cat 003-key.txt
-3aXRoX3Zqb2x0
-```
+Once we've extracted the file named [key-003.txt](./Files-Extracted-From-Images/key-003.txt "key-003.txt File"), we'll find the following text within:
+
+```3aXRoX3Zqb2x0```
+
+Now that we've pulled a single piece of hidden data from each image, we're left with the following three pieces:
+
+* KEY 1 - ```cGxhbnQ0Ml9jYW```
+
+* KEY 2 - ```5fYmVfZGVzdHJveV9```
+
+* KEY 3 - ```3aXRoX3Zqb2x0```
+
+Putting all three pieces together leaves us with the string ```cGxhbnQ0Ml9jYW5fYmVfZGVzdHJveV93aXRoX3Zqb2x0```. Decoding this string from ```Base 64``` results in the following password:
+
+```plant42_can_be_destroy_with_vjolt```
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -693,13 +706,47 @@ $ cat 003-key.txt
 
 ## Helmet Key Flag
 
+In the section above titled [Encrypted File Password](#encrypted-file-password "Encrypted File Password") we were able to find the password for the [helmet_key.txt.gpg](./FTP-Server-Files/helmet_key.txt.gpg "helmet_key.txt.gpg File") file. That password was:
 
+```plant42_can_be_destroy_with_vjolt```
+
+We can decrypt the [helmet_key.txt.gpg](./FTP-Server-Files/helmet_key.txt.gpg "helmet_key.txt.gpg File") file with the syntax ```gpg --decrypt <File_Name>```.
+
+```
+$ gpg --decrypt helmet_key.txt.gpg
+
+gpg: AES256.CFB encrypted data
+gpg: encrypted with 1 passphrase
+helmet_key{458493193501d2b94bbab2e727f8db4b}
+```
+
+Once we've decrypted the [helmet_key.txt.gpg](./FTP-Server-Files/helmet_key.txt.gpg "helmet_key.txt.gpg File") file, we'll see the following text:
+
+```helmet_key{458493193501d2b94bbab2e727f8db4b}```
 
 [Back To Top](#biohazard "Jump To Top")
 
 ---
 
 ## SSH Username
+
+Now that we have the helmet key, it's time to revisit the ```/studyRoom/```.
+
+![Study Room](./Image-Assets/door.jpg "Study Room Door")
+
+After navigating to ```http://<IP_Address>/studyRoom/``` we can unlock the door by providing the helmet key as input.
+
+```helmet_key{458493193501d2b94bbab2e727f8db4b}```
+
+Once we've done so, we'll be redirected to ```http://<IP_Address>/studyRoom28341c5e98c93b89258a6389fd608a3c/``` where we'll find a link to ```http://<IP_Address>/studyRoom28341c5e98c93b89258a6389fd608a3c/doom.tar.gz```. Clicking the link will download a tar file named [doom.tar.gz]("").
+
+
+```
+$ cat eagle_medal.txt
+SSH user: umbrella_guest
+```
+
+
 
 
 
