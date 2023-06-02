@@ -320,7 +320,141 @@ Following the page referenced in the decrypted text will lead us to ```http://<I
 
 ## FTP Username
 
+![Tiger Status Room](./Image-Assets/tiger-status-room.jpg "Tiger Status Room")
 
+Moving onto the ```/tigerStatusRoom/``` directory we'll see an input that expects a blue gem for the tiger statue, the same gem we just found in the [Blue Gem section](#blue-gem-flag "Blue Gem Section") of this writeup.
+
+```blue_jewel{e1d457e96cac640f863ec7bc475d48aa}```
+
+After placing the blue gem into the input we'll be redirected to ```http://<IP_Address>/tigerStatusRoom/gem.php```, where we'll see the following text:
+
+> crest 1:
+
+> S0pXRkVVS0pKQkxIVVdTWUpFM0VTUlk9
+
+> Hint 1: Crest 1 has been encoded twice
+
+> Hint 2: Crest 1 contanis 14 letters
+
+> Note: You need to collect all 4 crests, combine and decode to reavel another path
+
+> The combination should be crest 1 + crest 2 + crest 3 + crest 4. Also, the combination is a type of encoded base and you need to decode it
+
+Taking the string ```S0pXRkVVS0pKQkxIVVdTWUpFM0VTUlk9``` and decoding it from ```Base 64``` results in the string ```KJWFEUKJJBLHUWSYJE3ESRY=``` which can be decoded once again from ```Base 32``` to reveal the first of four crests.
+
+* CREST 1: ```RlRQIHVzZXI6IG```
+
+Now we just need the other 3 crests.
+
+![Gallery Room](./Image-Assets/gallery-room.jpg "Gallery Room")
+
+Our next stop is the ```/galleryRoom/``` where we'll find a link that leads to ```http://<IP_Address>/galleryRoom/note.txt```, where we'll find the following text:
+
+> crest 2:
+
+> GVFWK5KHK5WTGTCILE4DKY3DNN4GQQRTM5AVCTKE
+
+> Hint 1: Crest 2 has been encoded twice
+
+> Hint 2: Crest 2 contanis 18 letters
+
+> Note: You need to collect all 4 crests, combine and decode to reavel another path
+
+> The combination should be crest 1 + crest 2 + crest 3 + crest 4. Also, the combination is a type of encoded base and you need to decode it
+
+Decoding the string ```GVFWK5KHK5WTGTCILE4DKY3DNN4GQQRTM5AVCTKE``` from ```Base 32``` results in the string ```5KeuGWm3LHY85cckxhB3gAQMD``` which can be decoded again from ```Base 58``` to reveal the second of four crests.
+
+* CREST 2: ```h1bnRlciwgRlRQIHBh```
+
+Now we need to find the last two crests.
+
+![Shield Room Door](./Image-Assets/door.jpg "Shield Room Door")
+
+For now we'll have to skip the ```/studyRoom/``` directory and head to the ```/armorRoom/```. After navigating to ```http://<IP_Address/armorRoom/``` we'll see text that tells us that the door for the armor room is engraved with a shield symbol. So we'll have to use the shield key we obtained in the [Shield Key section](#shield-key-flag "Shield Key Section") of this writeup as the input for this page.
+
+```shield_key{48a7a9227cd7eb89f0a062590798cbac}```
+
+![Armor Room](./Image-Assets/armor-room.jpg "Armor Room")
+
+Once we've opened the door we'll be redirected to the armor room at ```http://<IP_Address>/armorRoom547845982c18936a25a9b37096b21fc1/``` where we'll find a link that leads to ```http://<IP_Address>/armorRoom547845982c18936a25a9b37096b21fc1/note.txt```. Following this link we'll see the following text:
+
+> crest 3:
+
+> MDAxMTAxMTAgMDAxMTAwMTEgMDAxMDAwMDAgMDAxMTAwMTEgMDAxMTAwMTEgMDAxMDAwMDAgMDAxMTAxMDAgMDExMDAxMDAgMDAxMDAwMDAgMDAxMTAwMTEgMDAxMTAxMTAgMDAxMDAwMDAgMDAxMTAxMDAgMDAxMTEwMDEgMDAxMDAwMDAgMDAxMTAxMDAgMDAxMTEwMDAgMDAxMDAwMDAgMDAxMTAxMTAgMDExMDAwMTEgMDAxMDAwMDAgMDAxMTAxMTEgMDAxMTAxMTAgMDAxMDAwMDAgMDAxMTAxMTAgMDAxMTAxMDAgMDAxMDAwMDAgMDAxMTAxMDEgMDAxMTAxMTAgMDAxMDAwMDAgMDAxMTAwMTEgMDAxMTEwMDEgMDAxMDAwMDAgMDAxMTAxMTAgMDExMDAwMDEgMDAxMDAwMDAgMDAxMTAxMDEgMDAxMTEwMDEgMDAxMDAwMDAgMDAxMTAxMDEgMDAxMTAxMTEgMDAxMDAwMDAgMDAxMTAwMTEgMDAxMTAxMDEgMDAxMDAwMDAgMDAxMTAwMTEgMDAxMTAwMDAgMDAxMDAwMDAgMDAxMTAxMDEgMDAxMTEwMDAgMDAxMDAwMDAgMDAxMTAwMTEgMDAxMTAwMTAgMDAxMDAwMDAgMDAxMTAxMTAgMDAxMTEwMDA=
+
+> Hint 1: Crest 3 has been encoded three times
+
+> Hint 2: Crest 3 contanis 19 letters
+
+> Note: You need to collect all 4 crests, combine and decode to reavel another path
+
+> The combination should be crest 1 + crest 2 + crest 3 + crest 4. Also, the combination is a type of encoded base and you need to decode it
+
+The string within the above text can be decoded from ```Base 64``` which results in the following ```binary```:
+
+```
+00110110 00110011 00100000 00110011 00110011 00100000 00110100 01100100 00100000 00110011 00110110 00100000 00110100 00111001 00100000 00110100 00111000 00100000 00110110 01100011 00100000 00110111 00110110 00100000 00110110 00110100 00100000 00110101 00110110 00100000 00110011 00111001 00100000 00110110 01100001 00100000 00110101 00111001 00100000 00110101 00110111 00100000 00110011 00110101 00100000 00110011 00110000 00100000 00110101 00111000 00100000 00110011 00110010 00100000 00110110 00111000
+```
+
+The binary when decoded reveals the following ```hexadecimal``` encoded string:
+
+```63 33 4d 36 49 48 6c 76 64 56 39 6a 59 57 35 30 58 32 68```
+
+The final decode reveals the third of four crests.
+
+* CREST 3: ```c3M6IHlvdV9jYW50X2h```
+
+On our search for the last crest we'll need to stop by the ```/attic/```.
+
+![Attic Door](./Image-Assets/door.jpg "Attic Door")
+
+After navigating to ```http://<IP_Address>/attic/``` we'll find another locked door. Once again, this door has been engraved with a shield symbol so we'll have to use the key we obtained in the [Shield Key section](#shield-key-flag "Shield Key Section") of this writeup as the input for this page.
+
+```shield_key{48a7a9227cd7eb89f0a062590798cbac}```
+
+After opening the door with the shield key we'll be redirected to the attic at ```http://<IP_Address>/attic909447f184afdfb352af8b8a25ffff1d/```.
+
+![The Attic](./Image-Assets/attic-room.jpg "The Attic")
+
+Once we've made our way into the attic we'll see a link that leads to ```http://<IP_Address>/attic909447f184afdfb352af8b8a25ffff1d/note.txt```, where we'll find the following text:
+
+> crest 4:
+
+> gSUERauVpvKzRpyPpuYz66JDmRTbJubaoArM6CAQsnVwte6zF9J4GGYyun3k5qM9ma4s
+
+> Hint 1: Crest 2 has been encoded twice
+
+> Hint 2: Crest 2 contanis 17 characters
+
+> Note: You need to collect all 4 crests, combine and decode to reavel another path
+
+> The combination should be crest 1 + crest 2 + crest 3 + crest 4. Also, the combination is a type of encoded base and you need to decode it
+
+The string ```gSUERauVpvKzRpyPpuYz66JDmRTbJubaoArM6CAQsnVwte6zF9J4GGYyun3k5qM9ma4s``` can be decoded from ```Base 58``` which results in the string ```70 5a 47 56 66 5a 6d 39 79 5a 58 5a 6c 63 67 3d 3d```  which can be decoded again from ```hexadecimal``` to reveal the final crest.
+
+* Crest 4: ```pZGVfZm9yZXZlcg==```
+
+Now that we've collected the final crest, we're left with the following four pieces:
+
+* Crest 1: ```RlRQIHVzZXI6IG```
+
+* Crest 2: ```h1bnRlciwgRlRQIHBh```
+
+* Crest 3: ```c3M6IHlvdV9jYW50X2h```
+
+* Crest 4: ```pZGVfZm9yZXZlcg==```
+
+Putting the pieces together we'll be left with the following assembled crest:
+
+```RlRQIHVzZXI6IGh1bnRlciwgRlRQIHBhc3M6IHlvdV9jYW50X2hpZGVfZm9yZXZlcg==```
+
+Decoding the crest reveals the following message:
+
+```FTP user: hunter, FTP pass: you_cant_hide_forever```
+
+With that, we've finally found our ```FTP``` username and password.
+
+* FTP User - ```hunter```
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -328,7 +462,23 @@ Following the page referenced in the decrypted text will lead us to ```http://<I
 
 ## FTP Password
 
+In the above section of this writeup, titled [FTP Username](#ftp-username "FTP Username Section"), it took a long time but we finally collected the following four crests:
 
+* Crest 1: ```RlRQIHVzZXI6IG```
+
+* Crest 2: ```h1bnRlciwgRlRQIHBh```
+
+* Crest 3: ```c3M6IHlvdV9jYW50X2h```
+
+* Crest 4: ```pZGVfZm9yZXZlcg==```
+
+When placed together, the following ```Base 64``` encoded string was revealed:
+
+```RlRQIHVzZXI6IGh1bnRlciwgRlRQIHBhc3M6IHlvdV9jYW50X2hpZGVfZm9yZXZlcg==```
+
+After decoding the string, the username and password for the ```FTP``` server was revealed.
+
+```FTP user: hunter, FTP pass: you_cant_hide_forever```
 
 [Back To Top](#biohazard "Jump To Top")
 
