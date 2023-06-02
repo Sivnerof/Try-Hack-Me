@@ -298,7 +298,21 @@ Visiting the page referenced in the decrypted message will lead us to ```http://
 
 ## Blue Gem Flag
 
+![Dining Room Second Floor](./Image-Assets/dining-room-2f.png "Dining Room Second Floor")
 
+Moving onto the directory ```/diningRoom2F/``` and viewing the ```HTML``` source code for the page we'll find the following comment:
+
+```html
+<!-- Lbh trg gur oyhr trz ol chfuvat gur fgnghf gb gur ybjre sybbe. Gur trz vf ba gur qvavatEbbz svefg sybbe. Ivfvg fnccuver.ugzy -->
+```
+
+Deciphering the above text from [ROT 13](https://en.wikipedia.org/wiki/ROT13 "Wikipedia Page For ROT 13") reveals the following text:
+
+> You get the blue gem by pushing the status to the lower floor. The gem is on the diningRoom first floor. Visit sapphire.html
+
+Following the page referenced in the decrypted text will lead us to ```http://<IP_Address>/diningRoom/sapphire.html```, where we'll find the following flag:
+
+```blue_jewel{e1d457e96cac640f863ec7bc475d48aa}```
 
 [Back To Top](#biohazard "Jump To Top")
 
