@@ -553,7 +553,7 @@ mget important.txt [anpqy?]?
 170 bytes received in 00:00 (1.00 KiB/s)
 ```
 
-Before analyzing any of the images or decrypting the ```PGP``` protected text file, we'll start with reading the ```important.txt``` file, which reads:
+Before analyzing any of the images or decrypting the ```PGP``` protected text file, we'll start with reading the [important.txt](./FTP-Server-Files/important.txt "important.txt File") file, which reads:
 
 ```
 Jill,
@@ -564,7 +564,7 @@ From,
 Barry
 ```
 
-After reading the ```important.txt``` file, we'll learn that there is a hidden directory named ```/hidden_closet/``` on the target server. We can try to visit the directory but we don't have the key to unlock the door yet so our next step is to decrypt the ```helmet_key.txt.gpg``` file.
+After reading the [important.txt](./FTP-Server-Files/important.txt "important.txt File") file, we'll learn that there is a hidden directory named ```/hidden_closet/``` on the target server. We can try to visit the directory but we don't have the key to unlock the door yet so our next step is to decrypt the [helmet_key.txt.gpg](./FTP-Server-Files/helmet_key.txt.gpg "helmet_key.txt.gpg File") file.
 
 [Back To Top](#biohazard "Jump To Top")
 
@@ -572,7 +572,120 @@ After reading the ```important.txt``` file, we'll learn that there is a hidden d
 
 ## Encrypted File Password
 
+Since we don't have the PGP passphrase needed to decrypt [helmet_key.txt.gpg](./FTP-Server-Files/helmet_key.txt.gpg "helmet_key.txt.gpg File"), we'll need to look for clues within the images we found on the ```FTP``` server.
 
+We'll start with the [first image](./FTP-Server-Files/001-key.jpg "First Key Image").
+
+![First Key Image](./FTP-Server-Files/001-key.jpg "First Key Image")
+
+Analyzing the first key image we won't find anything by using the Linux ```strings``` command or looking through the metadata, but if we use the [StegHide](https://www.kali.org/tools/steghide/ "Kali Linux StegHide Manual") tool we will find a hidden file embedded within the image.
+
+The syntax for extracting an embedded file from an image with [StegHide](https://www.kali.org/tools/steghide/ "Kali Linux StegHide Manual") is ```steghide extract -sf <File_Name>```. When prompted for a password just press enter.
+
+```
+$ steghide extract -sf 001-key.jpg
+Enter passphrase: 
+wrote extracted data to "key-001.txt".
+```
+
+After running [StegHide](https://www.kali.org/tools/steghide/ "Kali Linux StegHide Manual") on the image we can read the extracted file named [key-001.txt](./Files-Extracted-From-Images/key-001.txt "File Extracted From First Key"), which simply reads:
+
+```cGxhbnQ0Ml9jYW```
+
+Moving on to the [second key image](./FTP-Server-Files/002-key.jpg "Second Key Image").
+
+![Second Key Image](./FTP-Server-Files/002-key.jpg "Second Key Image")
+
+Viewing the metadata for the [Second Key Image](./FTP-Server-Files/002-key.jpg "Second Key Image") we'll find an interesting comment.
+
+```
+$ exiftool 002-key.jpg
+
+ExifTool Version Number         : 12.40
+File Name                       : 002-key.jpg
+Directory                       : .
+File Size                       : 2.2 KiB
+File Permissions                : -rw-rw-r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+JFIF Version                    : 1.01
+Resolution Unit                 : None
+X Resolution                    : 1
+Y Resolution                    : 1
+Comment                         : 5fYmVfZGVzdHJveV9
+Image Width                     : 100
+Image Height                    : 80
+Encoding Process                : Progressive DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)
+Image Size                      : 100x80
+Megapixels                      : 0.008
+```
+
+```5fYmVfZGVzdHJveV9```
+
+Finally, time to move onto the [third key image](./FTP-Server-Files/003-key.jpg "Third Key Image").
+
+![Third Key Image](./FTP-Server-Files/003-key.jpg "Third Key Image")
+
+Analyzing the [third key image](./FTP-Server-Files/003-key.jpg "Third Key Image"), we won't find anything interesting in the metadata, but we _will_ find something interesting by looking at the strings inside the image.
+
+To view an images strings we can use the Linux ```strings``` command.
+
+```
+$ strings 003-key.jpg
+
+JFIF
+Compressed by jpeg-recompress
+
+"*%%*424DD\
+
+"*%%*424DD\
+"aq#0Rb
+ 2BCS
+g#~D
+2wb=
+,g)A
+'%fM
+,rS5W
+5.s	z3
+mm5gs
+f__"
+v#X?j
+`2I#2
+i`nxedoU;
+ds9\
+ZuE@
+$AdR?/
+hL*W
+w;rY
+~`z0
+rK$`
+f=WmpNF
+wBH=
+key-003.txtUT
+key-003.txtUT
+```
+
+After we've parsed through the images strings we'll notice a mention of a file named [key-003.txt](./Files-Extracted-From-Images/key-003.txt "key-003.txt File")
+
+```
+$ binwalk -e 003-key.jpg
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+0             0x0             JPEG image data, JFIF standard 1.01
+
+1930          0x78A           Zip archive data, at least v2.0 to extract, uncompressed size: 14, name: key-003.txt
+2124          0x84C           End of Zip archive, footer length: 22
+```
+
+```
+$ cat 003-key.txt
+3aXRoX3Zqb2x0
+```
 
 [Back To Top](#biohazard "Jump To Top")
 
