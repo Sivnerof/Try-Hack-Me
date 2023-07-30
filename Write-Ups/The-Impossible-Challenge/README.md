@@ -80,7 +80,17 @@ This rabbit hole ends up leading to another hint that tells us what we have been
 
 ## Finding the Hidden Message
 
+Copying the room description "Hmm" and pasting it into a text editor you'll see random symbols around the word. You might also notice the character length is a lot longer than the three letters you see. These "random symbols" are actually unicode characters, more specifically "Zero-Width Unicode Characters". They have a genuine purpose when used in writing text in other languages but in this context they are being used to obfuscate a hidden message. Using the Unicode Stegonagraphy tool at https://330k.github.io/misc_tools/unicode_steganography.html will help us uncover this hidden message.
 
+Once we've pasted the word into the decoder tool we'll see that the length is not three but rather 163.
+
+![163 Character Count Word](./Assets/163-character-count.png "163 Character Count Word")
+
+After decoding the Unicode characters with the same tool we'll find the following hidden message:
+
+> password is hahaezpz
+
+![Decoded Zero-Width Unicode Message](./Assets/decoded-message.png "Decoded Zero-Width Unicode Message")
 
 [Back To Top](#the-impossible-challenge "Jump To Top")
 
@@ -88,7 +98,11 @@ This rabbit hole ends up leading to another hint that tells us what we have been
 
 ## Getting the Flag
 
+Now that we have the password, ```hahaezpz```, we can unzip the [Impossible.zip](./Assets/Impossible.zip "Impossible.zip File") file, where we'll find a file named [flag.txt](./Assets/flag.txt "flag.txt file") which reads:
 
+```
+You have solved the Impossible Challenge! Here is your flag THM{Zero_Width_Characters_EZPZ}
+```
 
 [Back To Top](#the-impossible-challenge "Jump To Top")
 
@@ -96,6 +110,16 @@ This rabbit hole ends up leading to another hint that tells us what we have been
 
 ## Bonus - Helpful Resources
 
+* [330k Unicode Stegonagraphy Tool](https://330k.github.io/misc_tools/unicode_steganography.html "330k Unicode Stegonagraphy Tool")
 
+* [Neatnik Zero-Width Stegonagraphy Tool](https://neatnik.net/steganographr/ "Neatnik Zero-Width Stegonagraphy Tool")
+
+* [Diffchecker - Tool to check differences between two files](https://www.diffchecker.com/ "Diffchecker Tool")
+
+* [Hack-A-Day Article On Zero-Width Stegonagraphy](https://hackaday.com/2018/04/15/hide-secret-messages-in-plain-sight-with-zero-width-characters/ "Hack-A-Day Article On Zero-Width Stegonagraphy")
+
+* [Null-Byte Article On Zero-Width Stegonagraphy](https://null-byte.wonderhowto.com/how-to/use-zero-width-characters-hide-secret-messages-text-even-reveal-leaks-0198692/ "Null-Byte Article On Zero-Width Stegonagraphy")
+
+* [Zach Aysan Article On Zero-Width Stegonagraphy](https://www.zachaysan.com/writing/2017-12-30-zero-width-characters "Zach Aysan Article On Zero-Width Stegonagraphy")
 
 [Back To Top](#the-impossible-challenge "Jump To Top")
