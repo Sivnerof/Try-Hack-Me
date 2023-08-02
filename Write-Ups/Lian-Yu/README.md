@@ -124,7 +124,7 @@ If we highlight the text on the page we'll see the code word.
 
 ![Island Directory Text Highlighted](./Assets/island-directory-hidden-text.png "Text on island directory highlighted to reveal hidden username")
 
-Alternatively we can view the HTML source code where we can see an ```<h2>``` element styled with white font, a method for trying to camouflage into the white background of the page.
+Alternatively we can view the HTML source code where we can see an ```<h2>``` element styled with a white font, a method for trying to camouflage into the white background of the page.
 
 ```html
 <!DOCTYPE html>
