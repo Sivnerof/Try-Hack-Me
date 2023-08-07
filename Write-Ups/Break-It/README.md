@@ -10,65 +10,65 @@
 
 ## Contents
 
-* Bases
+* [Bases](#bases "Jump To Section")
 
-    * Super Easy
+    * [Super Easy](#bases---super-easy "Jump To Section")
 
-    * Easy
+    * [Easy](#bases---easy "Jump To Section")
 
-    * Moderate
+    * [Moderate](#bases---moderate "Jump To Section")
 
-    * Hard
+    * [Hard](#bases---hard "Jump To Section")
 
-    * Insane
+    * [Insane](#bases---insane "Jump To Section")
 
-* Bases And Ciphers
+* [Bases and Ciphers](#bases-and-ciphers "Jump To Section")
 
-    * Easy
+    * [Easy](#bases-and-ciphers---easy "Jump To Section")
 
-    * Moderate
+    * [Moderate](#bases-and-ciphers---moderate "Jump To Section")
 
-    * Hard
+    * [Hard](#bases-and-ciphers---hard "Jump To Section")
 
-    * Insane
+    * [Insane](#bases-and-ciphers---insane "Jump To Section")
 
-* Bases, Ciphers, and Bit Shifts
+* [Bases, Ciphers, and Bit Shifts](#bases-ciphers-and-bit-shifts "Jump To Section")
 
-    * Moderate
+    * [Moderate](#bases-ciphers-and-bit-shifts---moderate "Jump To Section")
 
-    * Hard
+    * [Hard](#bases-ciphers-and-bit-shifts---hard "Jump To Section")
 
-    * Insane
+    * [Insane](#bases-ciphers-and-bit-shifts---insane "Jump To Section")
 
 ---
 
 ## Bases
 
-### Super Easy
+### Bases - Super Easy
 
 
 
 [Back To Top](#break-it "Jump To Top")
 
-### Easy
+### Bases - Easy
 
 
 
 [Back To Top](#break-it "Jump To Top")
 
-### Moderate
+### Bases - Moderate
 
 
 
 [Back To Top](#break-it "Jump To Top")
 
-### Hard
+### Bases - Hard
 
 
 
 [Back To Top](#break-it "Jump To Top")
 
-### Insane
+### Bases - Insane
 
 
 
@@ -76,27 +76,27 @@
 
 ---
 
-## Bases And Ciphers
+## Bases and Ciphers
 
-### Easy
-
-
-
-[Back To Top](#break-it "Jump To Top")
-
-### Moderate
+### Bases and Ciphers - Easy
 
 
 
 [Back To Top](#break-it "Jump To Top")
 
-### Hard
+### Bases and Ciphers - Moderate
 
 
 
 [Back To Top](#break-it "Jump To Top")
 
-### Insane
+### Bases and Ciphers - Hard
+
+
+
+[Back To Top](#break-it "Jump To Top")
+
+### Bases and Ciphers - Insane
 
 
 
@@ -106,19 +106,19 @@
 
 ## Bases, Ciphers, and Bit Shifts
 
-### Moderate
+### Bases, Ciphers, and Bit Shifts - Moderate
 
 
 
 [Back To Top](#break-it "Jump To Top")
 
-### Hard
+### Bases, Ciphers, and Bit Shifts - Hard
 
 
 
 [Back To Top](#break-it "Jump To Top")
 
-### Insane
+### Bases, Ciphers, and Bit Shifts - Insane
 
 
 
