@@ -295,6 +295,22 @@ After decrypting using **Vigenere** with **tangodown** as key:
 
 ```2D 37 2B 19 31 99 31 B3 B2 AB A5 18 32 37 20 B3 B2 AC 2D 1A 31 B4 A1 3A A4 A3 9C B4 AD 36 AC 9E```
 
+After **Block Shift Left**:
+
+```5A 6E 56 32 63 32 63 67 65 57 4A 30 64 6E 41 67 65 58 5A 34 63 69 42 75 49 47 39 69 5A 6D 59 3D```
+
+After decoding from **Base 16**:
+
+```ZnV2c2cgeWJ0dnAgeXZ4ciBuIG9iZmY=```
+
+After decoding from **Base 64**:
+
+```fuvsg ybtvp yvxr n obff```
+
+After decrypting using **ROT 13**:
+
+```shift logic like a boss```
+
 [Back To Top](#break-it "Jump To Top")
 
 ---
@@ -303,6 +319,22 @@ After decrypting using **Vigenere** with **tangodown** as key:
 
 ```19 1A 1C 99 1C 9C A8 38 27 B2 34 27 B9 27 26 28 3C 3B AA 28 A5 AA 2A 29 3C 29 B2 B2 21 B1 AC A6 1C AC 29 A8 38 99 2C```
 
+After **Shift Left, 8-Bit Unsigned Byte**:
+
+```32 34 38 33 38 39 51 70 4E 65 68 4E 73 4E 4C 50 78 76 55 50 4B 55 54 52 78 52 65 65 42 63 59 4D 38 59 52 51 70 33 58```
+
+After decoding from **Base 16**:
+
+```248389QpNehNsNLPxvUPKUTRxReeBcYM8YRQp3X```
+
+After decoding from **Base 58**:
+
+```fuvsg nevguzrgvp yvxr n obff```
+
+After decrypting using **ROT 13**:
+
+```shift arithmetic like a boss```
+
 [Back To Top](#break-it "Jump To Top")
 
 ---
@@ -310,5 +342,37 @@ After decrypting using **Vigenere** with **tangodown** as key:
 ### Bases, Ciphers, and Bit Shifts - Insane
 
 ```A9 A8 2B EE 2A AA C9 C8 C9 AA A8 0F 2A 8A AA EE A9 8A CA A8 A9 4F 6D 46 E9 A8 A8 0F A9 8A 6D 86 A9 AA A9 26 2A 8A 48 E8```
+
+After **Rotate Left, 8-Bit Unsigned Byte**:
+
+```53 51 56 DD 54 55 93 91 93 55 51 1E 54 15 55 DD 53 15 95 51 53 9E DA 8C D3 51 51 1E 53 15 DA 0D 53 55 53 4C 54 15 90 D1```
+
+After **Rotate Left, 8-Bit Unsigned Byte**:
+
+```4D 45 59 77 51 55 4E 46 4E 55 45 78 51 54 55 77 4D 54 56 45 4D 7A 6B 32 4F 45 45 78 4D 54 6B 34 4D 55 4D 31 51 54 42 47```
+
+After decoding from **Base 16**:
+
+```MEYwQUNFNUExQTUwMTVEMzk2OEExMTk4MUM1QTBG```
+
+After decoding from **Base 64**:
+
+```0F0ACE5A1A5015D3968A11981C5A0F```
+
+After **Block Shift Left**:
+
+```3C 2B 39 68 69 40 57 4E 5A 28 46 60 71 68 3C```
+
+After decoding from **Base 16**:
+
+```<+9hi@WNZ(F`qh<```
+
+After decoding from **Base 85**:
+
+```Tbq bs fuvsf```
+
+After decrypting using **ROT 13**:
+
+```God of shifs```
 
 [Back To Top](#break-it "Jump To Top")
