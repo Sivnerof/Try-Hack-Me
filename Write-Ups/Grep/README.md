@@ -1,5 +1,0 @@
-# Grep
-
-## Summary
-
-## Contents
