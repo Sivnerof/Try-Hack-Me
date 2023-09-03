@@ -135,7 +135,7 @@ Now that we have valid usernames we can bypass the login with either of the foll
 
 * ```veronica' AND 1 = 1-- -```
 
-* ```naomi';-- -```
+* ```karen';-- -```
 
 And for some reason this also logs us in (with *ANY* username):
 
