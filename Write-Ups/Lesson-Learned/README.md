@@ -10,6 +10,8 @@ This CTF requires basic knowledge of:
 
 * Safer alternatives to common ```SQL Injections```.
 
+* Bruteforcing usernames with tools like ```Hydra```.
+
 ---
 
 ## Contents
